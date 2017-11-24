@@ -1,0 +1,3 @@
+rootProject.name = 'BookStore_frontend'
+
+include ':app'
