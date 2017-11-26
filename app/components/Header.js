@@ -53,7 +53,7 @@ class Header extends Component
                         style={{
                             width: 14,
                             height: 14,
-                            margin: 2
+                            margin: 8
                         }}
                     />
                     <Input placeholder="Bạn đang tìm gì?" style={{fontSize: 12}}/>
@@ -68,7 +68,7 @@ export default Header;
 
 
 const styles = StyleSheet.create({
-    wrapper: {height: height / 8, backgroundColor: Globals.COLOR.MAINCOLOR2},
+    wrapper: {height: height / 8, backgroundColor: 'white'},
     row1: {flexDirection: 'row', justifyContent: 'space-between', padding: 5},
     searchbar: {
         backgroundColor: 'white',
@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         marginRight: 9.5,
         borderColor: Globals.COLOR.MAINCOLOR,
-        borderRadius: 10,
+        borderRadius: height / 44,
         borderWidth: 1,
+
     },
     icon: {
         width: 20,

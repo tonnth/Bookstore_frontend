@@ -1,7 +1,11 @@
 export default Globals = {
-    BASE_URL: 'http://doopage.dev3.youthdev.net/api/',
+    BASE_URL: 'localhost:3000/',
     COLOR: {
         MAINCOLOR: '#FF5722',
         MAINCOLOR2:'#F3F4F6',
     },
 };
+
+export const FETCHING_BOOK_PROMOTION = "FETCHING_BOOK_PROMOTION";
+export const FETCHING_BOOK_PROMOTION_SUCCESS = "FFETCHING_SACH_KHUYENMAI_SUCCESS";
+export const FETCHING_BOOK_PROMOTION_FAIL = "FETCHING_BOOK_PROMOTION_FAIL";
