@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {
     View, Text, TouchableOpacity, Image, Dimensions
 } from 'react-native';
- import Header from '../components/Header';
+import { connect } from "react-redux";
+import Header from '../components/Header';
 // import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 
 
@@ -10,7 +11,7 @@ import {
 
 import HorizontalList from '../components/HorizontalList'
 
-export default class HomeScreen extends Component
+class HomeScreen extends Component
 {
     render()
     {
@@ -21,9 +22,14 @@ export default class HomeScreen extends Component
 
                 <Text>Home Screen</Text>
 
-                <HorizontalList />
+                <HorizontalList title='Sách khuyến mãi' nav={this.props.navigation}/>
 
             </View>
         );
     }
 }
+const mapStateToProps = reduxState => {
+    return { reduxState };
+  };
+  
+  export default connect(mapStateToProps)(HomeScreen);

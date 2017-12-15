@@ -2,9 +2,8 @@ import Globals, {
     FETCHING_BOOK_PROMOTION,
     FETCHING_BOOK_PROMOTION_SUCCESS,
     FETCHING_BOOK_PROMOTION_FAIL
-} from "../Globals";
+} from '../Globals';
 
-import {combineReducers} from "redux";
 
 const initialState = {
     isFetching: false,

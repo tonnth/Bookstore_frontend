@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity, Image } from 'react-native';
 
 
-export class MenuButton extends Component {
-    render() {
+export class MenuButton extends Component 
+{
+    render() 
+    {
         const { onPress } = this.props;
         return (
             <TouchableOpacity
