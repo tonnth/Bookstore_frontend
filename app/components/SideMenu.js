@@ -1,172 +1,209 @@
 import React from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import {Image, Text, View, TouchableOpacity, StyleSheet} from "react-native";
 import Globals from "../Globals";
+import {Container} from "native-base";
+import LinearGradient from "react-native-linear-gradient";
 
-export default class SideMenu extends React.Component {
-  render() {
-    return (
-      <View>
-        <View
-          style={{
-            backgroundColor: Globals.COLOR.MAINCOLOR,
-            flexDirection: "row",
-            padding: 10
-          }}
-        >
-          <Image
-            source={require("../img/man.png")}
-            style={{
-              height: 32,
-              width: 32,
-              margin: 5
-            }}
-          />
-          <View>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 20
-              }}
-            >
-              Hello, Hoàng Tôn
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            borderBottomColor: "#D6D6D6",
-            borderBottomWidth: 1
-          }}
-        >
-          <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Image
-              source={require("../img/home.png")}
-              style={{
-                height: 24,
-                width: 24,
-                margin: 16
-              }}
-            />
+export default class SideMenu extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+        this.state = {slidemenuWidth: 0};
+        that = this;
+    }
 
-            <Text
-              style={{
-                fontSize: 18,
-                marginVertical: 15
-              }}
-            >
-              Trang chủ
-            </Text>
-          </TouchableOpacity>
+    render()
+    {
+        return (
+            <Container style={styles.container}
+                       onLayout={e =>
+                       {
+                           that.setState({slidemenuWidth: e.nativeEvent.layout.width})
+                       }}>
+                <LinearGradient colors={['#f7b733', '#fc4a1a']}
+                                style={{
+                                    backgroundColor: Globals.COLOR.MAINCOLOR,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                }}>
+                    <View
+                        style={{
+                            position: 'absolute',
+                            top: 40,
+                            width: that.state.slidemenuWidth,
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                        }}>
+                        <Image
+                            source={require("../img/man.png")}
+                            style={{
+                                height: 60,
+                                width: 60,
+                                marginRight: 10,
+                            }}/>
+                        <View>
+                            <Text
+                                style={{
+                                    fontFamily: 'OpenSans-Regular',
+                                    color: "white",
+                                    backgroundColor: 'transparent',
+                                    fontSize: 15,
+                                    opacity: 0.8,
+                                }}>
+                                Xin chào
+                            </Text>
+                            <Text
+                                style={{
+                                    fontFamily: 'OpenSans-Regular',
+                                    color: "white",
+                                    backgroundColor: 'transparent',
+                                    fontSize: 20,
+                                    fontWeight: 'bold',
+                                }}>
+                                Hoàng Tôn
+                            </Text>
+                        </View>
+                    </View>
+                    <Image
+                        source={require("../img/background.png")}
+                        style={{
+                            height: 270,
+                            position: 'absolute',
+                            bottom: 0,
+                            width: that.state.slidemenuWidth,
+                        }}
+                    />
+                </LinearGradient>
+                <View
+                    style={{
+                        backgroundColor: "#000",
+                        paddingLeft: 30,
+                        paddingRight: 15,
+                    }}>
+                    <TouchableOpacity style={styles.item}>
+                        <Image
+                            source={require("../img/home.png")}
+                            style={styles.image}/>
 
-          <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Image
-              source={require("../img/box.png")}
-              style={{
-                height: 24,
-                width: 24,
-                margin: 16
-              }}
-            />
+                        <Text style={styles.text}>
+                            Trang chủ
+                        </Text>
+                    </TouchableOpacity>
 
-            <Text
-              style={{
-                fontSize: 18,
-                marginVertical: 15
-              }}
-            >
-              Đơn hàng của tôi
-            </Text>
-          </TouchableOpacity>
+                    <TouchableOpacity style={styles.item}>
+                        <Image
+                            source={require("../img/box.png")}
+                            style={styles.image}/>
 
-          <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Image
-              source={require("../img/like.png")}
-              style={{
-                height: 24,
-                width: 24,
-                margin: 16
-              }}
-            />
+                        <Text style={styles.text}>
+                            Đơn hàng của tôi
+                        </Text>
+                    </TouchableOpacity>
 
-            <Text
-              style={{
-                fontSize: 18,
-                marginVertical: 15
-              }}
-            >
-              Danh sách yêu thích
-            </Text>
-          </TouchableOpacity>
+                    <TouchableOpacity style={styles.item}>
+                        <Image
+                            source={require("../img/like.png")}
+                            style={styles.image}/>
 
-          <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Image
-              source={require("../img/user.png")}
-              style={{
-                height: 24,
-                width: 24,
-                margin: 16
-              }}
-            />
+                        <Text style={styles.text}>
+                            Danh sách yêu thích
+                        </Text>
+                    </TouchableOpacity>
 
-            <Text
-              style={{
-                fontSize: 18,
-                marginVertical: 15
-              }}
-            >
-              Thông tin tài khoản
-            </Text>
-          </TouchableOpacity>
+                    <TouchableOpacity style={styles.item}>
+                        <Image
+                            source={require("../img/user.png")}
+                            style={styles.image}/>
 
-          <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Image
-              source={require("../img/setting.png")}
-              style={{
-                height: 24,
-                width: 24,
-                margin: 16
-              }}
-            />
+                        <Text style={styles.text}>
+                            Thông tin tài khoản
+                        </Text>
+                    </TouchableOpacity>
 
-            <Text
-              style={{
-                fontSize: 18,
-                marginVertical: 15
-              }}
-            >
-              Cài đặt
-            </Text>
-          </TouchableOpacity>
+                    <TouchableOpacity style={styles.item}>
+                        <Image
+                            source={require("../img/setting.png")}
+                            style={styles.image}/>
 
-          <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Image
-              source={require("../img/signout.png")}
-              style={{
-                height: 24,
-                width: 24,
-                margin: 16
-              }}
-            />
+                        <Text style={styles.text}>
+                            Cài đặt
+                        </Text>
+                    </TouchableOpacity>
 
-            <Text
-              style={{
-                fontSize: 18,
-                marginVertical: 15
-              }}
-            >
-              Đăng xuất
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={{ margin: 10 }}>CHĂM SÓC KHÁCH HÀNG</Text>
-        <TouchableOpacity>
-          <Text style={{ margin: 10 }}>
-            HOTLINE:{" "}
-            <Text style={{ color: Globals.COLOR.MAINCOLOR }}>1900-1009 </Text>(1000đ/phút)
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+                    <TouchableOpacity style={styles.item}>
+                        <Image
+                            source={require("../img/signout.png")}
+                            style={styles.image}/>
+
+                        <Text style={styles.text}>
+                            Đăng xuất
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={{
+                    backgroundColor: '#000',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    height: 50,
+                }}>
+                    <Text style={{
+                        marginBottom: 5,
+                        marginLeft: 5,
+                        fontFamily: 'OpenSans-Regular',
+                        color: '#fff',
+                    }}>
+                        HOTLINE:{" "}
+                        <Text style={{color: '#f7b733', fontWeight: 'bold'}}>1900-1009</Text> (1000đ/phút)
+                    </Text>
+                </TouchableOpacity>
+            </Container>
+        );
+    }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'white'
+    },
+    header: {
+        paddingRight: 15,
+        paddingLeft: 15,
+        shadowOffset: {height: 0, width: 0},
+        shadowOpacity: 0,
+        backgroundColor: 'white',
+        borderBottomWidth: 0,
+        elevation: 0
+    },
+    content: {
+        display: "flex",
+        flex: 1,
+        justifyContent: "center",
+        padding: 15
+    },
+    item: {
+        flexDirection: "row",
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    text: {
+        fontSize: 16,
+        marginRight: 30,
+        fontFamily: 'OpenSans-Regular',
+        color: '#fff',
+
+    },
+    image: {
+        height: 27,
+        width: 27,
+        marginBottom: 5,
+        marginTop: 5,
+        marginRight: 20,
+    },
+});

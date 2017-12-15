@@ -22,6 +22,7 @@ import SideMenu from './app/components/SideMenu';
 import MenuButton from './app/components/MenuButton';
 import Store from './app/Store.js';
 import {Provider} from 'react-redux';
+import Globals from "./app/Globals";
 
 
 export default class App extends Component
@@ -38,10 +39,6 @@ export default class App extends Component
         return (
             <Provider store={Store}>
                 <View style={{flex: 1}}>
-                    <StatusBar
-                        backgroundColor={Globals.COLOR.MAINCOLOR}
-                        barStyle="light-content"
-                    />
                     <Drawer/>
                 </View>
             </Provider>
