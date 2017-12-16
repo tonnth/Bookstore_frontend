@@ -15,6 +15,7 @@ export default class SideMenu extends React.Component
 
     render()
     {
+        // https://oblador.github.io/react-native-vector-icons/
         return (
             <Container style={styles.container}
                        onLayout={e =>
@@ -26,63 +27,71 @@ export default class SideMenu extends React.Component
                                     backgroundColor: Globals.COLOR.MAINCOLOR,
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    flex: 1,
-                                    flexDirection: 'row',
+                                    height: 300,
                                 }}>
                     <View
                         style={{
-                            position: 'absolute',
-                            top: 40,
                             width: that.state.slidemenuWidth,
+                            flex:1,
                             justifyContent: 'center',
-                            flexDirection: 'row',
-                            alignItems: 'center',
+                            alignItems: 'center'
                         }}>
                         <Image
-                            source={require("../img/man.png")}
+                            source={require("../img/background.png")}
                             style={{
-                                height: 60,
-                                width: 60,
-                                marginRight: 10,
-                            }}/>
-                        <View>
-                            <Text
+                                position: 'absolute',
+                                bottom:0,
+                                height: 260,
+                                width: that.state.slidemenuWidth,
+                            }}
+                        />
+                        <View
+                            style={{
+                                marginBottom: 130,
+                                width: that.state.slidemenuWidth,
+                                justifyContent: 'center',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}>
+                            <Image
+                                source={require("../img/man.png")}
                                 style={{
-                                    fontFamily: 'OpenSans-Regular',
-                                    color: "white",
-                                    backgroundColor: 'transparent',
-                                    fontSize: 15,
-                                    opacity: 0.8,
-                                }}>
-                                Xin chào
-                            </Text>
-                            <Text
-                                style={{
-                                    fontFamily: 'OpenSans-Regular',
-                                    color: "white",
-                                    backgroundColor: 'transparent',
-                                    fontSize: 20,
-                                    fontWeight: 'bold',
-                                }}>
-                                Hoàng Tôn
-                            </Text>
+                                    height: 60,
+                                    width: 60,
+                                    marginRight: 10,
+                                }}/>
+                            <View>
+                                <Text
+                                    style={{
+                                        fontFamily: 'OpenSans-Regular',
+                                        color: "white",
+                                        backgroundColor: 'transparent',
+                                        fontSize: 15,
+                                        opacity: 0.8,
+                                    }}>
+                                    Xin chào
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontFamily: 'OpenSans-Regular',
+                                        color: "white",
+                                        backgroundColor: 'transparent',
+                                        fontSize: 20,
+                                        fontWeight: 'bold',
+                                    }}>
+                                    Hoàng Tôn
+                                </Text>
+                            </View>
                         </View>
                     </View>
-                    <Image
-                        source={require("../img/background.png")}
-                        style={{
-                            height: 270,
-                            position: 'absolute',
-                            bottom: 0,
-                            width: that.state.slidemenuWidth,
-                        }}
-                    />
                 </LinearGradient>
                 <View
                     style={{
                         backgroundColor: "#000",
                         paddingLeft: 30,
                         paddingRight: 15,
+                        flex:1,
+                        justifyContent: 'center',
                     }}>
                     <TouchableOpacity style={styles.item}>
                         <Image

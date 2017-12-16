@@ -2,20 +2,25 @@ import React, {Component} from 'react';
 import {
     View, Text, Image, ImageBackground, StyleSheet, StatusBar, Platform, TouchableOpacity
 } from 'react-native';
-import {Button, Header, Icon, Input, Item, Label} from "native-base";
+import {Button, Header, Icon, Input, Item, Label, Left} from "native-base";
 import LoadingButton from 'react-native-loading-button';
 import Globals from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import {TextField} from 'react-native-material-textfield';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import { HeaderBackButton } from 'react-navigation';
 
-export default class LoginScreen extends Component
+export default class SignUpScreen extends Component
 {
     constructor(props)
     {
         super(props);
         this.state = {
+
+            email: '',
+            password: '',
         };
+        this.isLoading = false
     }
 
     render()
@@ -46,17 +51,33 @@ export default class LoginScreen extends Component
                                         right: 0,
                                         opacity: 0.5
                                     }}/>
+                    <TouchableOpacity style={styles.buttonBack}
+                                      onPress={() => this.props.navigation.goBack(null)}>
+                        <Icon name="arrow-back"
+                              style={{ color: "#fff", fontSize: 40}}/>
+                    </TouchableOpacity>
 
                     <View style={{width: 300, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image
-                            source={require("../img/logo.png")}
-                            style={styles.logo}
-                            resizeMode="contain"/>
+                        <Text style={styles.textTitle}>
+                            ĐĂNG KÍ
+                        </Text>
 
-                        {/*https://github.com/n4kz/react-native-material-textfield*/}
                         <TextField
                             textColor={'#fff'}
                             label="Email"
+                            labelFontSize={18}
+                            containerStyle={{
+                                width: 300,
+                                marginBottom: 10,
+                            }}
+                            tintColor={'#fff'}
+                            baseColor={'#d6d6d6'}
+                            lineWidth={1}
+                        />
+
+                        <TextField
+                            textColor={'#fff'}
+                            label="Họ và tên"
                             labelFontSize={18}
                             containerStyle={{
                                 width: 300,
@@ -80,28 +101,25 @@ export default class LoginScreen extends Component
                             lineWidth={1}
                         />
 
-                        <TouchableOpacity style={styles.buttonForgot}>
-                            <Text style={styles.textForgot}
-                                  onPress={() => this.props.navigation.navigate("Forgot")}>
-                                Quên mật khẩu?
-                            </Text>
-                        </TouchableOpacity>
+                        <TextField
+                            textColor={'#fff'}
+                            label="Xác nhận mật khẩu"
+                            labelFontSize={18}
+                            containerStyle={{
+                                width: 300,
+                                marginBottom: 5
+                            }}
+                            tintColor={'#fff'}
+                            baseColor={'#d6d6d6'}
+                            lineWidth={1}
+                        />
 
                         <TouchableOpacity style={styles.buttonSubmit}>
                             <Text style={styles.textSubmit}>
-                                Đăng nhập
+                                Đăng kí
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.buttonSignup}
-                                      onPress={() => this.props.navigation.navigate("SignUp")}>
-                        <Text style={styles.textSignup}>
-                            Chưa có tài khoản? {'\u00A0'}
-                            <Text style={{color: Globals.COLOR.MAINCOLOR, fontSize: 16, opacity: 1, fontWeight: "600", marginLeft: 10}}>
-                                Đăng kí
-                            </Text>
-                        </Text>
-                    </TouchableOpacity>
                 </ImageBackground>
             </KeyboardAwareScrollView>
         );
@@ -112,6 +130,9 @@ const buttonHeight = 40;
 
 const styles = StyleSheet.create({
     container: {flex: 1},
+    header: {
+        backgroundColor: 'transparent'
+    },
     buttonSubmit: {
         height: buttonHeight,
         borderRadius: buttonHeight / 2,
@@ -122,7 +143,14 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 40,
     },
-
+    textTitle:{
+        fontFamily: 'OpenSans-Regular',
+        color: '#fff',
+        fontSize: 35,
+        backgroundColor: 'transparent',
+        fontWeight:"600",
+        alignSelf: 'flex-start'
+    },
     textSubmit: {
         fontFamily: 'OpenSans-Regular',
         color: '#fff',
@@ -133,21 +161,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         alignSelf: 'flex-end'
     },
-    textForgot: {
-        fontFamily: 'OpenSans-Regular',
-        color: '#e0e0e0',
-        fontSize: 15,
-        fontWeight: "600"
-    },
-    buttonSignup: {
-        backgroundColor: 'transparent',
+    buttonBack: {
         position: 'absolute',
-        bottom: 10,
-    },
-    textSignup: {
-        fontFamily: 'OpenSans-Regular',
-        color: '#e0e0e0',
-        fontSize: 15,
+        top: 25,
+        left: 25,
+        backgroundColor: 'transparent',
     },
     logo: {
         height: 130,

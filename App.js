@@ -23,6 +23,8 @@ import MenuButton from './app/components/MenuButton';
 import Store from './app/Store.js';
 import {Provider} from 'react-redux';
 import Globals from "./app/Globals";
+import SignUpScreen from "./app/screens/SignUpScreen";
+import ForgotScreen from "./app/screens/ForgotScreen";
 
 
 export default class App extends Component
@@ -49,9 +51,11 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
+        Login: {screen: LoginScreen},
+        Forgot:{screen: ForgotScreen},
+        SignUp: {screen: SignUpScreen},
         Home: {screen: HomeScreen},
         ChangeInfo: {screen: ChangeInfoScreen},
-        Login: {screen: LoginScreen},
         Detail: {screen: DetailScreen},
     },
 

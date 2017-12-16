@@ -1,7 +1,7 @@
 export default Globals = {
     BASE_URL: 'http://localhost:3000/',
     COLOR: {
-        MAINCOLOR: '#FF5722',
+        MAINCOLOR: '#fc4a1a',
         MAINCOLOR2:'#F3F4F6',
     },
 };

@@ -205,11 +205,11 @@ const styles = StyleSheet.create({
     header: {
         paddingRight: 15,
         paddingLeft: 15,
-        shadowOffset: {height: 0, width: 0},
-        shadowOpacity: 0,
+        // shadowOffset: {height: 0, width: 0},
+        // shadowOpacity: 0,
         backgroundColor: 'white',
-        borderBottomWidth: 0,
-        elevation: 0
+        // borderBottomWidth: 0,
+        // elevation: 0
     },
     searchbar: {
         padding: 0,
