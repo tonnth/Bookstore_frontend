@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {
-    View, Text, TouchableOpacity, Image, Dimensions, StatusBar, StyleSheet, ScrollView,Platform
+    View, Text, TouchableOpacity, Image, Dimensions, StatusBar, StyleSheet, ScrollView, Platform
 } from 'react-native';
 import {connect} from "react-redux";
 
 import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input} from 'native-base';
 import HorizontalList from '../components/HorizontalList'
 import Carousel from 'react-native-snap-carousel';
+import Globals from "../Globals";
+import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing";
 
 const cards = [
     {
@@ -59,9 +61,12 @@ class HomeScreen extends Component
     {
         return (
             <Container style={styles.container}>
+                <StatusBar
+                    translucent={false}
+                />
                 <Header style={styles.header}
                         iosStatusbar="light-content"
-                        androidStatusBarColor="#000"
+                        androidStatusBarColor="black"
                         noShadow>
                     <Left style={{flex: 1}}>
                         <Button transparent
@@ -72,8 +77,9 @@ class HomeScreen extends Component
                         </Button>
                     </Left>
                     <Body style={{flex: 1}}>
-                    <Title
-                        style={{color: 'black', letterSpacing: 1.5, fontFamily: 'OpenSans-Regular'}}>BOOKSTORE</Title>
+                    <TextWithSpacing spacing={4} textStyle={styles.title}>
+                        {Globals.APPNAME.toUpperCase()}
+                    </TextWithSpacing>
                     </Body>
                     <Right style={{flex: 1}}>
                     </Right>
@@ -201,11 +207,6 @@ const itemHeight = 150;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        ...Platform.select({
-            android: {
-                marginTop: StatusBar.currentHeight
-            }
-        })
     },
     header: {
         paddingRight: 15,
@@ -255,4 +256,8 @@ const styles = StyleSheet.create({
         // android (Android +5.0)
         elevation: 10,
     },
+    title: {
+        color: '#000',
+        fontWeight: '600'
+    }
 });

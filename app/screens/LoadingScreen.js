@@ -2,12 +2,9 @@ import React, {Component} from 'react';
 import {
     View, Text, Image, Platform, StyleSheet, StatusBar, ImageBackground,
 } from 'react-native';
-import HeaderDetail from '../components/HeaderDetail';
-import Globals from "../Globals";
-import {HButton} from "../components/HButton";
 import {connect} from "react-redux";
-import {HButtonBack} from "../components/HButtonBack";
-import LinearGradient from "react-native-linear-gradient";
+import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
+import Globals from "../Globals";
 
 class LoadingScreen extends Component
 {
@@ -25,8 +22,8 @@ class LoadingScreen extends Component
             <View style={styles.container}>
                 <StatusBar
                     barStyle="dark-content"
-                    backgroundColor={'transparent'}
-                    translucent
+                    backgroundColor={'#fff'}
+                    translucent={false}
                 />
                 <ImageBackground
                     style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', backgroundColor: '#fff'}}
@@ -40,8 +37,9 @@ class LoadingScreen extends Component
                             style={styles.logo}
                             resizeMode="contain"/>
 
-                        <Text
-                            style={styles.title}>BOOKSTORE</Text>
+                        <TextWithSpacing spacing={6} textStyle={styles.title}>
+                            {Globals.APPNAME.toUpperCase()}
+                        </TextWithSpacing>
                     </View>
 
                     <Image
@@ -79,10 +77,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#000',
-        letterSpacing: 6,
-        fontFamily: 'OpenSans-Regular',
-        backgroundColor:'transparent',
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: '700'
     },
     loadicon:{

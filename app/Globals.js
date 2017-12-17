@@ -9,6 +9,7 @@ export default Globals = {
     ICONSIZE: 30,
     TITLESIZE_BIG: 40,
     TITLESIZE_MEDIUM: 35,
+    APPNAME: 'BookStore'
 };
 
 export const FETCHING_BOOK_PROMOTION = "FETCHING_BOOK_PROMOTION";
