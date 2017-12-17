@@ -27,6 +27,7 @@ import SignUpScreen from "./app/screens/SignUpScreen";
 import ForgotScreen from "./app/screens/ForgotScreen";
 import NoInternetScreen from "./app/screens/NoInternetScreen";
 import LoadingScreen from "./app/screens/LoadingScreen";
+import AddressScreen from "./app/screens/AddressScreen";
 
 
 export default class App extends Component
@@ -53,10 +54,12 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
-        NoInternet:{screen: NoInternetScreen},
+        Address:{screen: AddressScreen},
         Home: {screen: HomeScreen},
-        Loading: {screen: LoadingScreen},
 
+        NoInternet:{screen: NoInternetScreen},
+
+        Loading: {screen: LoadingScreen},
         Login: {screen: LoginScreen},
         Forgot:{screen: ForgotScreen},
         SignUp: {screen: SignUpScreen},

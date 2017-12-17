@@ -1,5 +1,5 @@
 export default Globals = {
-    BASE_URL: 'http://localhost:3000/',
+    BASE_URL: 'https://tohiti-bookstore-backend.herokuapp.com/',
     COLOR: {
         MAINCOLOR: '#fc4a1a',
         MAINCOLOR2:'#F3F4F6',
@@ -9,7 +9,8 @@ export default Globals = {
     ICONSIZE: 30,
     TITLESIZE_BIG: 40,
     TITLESIZE_MEDIUM: 35,
-    APPNAME: 'BookStore'
+    APPNAME: 'BookStore',
+    FONT:{fontFamily: 'OpenSans-Regular',}
 };
 
 export const FETCHING_BOOK_PROMOTION = "FETCHING_BOOK_PROMOTION";

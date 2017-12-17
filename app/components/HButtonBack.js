@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TouchableOpacity, Image, StyleSheet, Text} from 'react-native';
 import Globals from "../Globals";
@@ -6,7 +6,7 @@ import {Icon} from "native-base";
 
 export class HButtonBack extends Component
 {
-    render() 
+    render()
     {
         const styles = StyleSheet.create({
             buttonBack: {
@@ -21,7 +21,7 @@ export class HButtonBack extends Component
             <TouchableOpacity style={styles.buttonBack}
                               onPress={() => this.props.navigation.goBack(null)}>
                 <Icon name="arrow-back"
-                      style={{color: "#fff", fontSize: Globals.ICONSIZE}}/>
+                      style={{color: this.props.color ? this.props.color : "#fff", fontSize: Globals.ICONSIZE}}/>
             </TouchableOpacity>
         );
     }

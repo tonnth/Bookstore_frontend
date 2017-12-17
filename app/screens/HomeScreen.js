@@ -157,6 +157,8 @@ class HomeScreen extends Component
                         </Text>
                     </View>
 
+                    <HorizontalList
+                    title={"Sách khuyến mãi"}/>
                 </ScrollView>
             </Container>
         );

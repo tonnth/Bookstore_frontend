@@ -22,7 +22,7 @@ export default class NoInternetScreen extends Component
             <View style={styles.container}>
                 <StatusBar
                     barStyle="dark-content"
-                    backgroundColor={'transparent'}
+                    backgroundColor={'#fff'}
                     translucent
                 />
                 <Image
