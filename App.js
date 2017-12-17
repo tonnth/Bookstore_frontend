@@ -26,6 +26,7 @@ import Globals from "./app/Globals";
 import SignUpScreen from "./app/screens/SignUpScreen";
 import ForgotScreen from "./app/screens/ForgotScreen";
 import NoInternetScreen from "./app/screens/NoInternetScreen";
+import LoadingScreen from "./app/screens/LoadingScreen";
 
 
 export default class App extends Component
@@ -52,6 +53,7 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
+        Loading: {screen: LoadingScreen},
         NoInternet:{screen: NoInternetScreen},
         Login: {screen: LoginScreen},
         Forgot:{screen: ForgotScreen},
