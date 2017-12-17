@@ -10,11 +10,11 @@ export default class SideMenu extends React.Component
     {
         super(props);
         this.state = {slidemenuWidth: 0};
-        that = this;
     }
 
     render()
     {
+        let that = this;
         // https://oblador.github.io/react-native-vector-icons/
         return (
             <Container style={styles.container}
@@ -22,6 +22,7 @@ export default class SideMenu extends React.Component
                        {
                            that.setState({slidemenuWidth: e.nativeEvent.layout.width})
                        }}>
+
                 <LinearGradient colors={['#f7b733', '#fc4a1a']}
                                 style={{
                                     backgroundColor: Globals.COLOR.MAINCOLOR,
@@ -29,6 +30,15 @@ export default class SideMenu extends React.Component
                                     alignItems: 'center',
                                     height: 300,
                                 }}>
+                    <Image
+                        source={require("../img/linecolor.png")}
+                        style={{
+                            position: 'absolute',
+                            bottom:0,
+                            height: 270,
+                            width: that.state.slidemenuWidth,
+                        }}
+                    />
                     <View
                         style={{
                             width: that.state.slidemenuWidth,
@@ -36,15 +46,7 @@ export default class SideMenu extends React.Component
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}>
-                        <Image
-                            source={require("../img/background.png")}
-                            style={{
-                                position: 'absolute',
-                                bottom:0,
-                                height: 260,
-                                width: that.state.slidemenuWidth,
-                            }}
-                        />
+
                         <View
                             style={{
                                 marginBottom: 130,

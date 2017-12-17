@@ -25,6 +25,7 @@ import {Provider} from 'react-redux';
 import Globals from "./app/Globals";
 import SignUpScreen from "./app/screens/SignUpScreen";
 import ForgotScreen from "./app/screens/ForgotScreen";
+import NoInternetScreen from "./app/screens/NoInternetScreen";
 
 
 export default class App extends Component
@@ -51,6 +52,7 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
+        NoInternet:{screen: NoInternetScreen},
         Login: {screen: LoginScreen},
         Forgot:{screen: ForgotScreen},
         SignUp: {screen: SignUpScreen},

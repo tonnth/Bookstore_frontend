@@ -21,7 +21,6 @@ export class MenuButton extends Component
                     }}
                 />
             </TouchableOpacity>
-
         );
     }
 }

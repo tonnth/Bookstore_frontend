@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, Text, TouchableOpacity, Image, Dimensions, StatusBar, StyleSheet, ScrollView
+    View, Text, TouchableOpacity, Image, Dimensions, StatusBar, StyleSheet, ScrollView,Platform
 } from 'react-native';
 import {connect} from "react-redux";
 
@@ -61,7 +61,7 @@ class HomeScreen extends Component
             <Container style={styles.container}>
                 <Header style={styles.header}
                         iosStatusbar="light-content"
-                        androidStatusBarColor="#dddddd"
+                        androidStatusBarColor="#000"
                         noShadow>
                     <Left style={{flex: 1}}>
                         <Button transparent
@@ -200,7 +200,12 @@ const itemHeight = 150;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        ...Platform.select({
+            android: {
+                marginTop: StatusBar.currentHeight
+            }
+        })
     },
     header: {
         paddingRight: 15,
@@ -208,7 +213,7 @@ const styles = StyleSheet.create({
         // shadowOffset: {height: 0, width: 0},
         // shadowOpacity: 0,
         backgroundColor: 'white',
-        // borderBottomWidth: 0,
+        borderBottomWidth: 0,
         // elevation: 0
     },
     searchbar: {
