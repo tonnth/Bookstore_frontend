@@ -73,7 +73,8 @@ export default class LoginScreen extends Component
                         <HButton text={'Đăng nhập'}
                                  width={200}
                                  style={{marginBottom: 40, marginTop: 40}}
-                                 navigation={this.props.navigation}/>
+                                 navigation={this.props.navigation}
+                        />
                     </View>
                     <TouchableOpacity style={styles.buttonSignup}
                                       onPress={() => this.props.navigation.navigate("SignUp")}>

@@ -29,7 +29,10 @@ class HorizontalList extends Component
 
     }
 
-
+    formatCurency = a =>
+    {
+        return a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " VNĐ";
+    };
 
     handleRefresh = () =>
     {
@@ -122,8 +125,8 @@ class HorizontalList extends Component
                     }}
                 />
                 <Text  numberOfLines={1} >{tenSachRutGon}</Text>
-                <Text style={styles.giaban}>{item.GiaBan}</Text>
-                <Text style={styles.giaKhuyenMai}>{giaKhuyenMai}</Text>
+                <Text style={styles.giaban}>{this.formatCurency(item.GiaBan.toString())}</Text>
+                <Text style={styles.giaKhuyenMai}>{this.formatCurency(giaKhuyenMai.toString())}</Text>
             </TouchableOpacity>
         );
     };
