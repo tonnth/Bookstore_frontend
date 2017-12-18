@@ -20,7 +20,7 @@ export class HButtonBack extends Component
         return (
             <TouchableOpacity style={styles.buttonBack}
                               onPress={() => this.props.navigation.goBack(null)}>
-                <Icon name="arrow-back"
+                <Icon name="ios-arrow-back"
                       style={{color: this.props.color ? this.props.color : "#fff", fontSize: Globals.ICONSIZE}}/>
             </TouchableOpacity>
         );

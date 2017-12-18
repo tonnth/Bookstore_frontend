@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import HeaderDetail from '../components/HeaderDetail';
 import Globals from "../Globals";
-import {HButton} from "../components/HButton";
+import HButton from "../components/HButton";
 
 export default class NoInternetScreen extends Component
 {
@@ -49,6 +49,7 @@ export default class NoInternetScreen extends Component
                     <HButton text={'Trở lại trang chủ'}
                              width={200}
                              style={{marginTop: 20}}
+                             border={20}
                              navigation={this.props.navigation}
                              action={() => this.props.navigation.navigate("Home")}
                              shadow/>

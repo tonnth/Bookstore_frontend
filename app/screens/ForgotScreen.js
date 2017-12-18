@@ -10,7 +10,7 @@ import {TextField} from 'react-native-material-textfield';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {HeaderBackButton} from 'react-navigation';
 import {HButtonBack} from "../components/HButtonBack";
-import {HButton} from "../components/HButton";
+import HButton from "../components/HButton";
 import {HInput} from "../components/HInput";
 
 export default class ForgotScreen extends Component
@@ -76,9 +76,10 @@ export default class ForgotScreen extends Component
                                 width={300}/>
 
                         <HButton text={'Gửi lại mật khẩu'}
-                                 width={200}
+                                 width={220}
                                  style={{marginBottom: 40, marginTop: 40}}
-                                 navigation={this.props.navigation}/>
+                                 navigation={this.props.navigation}
+                                 border={20}/>
                     </View>
                 </ImageBackground>
             </KeyboardAwareScrollView>
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     textTitle: {
         fontFamily: 'OpenSans-Regular',
         color: '#fff',
-        fontSize: Globals.TITLESIZE_MEDIUM,
+        fontSize: Globals.TITLESIZE_MEDIUM -2,
         backgroundColor: 'transparent',
         fontWeight: "600",
         alignSelf: 'flex-start'

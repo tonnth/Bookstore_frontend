@@ -6,28 +6,33 @@ import {
     Dimensions,
     FlatList,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet, StatusBar, Platform
 } from "react-native";
 
-const {height} = Dimensions.get("window");
 import {connect} from "react-redux";
 import Globals, {formatCurency, TheLoai} from "../Globals";
 import * as api from "../config/api";
-import HImage from "./HImage";
+import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
+import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input} from 'native-base';
+import {HButtonBack} from "../components/HButtonBack";
 
-class HorizontalList extends Component
+const {height, width} = Dimensions.get("window");
+
+class VerListScreen extends Component
 {
     constructor(props)
     {
         console.log("HORIZONTALLIST");
         super(props);
+        this.params = this.props.navigation.state.params;
         this.state = {
             page: 1,
             refreshing: false,
             total_page: 1,
-            dataSource: this.props.theloai ? TheLoai : [],
+            dataSource: this.params.data,
         };
+        this.itemWidth = width / this.params.colNumber - 10;
     }
 
     async getData()
@@ -45,7 +50,7 @@ class HorizontalList extends Component
 
     componentDidMount()
     {
-        if (!this.props.theloai) this.getData();
+
     }
 
 
@@ -77,55 +82,61 @@ class HorizontalList extends Component
     render()
     {
         return (
-            <View
-                style={styles.container}>
-                <View style={styles.header}>
-                    <View style={{width: 6, height: 20, backgroundColor: Globals.COLOR.MAINCOLOR, marginRight: 10}}/>
-                    <Text style={styles.title}>{this.props.title}</Text>
-                    <TouchableOpacity
-                        style={styles.buttonMore}
-                        onPress={() => this.props.navigation.navigate('VerList', {
-                            data: this.state.dataSource,
-                            title: this.props.title,
-                            colNumber: this.props.theloai ? 2 : 3,
-                            theloai: this.props.theloai,
-                        })}
-                    >
-                        <Image
-                            source={require("../img/next.png")}
-                            style={styles.icon}
-                            resizeMode="contain"/>
-                    </TouchableOpacity>
-                </View>
+            <Container style={styles.container}>
+                <StatusBar
+                    translucent={false}
+                />
+                <Header style={styles.header}
+                        iosStatusbar="light-content"
+                        androidStatusBarColor="black"
+                        noShadow>
+                    <Left>
+                        <Button transparent
+                                onPress={() => this.props.navigation.goBack(null)}>
+                            <Icon name="arrow-back"
+                                  style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
+                        </Button>
+                    </Left>
+                    <Body>
+                    <Title style={styles.title}>
+                        {this.params.title}
+                    </Title>
+                    </Body>
+                    <Right>
+                        <Button transparent
+                                onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+                            <Icon name="ios-search"
+                                  style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
+                        </Button>
+                    </Right>
+                </Header>
 
                 <FlatList
                     keyExtractor={(item, index) => index}
                     data={this.state.dataSource}
-                    renderItem={this.props.theloai ? this.renderTheloai : this.renderItem}
+                    renderItem={this.params.theloai ? this.renderTheloai : this.renderItem}
                     refreshing={this.state.refreshing}
                     onRefresh={this.handleRefresh}
                     onEndReached={this.handleLoadMore}
                     onEndThreshold={0}
-                    horizontal={true}
+                    numColumns={this.params.colNumber}
                     showsHorizontalScrollIndicator={false}
                 />
-            </View>
+
+            </Container>
         );
     }
 
     renderTheloai = ({item, index}) =>
     {
-        let marginLeft = 0;
-        if (index === 0) marginLeft = 20;
+        let widthImage = this.itemWidth - 10;
+        let heightImage = widthImage * 2 / 3;
         let tempUri = Globals.BASE_URL + item.Hinh;
         return (
-            <TouchableOpacity style={{marginRight: 10, width: 160, alignItems: 'center', marginLeft: marginLeft}}
-                              onPress={() => {
-                                  //Lấy các sách thuộc thể loại này
-                                  this.props.navigation.navigate('VerList')
-                              }}>
+            <TouchableOpacity style={{margin: 5, width: this.itemWidth, alignItems: 'center'}}
+                              onPress={() => this.props.nav.navigate('Detail', item)}>
                 <HImage
-                    style={{width: 150, height: 100, zIndex: 5}}
+                    style={{width: widthImage, height: heightImage, zIndex: 5}}
                     uri={tempUri}
                     borderRadius={10}
                 />
@@ -175,19 +186,19 @@ class HorizontalList extends Component
 
     renderItem = ({item, index}) =>
     {
-        let marginLeft = 0;
-        if (index === 0) marginLeft = 20;
         let tempUri = Globals.BASE_URL + item.HinhAnh;
         let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
+        let widthImage = this.itemWidth - 10;
+        let heightImage = widthImage * 3 / 2;
+
         return (
-            <TouchableOpacity style={{marginRight: 10, width: 130, height: 260,justifyContent: 'center', marginLeft: marginLeft}}
+            <TouchableOpacity style={{width: this.itemWidth, justifyContent: 'center', margin: 5}}
                               onPress={() => this.props.navigation.navigate('Detail', item)}>
                 <HImage
-                    style={{width: 120, height: 160}}
+                    style={{width: widthImage, height: heightImage}}
                     uri={tempUri}
                     borderRadius={10}
                 />
-
                 <Text
                     style={styles.tensach}
                     numberOfLines={1}>{item.TenSach}</Text>
@@ -202,7 +213,7 @@ class HorizontalList extends Component
                     </Text>
                     <Text
                         numberOfLines={1}
-                        style={[styles.giaban, {fontWeight: '700', marginRight: 10}]}>
+                        style={[styles.giaban, {fontWeight: '700'}]}>
                         -{item.KhuyenMai}%
                     </Text>
                 </View>
@@ -217,31 +228,31 @@ const mapStateToProps = reduxState =>
     return {reduxState};
 };
 
-export default connect(mapStateToProps)(HorizontalList);
-
+export default connect(mapStateToProps)(VerListScreen);
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "transparent",
-        marginTop: 20,
+        flex: 1
     },
     header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 20,
-        marginRight: 20,
-        marginBottom: 10,
+        paddingRight: 15,
+        paddingLeft: 15,
+        // shadowOffset: {height: 0, width: 0},
+        // shadowOpacity: 0,
+        backgroundColor: 'white',
+        borderBottomWidth: 0,
+        // elevation: 0
     },
     title: {
         ...Globals.FONT,
         color: '#000',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: '600',
-    },
-    buttonMore: {
-        position: 'absolute',
-        alignSelf: 'center',
-        right: 0,
+        ...Platform.select({
+            ios: {
+                width: 300,
+            },
+        }),
     },
     icon: {
         opacity: 0.5,
@@ -274,7 +285,6 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 18,
         opacity: 1,
-        textAlign:'center',
     }
 });
 

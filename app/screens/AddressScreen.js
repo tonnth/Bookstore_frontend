@@ -66,7 +66,7 @@ export default class AddressScreen extends Component
         return (
             <View style={styles.container}>
                 <StatusBar
-                    barStyle="light-content"
+                    barStyle="dark-content"
                     backgroundColor={'#fff'}
                     translucent
                 />
@@ -150,7 +150,7 @@ export default class AddressScreen extends Component
 
     componentDidMount()
     {
-        this.updateView(0);
+
     }
 }
 

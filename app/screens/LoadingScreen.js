@@ -5,6 +5,7 @@ import {
 import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 import Globals from "../Globals";
+import TimerMixin from 'react-timer-mixin';
 
 class LoadingScreen extends Component
 {
@@ -12,8 +13,6 @@ class LoadingScreen extends Component
     {
         console.log("NO INTERNET SCREEN");
         super(props);
-        this.params = this.props.navigation.state.params;
-        console.log(this.params);
     }
 
     render()
@@ -53,7 +52,12 @@ class LoadingScreen extends Component
 
     componentDidMount()
     {
+        let that = this;
         //Loaindg data
+        TimerMixin.setTimeout(() =>
+        {
+            that.props.navigation.navigate('Home');
+        }, 1000);
     }
 }
 

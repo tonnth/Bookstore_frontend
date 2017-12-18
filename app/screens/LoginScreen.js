@@ -9,7 +9,7 @@ import LinearGradient from "react-native-linear-gradient";
 import {TextField} from 'react-native-material-textfield';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {HInput} from "../components/HInput";
-import {HButton} from "../components/HButton";
+import HButton from "../components/HButton";
 import {HButtonBack} from "../components/HButtonBack";
 
 export default class LoginScreen extends Component
@@ -72,6 +72,7 @@ export default class LoginScreen extends Component
 
                         <HButton text={'Đăng nhập'}
                                  width={200}
+                                 border={20}
                                  style={{marginBottom: 40, marginTop: 40}}
                                  navigation={this.props.navigation}/>
                     </View>

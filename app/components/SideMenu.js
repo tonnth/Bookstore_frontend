@@ -34,7 +34,7 @@ export default class SideMenu extends React.Component
                         source={require("../img/linecolor.png")}
                         style={{
                             position: 'absolute',
-                            bottom:0,
+                            bottom: 0,
                             height: 270,
                             width: that.state.slidemenuWidth,
                         }}
@@ -42,7 +42,7 @@ export default class SideMenu extends React.Component
                     <View
                         style={{
                             width: that.state.slidemenuWidth,
-                            flex:1,
+                            flex: 1,
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}>
@@ -92,8 +92,8 @@ export default class SideMenu extends React.Component
                         backgroundColor: "#000",
                         paddingLeft: 30,
                         paddingRight: 15,
-                        flex:1,
-                        justifyContent: 'center',
+                        flex: 1,
+                        justifyContent: 'space-around',
                     }}>
                     <TouchableOpacity style={styles.item}>
                         <Image
@@ -145,7 +145,12 @@ export default class SideMenu extends React.Component
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity
+                        style={styles.item}
+                        onPress={() =>
+                        {
+                            this.props.navigation.navigate('Login');
+                        }}>
                         <Image
                             source={require("../img/signout.png")}
                             style={styles.image}/>
@@ -156,13 +161,18 @@ export default class SideMenu extends React.Component
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={{
-                    backgroundColor: '#000',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    height: 50,
-                }}>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: '#000',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        height: 50,
+                    }}
+                    onPress={() =>
+                    {
+                        this.props.navigation.navigate('Address');
+                    }}>
                     <Text style={{
                         marginBottom: 5,
                         marginLeft: 5,

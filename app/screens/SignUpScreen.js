@@ -11,7 +11,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {HeaderBackButton} from 'react-navigation';
 import {HButtonBack} from "../components/HButtonBack";
 import {HInput} from "../components/HInput";
-import {HButton} from "../components/HButton";
+import HButton from "../components/HButton";
 
 export default class SignUpScreen extends Component
 {
@@ -76,7 +76,8 @@ export default class SignUpScreen extends Component
                         <HButton text={'Đăng kí'}
                                  width={200}
                                  style={{marginBottom: 40, marginTop: 40}}
-                                 navigation={this.props.navigation}/>
+                                 navigation={this.props.navigation}
+                                 border={20}/>
                     </View>
                 </ImageBackground>
             </KeyboardAwareScrollView>

@@ -6,7 +6,6 @@
 
 import React, {Component} from 'react';
 import {
-
     View,
     StatusBar,
     Text,
@@ -28,7 +27,7 @@ import ForgotScreen from "./app/screens/ForgotScreen";
 import NoInternetScreen from "./app/screens/NoInternetScreen";
 import LoadingScreen from "./app/screens/LoadingScreen";
 import AddressScreen from "./app/screens/AddressScreen";
-
+import VerListScreen from "./app/screens/VerListScreen";
 
 export default class App extends Component
 {
@@ -47,21 +46,19 @@ export default class App extends Component
                     <Drawer/>
                 </View>
             </Provider>
-
         );
     }
 }
 
 export const Stack = StackNavigator(
     {
-        Address:{screen: AddressScreen},
-        Home: {screen: HomeScreen},
-
-        NoInternet:{screen: NoInternetScreen},
-
         Loading: {screen: LoadingScreen},
+        Home: {screen: HomeScreen},
+        VerList: {screen: VerListScreen},
+        Address: {screen: AddressScreen},
+        NoInternet: {screen: NoInternetScreen},
         Login: {screen: LoginScreen},
-        Forgot:{screen: ForgotScreen},
+        Forgot: {screen: ForgotScreen},
         SignUp: {screen: SignUpScreen},
 
         ChangeInfo: {screen: ChangeInfoScreen},
