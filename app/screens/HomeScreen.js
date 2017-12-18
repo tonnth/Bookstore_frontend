@@ -48,11 +48,14 @@ class HomeScreen extends Component
     constructor(props)
     {
         super(props);
+        console.log("HOME SCREEN");
         this.state = {
             index: 0,
             name: cards[0].name,
             decrip: cards[0].phone,
             searching: false,
+            listPromotionBooks: this.props.reduxState.listPromotionBooks,
+            listNewBooks: this.props.reduxState.listNewBooks,
         };
         that = this;
     }
@@ -158,7 +161,14 @@ class HomeScreen extends Component
                     </View>
 
                     <HorizontalList
-                    title={"Sách khuyến mãi"}/>
+                    title={"Sách khuyến mãi"}
+                    data={this.state.listPromotionBooks}
+                    nav={this.props.navigation} />
+
+                    <HorizontalList
+                        title={"Sách mới chập nhật"}
+                        data={this.state.listNewBooks}
+                        nav={this.props.navigation}/>
                 </ScrollView>
             </Container>
         );
@@ -166,7 +176,7 @@ class HomeScreen extends Component
 
     updateView = (index) =>
     {
-        console.log(index);
+        //console.log(index);
         this.setState({
             index: index,
             name: cards[index].name,

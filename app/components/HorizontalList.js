@@ -18,47 +18,17 @@ class HorizontalList extends Component
 {
     constructor(props)
     {
-        console.log("HORIZONTALLIST");
+
         super(props);
+        console.log("HORIZONTALLIST", this.props.data);
         this.state = {
             page: 1,
             refreshing: false,
             total_page: 1,
-            dataSource: [],
         };
 
     }
 
-    // getData = () => {
-    //   api.getSachKhuyenMai().then(() => {
-    //     console.log(this.props.reduxState.books.data);
-    //     this.setState({
-    //       dataSource: [
-    //         ...this.state.dataSource,
-    //         ...this.props.reduxState.books.data
-    //       ],
-    //       refreshing: false
-    //     });
-    //   });
-    // };
-
-    async getData()
-    {
-        await api.getSachKhuyenMai();
-        console.log(this.props.reduxState.books.data);
-        this.setState({
-            dataSource: [
-                ...this.state.dataSource,
-                ...this.props.reduxState.books.data
-            ],
-            refreshing: false
-        });
-    }
-
-    componentDidMount()
-    {
-        this.getData();
-    }
 
 
     handleRefresh = () =>
@@ -97,7 +67,6 @@ class HorizontalList extends Component
                 }}
             >
                 <View style={{
-                    flex: 1,
                     flexDirection: 'row',
                     marginLeft: 20,
                     marginRight: 20,
@@ -118,7 +87,7 @@ class HorizontalList extends Component
 
                 <FlatList
                     style={{padding: 10}}
-                    data={this.state.dataSource}
+                    data={this.props.data}
                     renderItem={item => this.renderItem(item)}
                     refreshing={this.state.refreshing}
                     onRefresh={this.handleRefresh}
@@ -152,9 +121,9 @@ class HorizontalList extends Component
                         uri: tempUri
                     }}
                 />
-                <Text>{tenSachRutGon}</Text>
-                <Text>{item.GiaBan}</Text>
-                <Text style={styles.giaban}>{giaKhuyenMai}</Text>
+                <Text  numberOfLines={1} >{tenSachRutGon}</Text>
+                <Text style={styles.giaban}>{item.GiaBan}</Text>
+                <Text style={styles.giaKhuyenMai}>{giaKhuyenMai}</Text>
             </TouchableOpacity>
         );
     };
@@ -178,7 +147,11 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     wrapper: {marginHorizontal: 10},
-    giaban: {color: Globals.COLOR.MAINCOLOR},
+    giaKhuyenMai: {color: Globals.COLOR.MAINCOLOR},
+    giaban: {
+        textDecorationLine: 'line-through',
+        color: '#c8c8c8'
+    },
     buttonMore: {
         flex:1,
         flexDirection: 'row',

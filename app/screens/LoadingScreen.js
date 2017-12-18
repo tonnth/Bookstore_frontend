@@ -5,12 +5,13 @@ import {
 import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 import Globals from "../Globals";
+import * as api from "../config/api";
 
 class LoadingScreen extends Component
 {
     constructor(props)
     {
-        console.log("NO INTERNET SCREEN");
+        console.log("LOADING SCREEN");
         super(props);
         this.params = this.props.navigation.state.params;
         console.log(this.params);
@@ -51,9 +52,19 @@ class LoadingScreen extends Component
         );
     }
 
+    async getData()
+    {
+        let nav = this.props.navigation;
+        await api.getSachKhuyenMai();
+        await  api.getSachMoi();
+        console.log(this.props.reduxState.listPromotionBooks);
+        nav.navigate('Home');
+
+    }
+
     componentDidMount()
     {
-        //Loaindg data
+        this.getData();
     }
 }
 
