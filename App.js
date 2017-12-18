@@ -54,9 +54,11 @@ export const Stack = StackNavigator(
     {
         Loading: {screen: LoadingScreen},
         Home: {screen: HomeScreen},
+
         VerList: {screen: VerListScreen},
         Address: {screen: AddressScreen},
         NoInternet: {screen: NoInternetScreen},
+
         Login: {screen: LoginScreen},
         Forgot: {screen: ForgotScreen},
         SignUp: {screen: SignUpScreen},

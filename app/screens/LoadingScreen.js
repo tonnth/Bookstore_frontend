@@ -6,12 +6,14 @@ import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 import Globals from "../Globals";
 import TimerMixin from 'react-timer-mixin';
+import * as api from "../config/api";
+
 
 class LoadingScreen extends Component
 {
     constructor(props)
     {
-        console.log("NO INTERNET SCREEN");
+        console.log("LOADING SCREEN");
         super(props);
     }
 
@@ -50,6 +52,15 @@ class LoadingScreen extends Component
         );
     }
 
+    async getData()
+    {
+        let nav = this.props.navigation;
+        await api.getSachKhuyenMai();
+        await  api.getSachMoi();
+        console.log(this.props.reduxState.listPromotionBooks);
+        nav.navigate('Home');
+    }
+
     componentDidMount()
     {
         let that = this;
@@ -58,6 +69,8 @@ class LoadingScreen extends Component
         {
             that.props.navigation.navigate('Home');
         }, 1000);
+
+        this.getData();
     }
 }
 

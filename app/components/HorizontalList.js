@@ -20,8 +20,9 @@ class HorizontalList extends Component
 {
     constructor(props)
     {
-        console.log("HORIZONTALLIST");
+
         super(props);
+        console.log("HORIZONTALLIST", this.props.data);
         this.state = {
             page: 1,
             refreshing: false,
@@ -47,6 +48,12 @@ class HorizontalList extends Component
     {
         if (!this.props.theloai) this.getData();
     }
+
+
+    formatCurency = a =>
+    {
+        return a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " VNĐ";
+    };
 
 
     handleRefresh = () =>
@@ -102,6 +109,7 @@ class HorizontalList extends Component
                     keyExtractor={(item, index) => index}
                     data={this.state.dataSource}
                     renderItem={this.props.theloai ? this.renderTheloai : this.renderItem}
+
                     refreshing={this.state.refreshing}
                     onRefresh={this.handleRefresh}
                     onEndReached={this.handleLoadMore}
