@@ -65,10 +65,10 @@ class LoadingScreen extends Component
     {
         let that = this;
         //Loaindg data
-        TimerMixin.setTimeout(() =>
-        {
-            that.props.navigation.navigate('Home');
-        }, 1000);
+        // TimerMixin.setTimeout(() =>
+        // {
+        //     that.props.navigation.navigate('Home');
+        // }, 1000);
 
         this.getData();
     }

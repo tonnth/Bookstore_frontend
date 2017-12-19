@@ -24,19 +24,19 @@ export const TheLoai = [
         MaTheLoai: 1,
         TenTheLoai: "Tiểu sử - hồi ký",
         Hinh: "TieuSu.jpg",
-        Color: ['#e1eec3','#f05053'],
+        Color: ['#1A2980','#26D0CE'],
     },
     {
         MaTheLoai: 2,
         TenTheLoai: "Kỹ năng sống",
         Hinh: "selfhelp.jpg",
-        Color: ['#36d1dc','#5b86e5'],
+        Color: ['#C6426E','#642B73'],
     },
     {
         MaTheLoai: 3,
         TenTheLoai: "Khoa học - kỹ thuật",
         Hinh: "khoahoc-kithuat.jpg",
-        Color: ['#f7ff00','#db36a4'],
+        Color: ['#8E0E00','#1F1C18'],
     },
     {
         MaTheLoai: 4,
@@ -48,25 +48,25 @@ export const TheLoai = [
         MaTheLoai: 5,
         TenTheLoai: "Sách học ngoại ngữ",
         Hinh: "NgoaiNgu.jpg",
-        Color: ['#c02425','#f0cb35'],
+        Color: ['#237A57','#093028'],
     },
     {
         MaTheLoai: 6,
         TenTheLoai: "Tâm lý",
         Hinh: "TamLy.jpg",
-        Color: ['#c2e59c','#64b3f4'],
+        Color: ['#C6426E','#C6426E'],
     },
     {
         MaTheLoai: 7,
         TenTheLoai: "Sách giáo khoa",
         Hinh: "SachGiaoKhoa.jpg",
-        Color: ['#fc00ff','#00dbde'],
+        Color: ['#43cea2','#185a9d'],
     },
     {
         MaTheLoai: 8,
         TenTheLoai: "Lịch sử - Địa lý",
         Hinh: "LichSu.jpg",
-        Color: ['#FFF94C','#004FF9'],
+        Color: ['#B79891','#94716B'],
 
     },
     {
@@ -79,13 +79,13 @@ export const TheLoai = [
         MaTheLoai: 10,
         TenTheLoai: "Ngôn tình",
         Hinh: "NgonTinh.jpg",
-        Color: ['#fe8c00','#f83600'],
+        Color: ['#cc2b5e','#753a88'],
     },
     {
         MaTheLoai: 11,
         TenTheLoai: "Truyen tranh",
         Hinh: "TruyenTranh.jpg",
-        Color: ['#FDFC47','#24FE41'],
+        Color: ['#F9D423','#FF4E50'],
     }
 ]
 

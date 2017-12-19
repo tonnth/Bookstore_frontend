@@ -161,6 +161,11 @@ class HomeScreen extends Component
                     </View>
 
                     <HorizontalList
+                        title={"Thể loại"}
+                        navigation={this.props.navigation}
+                        theloai/>
+                    
+                    <HorizontalList
                         title={"Sách khuyến mãi"}
                         data={this.state.listPromotionBooks}
                         navigation={this.props.navigation}/>

@@ -27,26 +27,13 @@ class HorizontalList extends Component
             page: 1,
             refreshing: false,
             total_page: 1,
-            dataSource: this.props.theloai ? TheLoai : [],
+            dataSource: this.props.theloai ? TheLoai : this.props.data,
         };
-    }
-
-    async getData()
-    {
-        await api.getSachKhuyenMai();
-        console.log(this.props.reduxState.books.data);
-        this.setState({
-            dataSource: [
-                ...this.state.dataSource,
-                ...this.props.reduxState.books.data
-            ],
-            refreshing: false
-        });
     }
 
     componentDidMount()
     {
-        if (!this.props.theloai) this.getData();
+
     }
 
 

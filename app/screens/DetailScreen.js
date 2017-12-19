@@ -26,8 +26,9 @@ import HorizontalList from "../components/HorizontalList";
 import HeaderHoriList from "../components/HeaderHoriList";
 import HButton from "../components/HButton";
 import Toast, {DURATION} from 'react-native-easy-toast';
+import {connect} from "react-redux";
 
-export default class ProfileScreen extends Component
+class DetailScreen extends Component
 {
     constructor(props)
     {
@@ -36,7 +37,11 @@ export default class ProfileScreen extends Component
         this.params = this.props.navigation.state.params;
         console.log(this.params);
 
-        this.state = {heart: false};
+        this.state = {
+            heart: false,
+            listPromotionBooks: this.props.reduxState.listPromotionBooks,
+            listNewBooks: this.props.reduxState.listNewBooks,
+        };
     }
 
     render()
@@ -180,11 +185,13 @@ export default class ProfileScreen extends Component
                         <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10}}>
                             <HorizontalList
                                 title={"Sách cùng thể loại"}
+                                data={this.state.listNewBooks}
                                 navigation={this.props.navigation}/>
                         </Card>
                         <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10, paddingBottom: 10}}>
                             <HorizontalList
                                 title={"Sách khuyễn mãi"}
+                                data={this.state.listNewBooks}
                                 navigation={this.props.navigation}/>
                         </Card>
                     </View>
@@ -201,6 +208,13 @@ export default class ProfileScreen extends Component
             </View>);
     }
 }
+
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
+
+export default connect(mapStateToProps)(DetailScreen);
 
 const window = Dimensions.get('window');
 
