@@ -10,7 +10,8 @@ export default Globals = {
     TITLESIZE_BIG: 40,
     TITLESIZE_MEDIUM: 35,
     APPNAME: 'BookStore',
-    FONT: {fontFamily: 'OpenSans-Regular',}
+    FONT: {fontFamily: 'OpenSans-Regular',},
+    BACKGROUNDCOLOR: '#CED6DD',
 };
 
 export const formatCurency = a =>

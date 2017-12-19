@@ -28,6 +28,8 @@ import NoInternetScreen from "./app/screens/NoInternetScreen";
 import LoadingScreen from "./app/screens/LoadingScreen";
 import AddressScreen from "./app/screens/AddressScreen";
 import VerListScreen from "./app/screens/VerListScreen";
+import CartScreen from "./app/screens/CartScreen";
+import ConfirmScreen from "./app/screens/ConfirmScreen";
 
 export default class App extends Component
 {
@@ -52,7 +54,10 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
+        Confirm: {screen: ConfirmScreen},
         Loading: {screen: LoadingScreen},
+        Cart: {screen: CartScreen},
+
         Home: {screen: HomeScreen},
 
         VerList: {screen: VerListScreen},

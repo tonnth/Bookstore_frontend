@@ -67,7 +67,7 @@ class DetailScreen extends Component
                     parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
                     backgroundSpeed={20}
                     backgroundColor={'#fff'}
-                    contentBackgroundColor={'#CED6DD'}
+                    contentBackgroundColor={Globals.BACKGROUNDCOLOR}
                     renderBackground={() => (
                         <View key="background" style={{backgroundColor: 'transparent'}}>
                             <View style={{
