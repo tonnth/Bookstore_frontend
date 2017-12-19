@@ -11,11 +11,11 @@ import {
     Body,
     Right,
     Button,
-    Icon,
     Title,
     Item,
     Input,
     Card,
+    Icon,
     CardItem,
 } from 'native-base';
 import Globals, {formatCurency} from "../Globals";
@@ -27,6 +27,9 @@ import HeaderHoriList from "../components/HeaderHoriList";
 import HButton from "../components/HButton";
 import Toast, {DURATION} from 'react-native-easy-toast';
 import {connect} from "react-redux";
+
+import IconFeather from 'react-native-vector-icons/Feather';
+import IconIonicons from 'react-native-vector-icons/Ionicons';
 
 class DetailScreen extends Component
 {
@@ -46,7 +49,7 @@ class DetailScreen extends Component
 
     render()
     {
-        let heart = this.state.heart ? 'md-heart' : 'md-heart-outline';
+        let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = Globals.BASE_URL + this.params.HinhAnh;
         let giaKhuyenMai = this.params.GiaBan * (100 - this.params.KhuyenMai) / 100;
         return (
@@ -154,11 +157,12 @@ class DetailScreen extends Component
                             <HButtonBack
                                 navigation={this.props.navigation}
                                 color={'#000'}/>
-                            <View style={{position: 'absolute', top: 20, right: 10}}>
+                            <View style={{position: 'absolute', top: 20, right: 20}}>
                                 <Button transparent
                                         onPress={() => this.props.navigation.navigate("DrawerOpen")}>
-                                    <Icon name="ios-search"
-                                          style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
+                                    {/*<Icon name="ios-search"*/}
+                                    {/*style={{color: "#000", fontSize: Globals.ICONSIZE}}/>*/}
+                                    <IconFeather name="shopping-cart" size={28} color="#000"/>
                                 </Button>
                             </View>
                         </View>

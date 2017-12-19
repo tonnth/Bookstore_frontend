@@ -20,6 +20,7 @@
 		"react-native-material-textfield": "^0.11.0",
 		"react-native-parallax-scroll-view": "^0.20.1",
 		"react-native-snap-carousel": "^3.4.0",
+		"react-native-vector-icons": "^4.4.2",
 		"react-navigation": "^1.0.0-beta.21",
 		"react-redux": "^5.0.6",
 		"redux": "^3.7.2",

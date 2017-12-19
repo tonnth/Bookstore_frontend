@@ -9,6 +9,7 @@ import HorizontalList from '../components/HorizontalList'
 import Carousel from 'react-native-snap-carousel';
 import Globals from "../Globals";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing";
+import IconFeather from 'react-native-vector-icons/Feather';
 
 const cards = [
     {
@@ -85,6 +86,12 @@ class HomeScreen extends Component
                     </TextWithSpacing>
                     </Body>
                     <Right style={{flex: 1}}>
+                        <Button transparent
+                                onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+                            {/*<Icon name="ios-search"*/}
+                            {/*style={{color: "#000", fontSize: Globals.ICONSIZE}}/>*/}
+                            <IconFeather name="shopping-cart" size={25} color="#000"/>
+                        </Button>
                     </Right>
                 </Header>
                 <ScrollView>
@@ -252,6 +259,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginTop: 5,
         marginRight: 20,
+        transform:[{ rotateY: '180deg' }]
     },
 
     slide: {
