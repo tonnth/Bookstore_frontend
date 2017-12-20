@@ -17,7 +17,7 @@ export default class Line extends Component<>
             <View
                 style={{
                     borderBottomColor: '#d9d9d9',
-                    borderBottomWidth: 1,
+                    borderBottomWidth: 1.5,
                     width: this.props.width,
                     margin:10,
                 }}

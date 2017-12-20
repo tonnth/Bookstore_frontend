@@ -10,8 +10,13 @@ import StepIndicator from 'react-native-step-indicator';
 import {Body, Button, Container, Header, Icon, Left, Right, Title} from "native-base";
 import HButton from "../components/HButton";
 import Step1 from "../components/ConfirmStep/Step1";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import Step0 from "../components/ConfirmStep/Step0";
+import Step2 from "../components/ConfirmStep/Step2";
+import Step3 from "../components/ConfirmStep/Step3";
 
-const labels = ["Địa chỉ", "Thanh toán", "Xác nhận"];
+const labels1 = ["Địa chỉ", "Thanh toán", "Xác nhận"];
+const labels2 = ["Tài khoản", "Địa chỉ", "Thanh toán", "Xác nhận"];
 const customStyles = {
     stepIndicatorSize: 25,
     currentStepIndicatorSize: 35,
@@ -45,6 +50,7 @@ export default class ConfirmScreen extends Component
         this.callout = new Map();
         this.state = {
             index: 0,
+            checkAccount: false, //kiem tra xem da dang nhap hay chua
         }
     }
 
@@ -52,14 +58,18 @@ export default class ConfirmScreen extends Component
     {
         if (index > this.state.index) this.carousel.snapToPrev();
         if (index < this.state.index) this.setState({index});
-
     };
 
     render()
     {
-        let that = this;
         return (
-            <Container>
+            <KeyboardAwareScrollView
+                innerRef={ref =>
+                {
+                    this.scroll = ref
+                }}
+                enableOnAndroid={false}
+                contentContainerStyle={styles.container}>
                 <StatusBar
                     translucent={false}
                 />
@@ -86,9 +96,9 @@ export default class ConfirmScreen extends Component
                     <View style={styles.step}>
                         <StepIndicator
                             customStyles={customStyles}
-                            stepCount={3}
+                            stepCount={this.state.checkAccount ? 3 : 4}
                             currentPosition={this.state.index}
-                            labels={labels}
+                            labels={this.state.checkAccount ? labels1 : labels2}
                         />
                     </View>
                     <View style={styles.carousel}>
@@ -97,8 +107,8 @@ export default class ConfirmScreen extends Component
                             {
                                 this.carousel = c;
                             }}
-                            data={[1, 2, 3]}
-                            renderItem={this.renderItem}
+                            data={this.state.checkAccount ? [1, 2, 3] : [1, 2, 3, 4]}
+                            renderItem={this.state.checkAccount ? this.renderItem1 : this.renderItem2}
                             sliderWidth={sliderWidth}
                             itemWidth={itemWidth}
                             containerCustomStyle={{flex: 1}}
@@ -106,10 +116,10 @@ export default class ConfirmScreen extends Component
                         />
                     </View>
                 </View>
-            </Container>);
+            </KeyboardAwareScrollView>);
     }
 
-    renderItem = ({item, index}) =>
+    renderItem1 = ({item, index}) =>
     {
         let that = this;
         switch (index)
@@ -119,13 +129,14 @@ export default class ConfirmScreen extends Component
                     <View style={styles.slide}>
                         <View style={styles.slideInnerContainer}>
                             <View style={styles.image}>
+                                {this.state.index === index &&
                                 <Step1
                                     width={itemWidth}
                                     action={() =>
                                     {
-                                        that.setState({index: 2});
+                                        that.setState({index: 1});
                                         that.carousel.snapToNext();
-                                    }}/>
+                                    }}/>}
                             </View>
                         </View>
                     </View>
@@ -135,18 +146,14 @@ export default class ConfirmScreen extends Component
                     <View style={styles.slide}>
                         <View style={styles.slideInnerContainer}>
                             <View style={styles.image}>
-                                <HButton text={'Thêm vào giỏ hàng'}
-                                         width={window.width - 10}
-                                         style={{position: 'absolute', bottom: 5, left: 5}}
-                                         navigation={this.props.navigation}
-                                         shadow
-                                         border={5}
-                                         action={() =>
-                                         {
-                                             that.setState({index: 2})
-                                             that.carousel.snapToNext();
-                                         }}
-                                />
+                                {this.state.index === index &&
+                                <Step2
+                                    width={itemWidth}
+                                    action={() =>
+                                    {
+                                        that.setState({index: 2});
+                                        that.carousel.snapToNext();
+                                    }}/>}
                             </View>
                         </View>
                     </View>
@@ -156,17 +163,97 @@ export default class ConfirmScreen extends Component
                     <View style={styles.slide}>
                         <View style={styles.slideInnerContainer}>
                             <View style={styles.image}>
-                                <HButton text={'Thêm vào giỏ hàng'}
-                                         width={window.width - 10}
-                                         style={{position: 'absolute', bottom: 5, left: 5}}
-                                         navigation={this.props.navigation}
-                                         shadow
-                                         border={5}
-                                         action={() =>
-                                         {
+                                {this.state.index === index &&
+                                <Step3
+                                    width={itemWidth}
+                                    action={() =>
+                                    {
+                                        that.setState({index: 2});
+                                        that.carousel.snapToNext();
+                                    }}/>}
+                            </View>
+                        </View>
+                    </View>
+                );
+            default:
+                return null;
+        }
+    };
 
-                                         }}
-                                />
+    renderItem2 = ({item, index}) =>
+    {
+        let that = this;
+        switch (index)
+        {
+            case 0:
+                return (
+                    <View style={styles.slide}>
+                        <View style={styles.slideInnerContainer}>
+                            <View style={styles.image}>
+                                {this.state.index === index &&
+                                <Step0
+                                    width={itemWidth}
+                                    action={() =>
+                                    {
+                                        that.setState({index: 1});
+                                        that.carousel.snapToNext();
+                                    }}
+                                    navigation={this.props.navigation}/>}
+
+                            </View>
+                        </View>
+                    </View>
+                );
+
+            case 1:
+                return (
+                    <View style={styles.slide}>
+                        <View style={styles.slideInnerContainer}>
+                            <View style={styles.image}>
+                                {this.state.index === index &&
+                                <Step1
+                                    width={itemWidth}
+                                    action={() =>
+                                    {
+                                        that.setState({index: 2});
+                                        that.carousel.snapToNext();
+                                    }}/>}
+                            </View>
+                        </View>
+                    </View>
+                );
+
+            case 2:
+                return (
+                    <View style={styles.slide}>
+                        <View style={styles.slideInnerContainer}>
+                            <View style={styles.image}>
+                                {this.state.index === index &&
+                                <Step2
+                                    width={itemWidth}
+                                    action={() =>
+                                    {
+                                        that.setState({index: 3});
+                                        that.carousel.snapToNext();
+                                    }}/>}
+                            </View>
+                        </View>
+                    </View>
+                );
+
+            case 3:
+                return (
+                    <View style={styles.slide}>
+                        <View style={styles.slideInnerContainer}>
+                            <View style={styles.image}>
+                                {this.state.index === index &&
+                                <Step3
+                                    width={itemWidth}
+                                    action={() =>
+                                    {
+                                        // that.setState({index: 3});
+                                        // that.carousel.snapToNext();
+                                    }}/>}
                             </View>
                         </View>
                     </View>
