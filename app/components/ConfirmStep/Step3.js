@@ -45,103 +45,109 @@ export default class Step3 extends Component<>
     render()
     {
         return (
-            <ScrollView
-                contentContainerStyle={{
-                    alignItems: 'center',
-                }}>
-                <Text
-                    style={{
-                        alignSelf: 'flex-start',
-                        margin: 15,
-                        marginBottom: 5,
-                        fontSize: 20,
-                        fontWeight: '600',
-                        ...Globals.FONT
+            <View>
+                <ScrollView
+                    contentContainerStyle={{
+                        alignItems: 'center',
                     }}>
-                    Xác nhận thông tin
-                </Text>
+                    <Text
+                        style={{
+                            alignSelf: 'flex-start',
+                            margin: 15,
+                            marginBottom: 5,
+                            fontSize: 20,
+                            fontWeight: '600',
+                            ...Globals.FONT
+                        }}>
+                        Xác nhận thông tin
+                    </Text>
 
-                <View style={{
-                    justifyContent: 'space-between',
-                    marginBottom: 10,
-                    marginTop: 20,
-                    width: this.props.width - 40
-                }}>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 15,
-                        }}>Tổng tiền (gồm VAT)</Text>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 22,
-                            fontWeight: '600',
-                            color: Globals.COLOR.MAINCOLOR,
-                        }}>{formatCurency(700000)}</Text>
-                </View>
+                    <View style={{
+                        justifyContent: 'space-between',
+                        marginBottom: 10,
+                        marginTop: 20,
+                        width: this.props.width - 40
+                    }}>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 15,
+                            }}>Tổng tiền (gồm VAT)</Text>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 22,
+                                fontWeight: '600',
+                                color: Globals.COLOR.MAINCOLOR,
+                            }}>{formatCurency(700000)}</Text>
+                    </View>
 
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 10}}>
-                    <Line width={(this.props.width - 40) / 2 - 60}/>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 14,
-                        }}>Địa chỉ nhận hàng</Text>
-                    <Line width={(this.props.width - 40) / 2 - 60}/>
-                </View>
-                <View style={{
-                    justifyContent: 'space-between',
-                    marginBottom: 10,
-                    width: this.props.width - 40
-                }}>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 16,
-                            fontWeight: '600',
-                            marginBottom: 5,
-                        }}>Nguyễn trần hoàng tôn</Text>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 16,
-                            fontWeight: '600',
-                            marginBottom: 5,
-                        }}>974/14 Lo gốm</Text>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 16,
-                            fontWeight: '600',
-                            marginBottom: 5,
-                        }}>01229716386</Text>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 16,
-                            fontWeight: '600',
-                            marginBottom: 5,
-                        }}>hoangton1996@gmail.com</Text>
-                </View>
+                    <View
+                        style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 10}}>
+                        <Line width={(this.props.width - 40) / 2 - 60}/>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 14,
+                            }}>Địa chỉ nhận hàng</Text>
+                        <Line width={(this.props.width - 40) / 2 - 60}/>
+                    </View>
+                    <View style={{
+                        justifyContent: 'space-between',
+                        marginBottom: 10,
+                        width: this.props.width - 40
+                    }}>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 16,
+                                fontWeight: '600',
+                                marginBottom: 5,
+                            }}>Nguyễn trần hoàng tôn</Text>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 16,
+                                fontWeight: '600',
+                                marginBottom: 5,
+                            }}>974/14 Lo gốm</Text>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 16,
+                                fontWeight: '600',
+                                marginBottom: 5,
+                            }}>01229716386</Text>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 16,
+                                fontWeight: '600',
+                                marginBottom: 5,
+                            }}>hoangton1996@gmail.com</Text>
+                    </View>
 
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 10}}>
-                    <Line width={(this.props.width - 40) / 2 - 40}/>
-                    <Text
-                        style={{
-                            ...Globals.FONT,
-                            fontSize: 14,
-                        }}>{ this.state.dataSource.length +' sản phẩm'}</Text>
-                    <Line width={(this.props.width - 40) / 2 - 40}/>
-                </View>
-                {this.state.dataSource.map((item, key) =>
-                    (
-                        this.renderItem(item, key)
-                    ))
-                }
-                <Line width={(this.props.width - 40)}/>
+                    <View
+                        style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 10}}>
+                        <Line width={(this.props.width - 40) / 2 - 40}/>
+                        <Text
+                            style={{
+                                ...Globals.FONT,
+                                fontSize: 14,
+                            }}>{this.state.dataSource.length + ' sản phẩm'}</Text>
+                        <Line width={(this.props.width - 40) / 2 - 40}/>
+                    </View>
+                    {this.state.dataSource.map((item, key) =>
+                        (
+                            this.renderItem(item, key)
+                        ))
+                    }
+                    <Line
+                        style={{marginBottom: 70}}
+                        width={(this.props.width - 40)}/>
+                </ScrollView>
                 <HButton
-                    style={{marginBottom: 15,}}
+                    style={{position:'absolute', bottom: 15, alignSelf: 'center'}}
                     text={'Xác nhận'}
                     width={this.props.width - 40}
                     navigation={this.props.navigation}
@@ -149,7 +155,7 @@ export default class Step3 extends Component<>
                     border={20}
                     action={this.props.action}
                 />
-            </ScrollView>
+            </View>
         );
     }
 
@@ -179,7 +185,7 @@ export default class Step3 extends Component<>
                     borderRadius={5}
                 />
 
-                <View style={{flex: 1, marginTop: 10,marginLeft: 10}}>
+                <View style={{flex: 1, marginTop: 10, marginLeft: 10}}>
                     <Text
                         style={styles.tensach}
                         numberOfLines={2}>{ten}</Text>
@@ -187,7 +193,7 @@ export default class Step3 extends Component<>
 
                     <Text
                         numberOfLines={1}
-                        style={[styles.soluong,{marginTop: 3}]}>{formatCurency(dongia) + ' X ' + soluong}</Text>
+                        style={[styles.soluong, {marginTop: 3}]}>{formatCurency(dongia) + ' X ' + soluong}</Text>
 
                     <Text
                         numberOfLines={1}

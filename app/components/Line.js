@@ -20,6 +20,7 @@ export default class Line extends Component<>
                     borderBottomWidth: 1.5,
                     width: this.props.width,
                     margin:10,
+                    ...this.props.style,
                 }}
             />
 

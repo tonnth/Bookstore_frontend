@@ -50,7 +50,7 @@ export default class ConfirmScreen extends Component
         this.callout = new Map();
         this.state = {
             index: 0,
-            checkAccount: false, //kiem tra xem da dang nhap hay chua
+            checkAccount: true, //kiem tra xem da dang nhap hay chua
         }
     }
 
@@ -199,7 +199,6 @@ export default class ConfirmScreen extends Component
                                         that.carousel.snapToNext();
                                     }}
                                     navigation={this.props.navigation}/>}
-
                             </View>
                         </View>
                     </View>
