@@ -198,7 +198,6 @@ export default class Step3 extends Component<>
                     <Text
                         numberOfLines={1}
                         style={styles.giaban}>{formatCurency(thanhtien)}</Text>
-
                 </View>
             </View>
         );

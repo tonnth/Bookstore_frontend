@@ -63,6 +63,7 @@ class HomeScreen extends Component
 
     render()
     {
+        let sanpham = 0;
         return (
             <Container style={styles.container}>
                 <StatusBar
@@ -85,46 +86,29 @@ class HomeScreen extends Component
                         {Globals.APPNAME.toUpperCase()}
                     </TextWithSpacing>
                     </Body>
-                    <Right style={{flex: 1}}>
+                    <Right style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
                         <Button transparent
-                                onPress={() => this.props.navigation.navigate("DrawerOpen")}>
-                            {/*<Icon name="ios-search"*/}
-                            {/*style={{color: "#000", fontSize: Globals.ICONSIZE}}/>*/}
+                                style={{marginRight: sanpham > 0 ? -25 : 0,}}
+                                onPress={() => this.props.navigation.navigate("Cart")}>
                             <IconFeather name="shopping-cart" size={25} color="#000"/>
                         </Button>
+                        {sanpham > 0 &&
+                        <Badge warning style={{justifyContent: 'center', alignItems: 'center'}}>
+                            <Text>{sanpham}</Text>
+                        </Badge>}
                     </Right>
                 </Header>
                 <ScrollView>
-                    <View style={{marginLeft: 25, marginRight: 25, marginBottom: 10}}>
-                        <Item style={styles.searchbar}>
+                    <TouchableOpacity style={{marginLeft: 25, marginRight: 25, marginBottom: 10}}
+                                      onPress={() =>
+                                      {
+                                          this.props.navigation.navigate('Search');
+                                      }}>
+                        <View style={styles.searchbar}>
                             <Icon name="ios-search"/>
-                            <Input placeholder="Search"
-                                   autoCapitalize="none"
-                                   ref={'search'}
-                                   onChangeText={(text) =>
-                                   {
-                                       console.log(text);
-                                       this.setState({
-                                           searching: text.length > 0 ? true : false,
-                                       });
-                                   }}
-                                   onSubmitEditing={(event) =>
-                                   {
-                                       console.log("submit");
-                                   }}/>
-                            {(this.state.searching) &&
-                            <Button transparent
-                                    onPress={() =>
-                                    {
-                                        this.refs.search.setNativeProps({text: ""});
-                                        this.setState({
-                                            searching: false,
-                                        });
-                                    }}>
-                                <Icon name="ios-close-outline" style={{color: '#000'}}/>
-                            </Button>}
-                        </Item>
-                    </View>
+                            <Text style={{marginLeft: 13, fontSize: 17, ...Globals.FONT}}>Search</Text>
+                        </View>
+                    </TouchableOpacity>
 
                     <View style={{height: 180,}}>
                         <Carousel
@@ -171,7 +155,7 @@ class HomeScreen extends Component
                         title={"Thể loại"}
                         navigation={this.props.navigation}
                         theloai/>
-                    
+
                     <HorizontalList
                         title={"Sách khuyến mãi"}
                         data={this.state.listPromotionBooks}
@@ -246,6 +230,8 @@ const styles = StyleSheet.create({
         padding: 0,
         borderBottomWidth: 1,
         borderBottomColor: '#eaeaea',
+        flexDirection: 'row',
+        alignItems:'center',
     },
     content: {
         display: "flex",
@@ -259,7 +245,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginTop: 5,
         marginRight: 20,
-        transform:[{ rotateY: '180deg' }]
+        transform: [{rotateY: '180deg'}]
     },
 
     slide: {

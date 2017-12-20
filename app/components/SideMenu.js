@@ -10,6 +10,7 @@ export default class SideMenu extends React.Component
     {
         super(props);
         this.state = {slidemenuWidth: 0};
+        console.log('SLIDE MENU ', this.props)
     }
 
     render()
@@ -95,7 +96,8 @@ export default class SideMenu extends React.Component
                         flex: 1,
                         justifyContent: 'space-around',
                     }}>
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity style={styles.item}
+                                      onPress={() => {this.props.navigation.navigate('Home')}}>
                         <Image
                             source={require("../img/home.png")}
                             style={styles.image}/>
@@ -105,7 +107,8 @@ export default class SideMenu extends React.Component
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity style={styles.item}
+                                      onPress={() => {this.props.navigation.navigate('Order')}}>
                         <Image
                             source={require("../img/box.png")}
                             style={styles.image}/>
@@ -115,7 +118,8 @@ export default class SideMenu extends React.Component
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity style={styles.item}
+                                      onPress={() => {this.props.navigation.navigate('Favorite')}}>
                         <Image
                             source={require("../img/like.png")}
                             style={styles.image}/>
@@ -125,7 +129,8 @@ export default class SideMenu extends React.Component
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity style={styles.item}
+                                      onPress={() => {this.props.navigation.navigate('Account')}}>
                         <Image
                             source={require("../img/user.png")}
                             style={styles.image}/>
@@ -135,7 +140,8 @@ export default class SideMenu extends React.Component
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity style={styles.item}
+                                      onPress={() => {this.props.navigation.navigate('Setting')}}>
                         <Image
                             source={require("../img/setting.png")}
                             style={styles.image}/>

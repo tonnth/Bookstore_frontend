@@ -58,9 +58,9 @@ class LoadingScreen extends Component
         await api.getSachKhuyenMai();
         await  api.getSachMoi();
         console.log(this.props.reduxState.listPromotionBooks);
-        //nav.navigate('Home');
+        nav.navigate('Home');
 
-        nav.navigate('Cart');
+        //nav.navigate('Cart');
     }
 
     componentDidMount()

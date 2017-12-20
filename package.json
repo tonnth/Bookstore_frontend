@@ -8,11 +8,13 @@
 	},
 	"dependencies": {
 		"axios": "^0.17.1",
+		"moment": "^2.20.1",
 		"native-base": "^2.3.3",
 		"prop-types": "^15.6.0",
 		"react": "16.0.0",
 		"react-native": "0.50.3",
 		"react-native-easy-toast": "^1.0.9",
+		"react-native-image-color-picker": "^1.0.3",
 		"react-native-keyboard-aware-scroll-view": "^0.4.1",
 		"react-native-linear-gradient": "^2.3.0",
 		"react-native-loading-button": "^1.0.2",

@@ -14,18 +14,21 @@ import Globals, {formatCurency, TheLoai} from "../Globals";
 import * as api from "../config/api";
 import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
-import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input, Card} from 'native-base';
+import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input, Card, Badge} from 'native-base';
 import {HButtonBack} from "../components/HButtonBack";
 import HButton from "../components/HButton";
 import UIStepper from 'react-native-ui-stepper';
+import {DURATION} from "react-native-easy-toast";
+import Toast from "react-native-easy-toast";
+import IconFeather from 'react-native-vector-icons/Feather';
 
 const {height, width} = Dimensions.get("window");
 
-class CartScreen extends Component
+class FavoriteScreen extends Component
 {
     constructor(props)
     {
-        console.log("HORIZONTALLIST");
+        console.log("FAVORITE SCREEN");
         super(props);
         this.params = this.props.navigation.state.params;
         this.state = {
@@ -33,7 +36,7 @@ class CartScreen extends Component
             refreshing: false,
             value: 10,
             total_page: 1,
-            dataSource: this.props.reduxState.listPromotionBooks.slice(0,5),
+            dataSource: [1, 2]
         };
         this.itemWidth = width;
     }
@@ -70,14 +73,15 @@ class CartScreen extends Component
 
     render()
     {
-        this.heightFooter = 80;
         let empty = this.state.dataSource.length === 0;
+        let sanpham = 0;
+        this.heightFooter = 80;
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, {backgroundColor: empty ? '#FFF6D7' : '#fff'}]}>
                 <StatusBar
                     translucent={false}
                 />
-                <Header style={styles.header}
+                <Header style={[styles.header, {backgroundColor: empty ? '#FFF6D7' : '#fff'}]}
                         iosStatusbar="light-content"
                         androidStatusBarColor="black"
                         noShadow>
@@ -90,80 +94,55 @@ class CartScreen extends Component
                     </Left>
                     <Body>
                     <Title style={styles.title}>
-                        Giỏ hàng
+                        Sách yêu thích
                     </Title>
                     </Body>
-                    <Right>
+                    <Right style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
                         <Button transparent
-                                onPress={() => this.props.navigation.navigate("DrawerOpen")}>
-                            <Icon name="ios-search"
-                                  style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
+                                style={{marginRight: sanpham > 0 ? -25: 0,}}
+                                onPress={() => this.props.navigation.navigate("Cart")}>
+                            <IconFeather name="shopping-cart" size={25} color="#000"/>
                         </Button>
+                        {sanpham > 0 &&
+                        <Badge warning style={{justifyContent: 'center', alignItems: 'center'}}>
+                            <Text>{sanpham}</Text>
+                        </Badge>}
                     </Right>
                 </Header>
                 {this.renderBody()}
-                {!empty &&
-                <View style={[{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: '#fff',
-                    height: this.heightFooter,
-                    zIndex: 100,
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    borderWidth: 0,
-                    borderColor: '#fff'
-                }, styles.shadow]}>
-                    <View>
-                        <Text
-                            numberOfLines={1}
-                            style={{opacity: 0.8, fontSize: 15, fontWeight: '600', marginBottom: 5}}>Tổng cộng</Text>
-                        <Text
-                            numberOfLines={1}
-                            style={{
-                                fontWeight: '800', fontSize: 22, textShadowColor: 'rgba(0, 0, 0, 0.75)',
-                                textShadowOffset: {width: -1, height: 1},
-                                textShadowRadius: 2
-                            }}>{formatCurency(100000)}</Text>
-
-                    </View>
-
-                    <HButton text={'Xác nhận'}
-                             width={140}
-                             navigation={this.props.navigation}
-                             shadow
-                             border={20}
-                             action={() => this.props.navigation.navigate('Confirm')}
-                    />
-                </View>}
+                <Toast ref="toast"
+                       textStyle={{fontSize: 17, color: '#fff'}}/>
             </View>
         );
     }
 
     renderItem = ({item, index}) =>
     {
-        let tempUri = Globals.BASE_URL + item.HinhAnh;
-        let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
+        //let tempUri = Globals.BASE_URL + item.HinhAnh;
+        //let tenSach = 'dac nhan tam';
+        //let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
         let widthImage = 100;
         let heightImage = widthImage * 3 / 2;
-        let marginBottom = index === this.state.dataSource.length - 1 ? this.heightFooter + 10 : 0;
+
+        let tempUri = 'http://sachnoionline.net/upload/book/107.jpg';
+        let tenSach = 'dac nhan tam dfbdfndfndfndndndfndfnfnfnfnfnfnfnfnfnfnfnf';
+        let giaKhuyenMai = 100000;
+        let giaBan = 130000;
+        let khuyenMai = 40;
+
         return (
             <View style={{
                 width: this.itemWidth,
                 padding: 30,
                 paddingBottom: 0,
                 paddingRight: 10,
-                height: heightImage + 50,
-                marginBottom: marginBottom
+                height: heightImage + 40,
             }}>
                 <Card style={{flex: 1, flexDirection: 'row', justifyContent: 'center', margin: 30}}>
                     <View style={{flex: 1, marginLeft: widthImage, marginTop: 10, marginRight: 40}}>
                         <Text
                             style={styles.tensach}
-                            numberOfLines={2}>{item.TenSach}</Text>
+                            numberOfLines={2}>{tenSach}</Text>
 
                         <Text
                             numberOfLines={1}
@@ -172,31 +151,13 @@ class CartScreen extends Component
                             <Text
                                 numberOfLines={1}
                                 style={styles.giaban2}>
-                                {formatCurency(item.GiaBan)}{" "}
+                                {formatCurency(giaBan)}{" "}
                             </Text>
                             <Text
                                 numberOfLines={1}
                                 style={styles.khuyenmai}>
-                                -{item.KhuyenMai}%
+                                -{khuyenMai}%
                             </Text>
-                        </View>
-                        <View style={{position: 'absolute', bottom: 20, right:-20}}>
-                            <UIStepper
-                                initialValue={index}
-                                minimumValue={1}
-                                maximumValue={10}
-                                displayValue={true}
-                                borderRadius={20}
-                                borderWidth={2}
-                                fontSize={20}
-                                borderColor={'#9E9E9E'}
-                                tintColor={'#9E9E9E'}
-                                textColor={'#616161'}
-                                onValueChange={(value) =>
-                                {
-                                    this.setState({value})
-                                }}
-                            />
                         </View>
                     </View>
                     <Button transparent
@@ -212,8 +173,31 @@ class CartScreen extends Component
                               style={{color: '#000', fontSize: Globals.ICONSIZE + 5, opacity: 0.8}}/>
                     </Button>
 
+                    <TouchableOpacity
+                        style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            right: 0,
+                            backgroundColor: Globals.COLOR.MAINCOLOR,
+                            height: heightImage / 2,
+                            width: heightImage / 2,
+                            borderTopLeftRadius: heightImage / 2,
+                            borderTopRightRadius: 5,
+                            borderBottomLeftRadius: 5,
+                        }}
+                        onPress={() =>
+                        {
+                            this.refs.toast.show('Đã thêm ' + tenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
+                        }}
+                    >
+                        <IconFeather name="shopping-cart" size={30} color="#fff"
+                                     style={{
+                                         position: 'absolute',
+                                         bottom: 15,
+                                         right: 15,
+                                     }}/>
+                    </TouchableOpacity>
                 </Card>
-
                 <HImage
                     style={{width: widthImage, height: heightImage, position: 'absolute', top: 10, left: 10}}
                     uri={tempUri}
@@ -244,16 +228,16 @@ class CartScreen extends Component
             return (
                 <View style={{flex: 1}}>
                     <Image
-                        source={require('../img/emptyCart.jpg')}
-                        style={{width: window.width, height: 400, backgroundColor: '#000'}}
+                        source={{uri: 'https://i.pinimg.com/originals/3c/4f/07/3c4f076f93342366fedd27e087260fda.gif'}}
+                        style={{width: window.width, height: 300, backgroundColor: '#FFF6D7'}}
                     />
-                    <View style={{flex: 1, alignItems: 'center', backgroundColor: '#fff'}}>
+                    <View style={{flex: 1, alignItems: 'center', backgroundColor: '#FFF6D7'}}>
                         <Text style={styles.textTitle}>
-                            Giỏ hàng của bạn đang trống
+                            Bạn chưa có quyển sách yêu thích nào
                         </Text>
 
                         <HButton text={'Tiếp tục mua sắm'}
-                                 width={200}
+                                 width={240}
                                  style={{marginTop: 20}}
                                  border={20}
                                  navigation={this.props.navigation}
@@ -269,7 +253,7 @@ const mapStateToProps = reduxState =>
     return {reduxState};
 };
 
-export default connect(mapStateToProps)(CartScreen);
+export default connect(mapStateToProps)(FavoriteScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -280,7 +264,6 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         // shadowOffset: {height: 0, width: 0},
         // shadowOpacity: 0,
-        backgroundColor: 'white',
         borderBottomWidth: 0,
         // elevation: 0
     },
@@ -341,7 +324,10 @@ const styles = StyleSheet.create({
         fontSize: 22,
         backgroundColor: 'transparent',
         fontWeight: "600",
+        marginLeft: 10,
+        marginRight: 10,
         marginBottom: 30,
+        textAlign: 'center',
     },
     shadow: {
         shadowColor: '#000',

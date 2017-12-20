@@ -30,6 +30,10 @@ import AddressScreen from "./app/screens/AddressScreen";
 import VerListScreen from "./app/screens/VerListScreen";
 import CartScreen from "./app/screens/CartScreen";
 import ConfirmScreen from "./app/screens/ConfirmScreen";
+import FavoriteScreen from "./app/screens/FavoriteScreen";
+import OrderScreen from "./app/screens/OrderScreen";
+import OrderDetailScreen from "./app/screens/OrderDetailScreen";
+import SearchScreen from "./app/screens/SearchScreen";
 
 export default class App extends Component
 {
@@ -54,24 +58,23 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
-        Confirm: {screen: ConfirmScreen},
         Loading: {screen: LoadingScreen},
-        Cart: {screen: CartScreen},
-
         Home: {screen: HomeScreen},
-
+        Detail: {screen: DetailScreen},
+        Search:{screen: SearchScreen},
+        Favorite: {screen: FavoriteScreen},
+        Confirm: {screen: ConfirmScreen},
+        Cart: {screen: CartScreen},
+        OrderDetail:{screen: OrderDetailScreen},
+        Order: {screen: OrderScreen},
         VerList: {screen: VerListScreen},
         Address: {screen: AddressScreen},
         NoInternet: {screen: NoInternetScreen},
-
         Login: {screen: LoginScreen},
         Forgot: {screen: ForgotScreen},
         SignUp: {screen: SignUpScreen},
-
         ChangeInfo: {screen: ChangeInfoScreen},
-        Detail: {screen: DetailScreen},
     },
-
     {
         headerMode: 'none',
     }
