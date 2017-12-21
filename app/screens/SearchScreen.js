@@ -81,6 +81,7 @@ class SearchScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName + ' Render');
         let goiy = ['vsvsdbsdbsd', 'asvdssbdsbsdbsdbsd', 'dsbsdbdsbdsbsd', 'dvdsbsdbdsbsdb', 'dvsbdvsdbsdbsdb'].slice(0, 4);
         console.log(goiy);
         return (
@@ -88,27 +89,21 @@ class SearchScreen extends Component
                 <StatusBar
                     translucent={false}
                 />
-                <Header style={styles.header}
+                <Header style={[styles.header]}
                         iosStatusbar="light-content"
                         androidStatusBarColor="black"
-                        noShadow
-                        searchBar rounded>
+                        noShadow>
+
                     <Button transparent
-                            style={{marginLeft: -15}}
                             onPress={() => this.props.navigation.goBack(null)}>
                         <Icon name="ios-arrow-back"
                               style={{color: '#000', fontSize: Globals.ICONSIZE}}/>
                     </Button>
-                    <Item>
+
+                    <View style={{width: 300, flexDirection: 'row', alignItems: 'center',}}>
+                        <Input placeholder="Nhập vào từ khóa" style={{width: 300}}/>
                         <Icon name="ios-search"/>
-                        <Input placeholder="Search"/>
-                    </Item>
-                    <Button transparent
-                            onPress={() =>
-                            {
-                            }}>
-                        <Text>Tìm kiếm</Text>
-                    </Button>
+                    </View>
                 </Header>
                 {this.state.dataSource.length > 0 &&
                 <FlatList
@@ -171,6 +166,21 @@ class SearchScreen extends Component
             </TouchableOpacity>
         );
     };
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
+    }
 }
 
 const mapStateToProps = reduxState =>
@@ -190,6 +200,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderBottomWidth: 0,
         // elevation: 0
+
+        justifyContent: 'space-around',
+        flexDirection: 'row',
     },
     title: {
         ...Globals.FONT,

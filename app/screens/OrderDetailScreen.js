@@ -69,6 +69,7 @@ class OrderDetailScreen extends Component<>
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         let soxu = 10;
         let madon = '#00001233';
         let ngaydat = '08/08/2017';
@@ -87,7 +88,7 @@ class OrderDetailScreen extends Component<>
                     <Left>
                         <Button transparent
                                 onPress={() => this.props.navigation.goBack(null)}>
-                            <Icon name="arrow-back"
+                            <Icon name="ios-arrow-back"
                                   style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
                         </Button>
                     </Left>
@@ -223,6 +224,7 @@ class OrderDetailScreen extends Component<>
                                     ...Globals.FONT,
                                     fontSize: 20,
                                     marginBottom: 15,
+                                    width: window.width - 40,
                                 }]}>Sản phẩm</Text>
 
                             {this.state.dataSource.map((item, key) =>
@@ -295,14 +297,16 @@ class OrderDetailScreen extends Component<>
                             <Line width={(window.width - 20 - 30)}
                                   style={{alignSelf: 'center', marginBottom: 20}}/>
                             <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
                                 marginBottom: 10,
-                                width: this.props.width - 40
+                                flexDirection: 'row',
+                                width: this.props.width - 40,
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
                             }}>
                                 <Text
                                     style={{
                                         ...Globals.FONT,
+                                        alignSelf: 'baseline',
                                         fontSize: 15,
                                         fontWeight: '700',
                                     }}>Tổng tiền (gồm VAT)</Text>
@@ -311,7 +315,6 @@ class OrderDetailScreen extends Component<>
                                         ...Globals.FONT,
                                         fontSize: 17,
                                         fontWeight: '700',
-                                        alignSelf: 'flex-end',
                                         color: Globals.COLOR.MAINCOLOR
                                     }}>{formatCurency(700000)}</Text>
                             </View>
@@ -349,7 +352,7 @@ class OrderDetailScreen extends Component<>
                     borderRadius={5}
                 />
 
-                <View style={{flex: 1, marginTop: 10, marginLeft: 10}}>
+                <View style={{marginTop: 10, marginLeft: 10, width: widthImage*2}}>
                     <Text
                         style={styles.tensach}
                         numberOfLines={2}>{ten}</Text>
@@ -367,6 +370,21 @@ class OrderDetailScreen extends Component<>
             </View>
 
         );
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 
@@ -395,11 +413,7 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 22,
         fontWeight: '600',
-        ...Platform.select({
-            ios: {
-                width: 300,
-            },
-        }),
+        width: 200, textAlign: 'center',
     },
     icon: {
         opacity: 0.5,

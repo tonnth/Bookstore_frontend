@@ -2,7 +2,7 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_ACCESS_TOKEN, FETCHING_ACCESS_TOKEN_SUCCESS, FETCHING_ACCESS_TOKEN_FAIL,
-    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL,
+    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN,
 } from '../Globals';
 
 
@@ -25,6 +25,7 @@ const initialState = {
     hasError_Token: false,
     errorMessage_Token: null,
 
+    screen: '',
 };
 
 
@@ -104,6 +105,11 @@ export const reducer = (state = initialState, action) =>
                 errorMessage_Token: action.payload.response.data,
             });
 
+        case UPDATE_CURRENT_SCREEN:
+            return Object.assign(state, {
+                ...state,
+                screen: action.payload,
+            });
         default:
             return state;
     }

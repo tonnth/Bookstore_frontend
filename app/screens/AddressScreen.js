@@ -62,6 +62,7 @@ export default class AddressScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         let that = this;
         return (
             <View style={styles.container}>
@@ -151,6 +152,21 @@ export default class AddressScreen extends Component
     componentDidMount()
     {
 
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log('Address Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 

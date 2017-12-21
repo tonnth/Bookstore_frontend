@@ -73,6 +73,7 @@ class FavoriteScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         let empty = this.state.dataSource.length === 0;
         let sanpham = 0;
         this.heightFooter = 80;
@@ -245,6 +246,21 @@ class FavoriteScreen extends Component
                                  shadow/>
                     </View>
                 </View>);
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 

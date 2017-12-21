@@ -19,6 +19,7 @@ class LoadingScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -58,7 +59,7 @@ class LoadingScreen extends Component
         await api.getSachKhuyenMai();
         await  api.getSachMoi();
         console.log(this.props.reduxState.listPromotionBooks);
-        nav.navigate('Home');
+        nav.navigate('Home', {screen: 'Home'});
 
         //nav.navigate('Cart');
     }
@@ -73,6 +74,21 @@ class LoadingScreen extends Component
         // }, 1000);
 
         this.getData();
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 

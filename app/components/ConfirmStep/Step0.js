@@ -94,21 +94,9 @@ export default class Step0 extends Component<>
                         }}>
                         Thông tin
                     </Text>
-                    <View style={{
-                        borderColor: '#BDBDBD',
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        width: this.props.width - 40, height: 40,
-                        padding: 5,
-                    }}>
-                        <TextInput
-                            style={{flex: 1}}
-                            numberOfLines={1}
-                            onChangeText={(text) => this.setState({text})}
-                            value={this.state.text}
-                            placeholder={'Email'}
-                        />
-                    </View>
+                    <Item regular style={{borderRadius: 10, borderWidth: 1,}}>
+                        <Input placeholder='Email' />
+                    </Item>
 
                     <HButton text={'Tiếp tục'}
                              width={this.props.width - 40}

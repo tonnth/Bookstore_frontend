@@ -46,14 +46,14 @@ export default class Step2 extends Component<>
         return (
             <ScrollView
                 contentContainerStyle={{
-                    flex: 1, alignItems: 'center'
+                    alignItems: 'center', flex: 1,
                 }}>
                 <Text
                     style={{
                         alignSelf: 'flex-start',
-                        margin: 15,
-                        marginBottom: 5,
                         fontSize: 20,
+                        marginTop: 10,
+                        marginLeft: 20,
                         fontWeight: '600',
                         ...Globals.FONT
                     }}>
@@ -61,11 +61,10 @@ export default class Step2 extends Component<>
                 </Text>
 
                 {this.soxu > 0 &&
-                <View>
+                <View style={{width: this.props.width - 40, marginTop: 10}}>
                     <Text
                         style={{
                             alignSelf: 'flex-start',
-                            margin: 10,
                             marginBottom: 0,
                             fontWeight: '500',
                             fontSize: 13,
@@ -73,7 +72,7 @@ export default class Step2 extends Component<>
                         }}>
                         {'Bạn có ' + this.soxu + ' xu, tương đương với ' + formatCurency(10000)}
                     </Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center', margin: 10, marginTop: 0}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 10,}}>
                         <Text
                             style={{
                                 fontSize: 15,
@@ -82,25 +81,9 @@ export default class Step2 extends Component<>
                             }}>
                             {'Dùng '}
                         </Text>
-                        <View style={{
-                            borderColor: '#BDBDBD',
-                            borderWidth: 1,
-                            marginTop: 10,
-                            marginBottom: 5,
-                            borderRadius: 5,
-                            width: 100,
-                            height: 40,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                            <TextInput
-                                style={{width: 80,}}
-                                numberOfLines={1}
-                                onChangeText={(text) => this.setState({text})}
-                                value={this.state.text}
-                                placeholder={'Số xu'}
-                            />
-                        </View>
+                        <Item regular style={{borderRadius: 10, borderWidth: 1,width: 100, height: 40}}>
+                            <Input placeholder="Số xu"/>
+                        </Item>
                         <Text
                             style={{
                                 fontSize: 15,
@@ -114,7 +97,6 @@ export default class Step2 extends Component<>
                     <Text
                         style={{
                             alignSelf: 'flex-start',
-                            margin: 10,
                             marginTop: 0,
                             marginBottom: 15,
                             fontWeight: '500',
@@ -124,7 +106,8 @@ export default class Step2 extends Component<>
                         {'Bạn được giảm ' + formatCurency(10000)}
                     </Text>
                 </View>}
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 10}}>
+                <View
+                    style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10, marginBottom: 10}}>
                     <Line width={(this.props.width - 40) / 2 - 70}/>
                     <Text
                         style={{
@@ -216,15 +199,14 @@ export default class Step2 extends Component<>
                             alignSelf: 'flex-end'
                         }}>{formatCurency(700000)}</Text>
                 </View>
-
                 <HButton
-                    style={{position:'absolute', bottom: 15}}
+                    style={{position: 'absolute', bottom: 15}}
                     text={'Tiếp tục'}
-                         width={this.props.width - 40}
-                         navigation={this.props.navigation}
-                         shadow
-                         border={20}
-                         action={this.props.action}
+                    width={this.props.width - 40}
+                    navigation={this.props.navigation}
+                    shadow
+                    border={20}
+                    action={this.props.action}
                 />
             </ScrollView>
         );

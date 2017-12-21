@@ -22,6 +22,7 @@ export default class LoginScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         return (
             <KeyboardAwareScrollView
                 innerRef={ref =>
@@ -96,6 +97,21 @@ export default class LoginScreen extends Component
                 </ImageBackground>
             </KeyboardAwareScrollView>
         );
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 

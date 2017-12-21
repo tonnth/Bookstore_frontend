@@ -58,15 +58,17 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
-        Loading: {screen: LoadingScreen},
         Home: {screen: HomeScreen},
         Detail: {screen: DetailScreen},
         Search:{screen: SearchScreen},
-        Favorite: {screen: FavoriteScreen},
         Confirm: {screen: ConfirmScreen},
-        Cart: {screen: CartScreen},
-        OrderDetail:{screen: OrderDetailScreen},
         Order: {screen: OrderScreen},
+        Loading: {screen: LoadingScreen},
+        OrderDetail:{screen: OrderDetailScreen},
+
+        Favorite: {screen: FavoriteScreen},
+        Cart: {screen: CartScreen},
+
         VerList: {screen: VerListScreen},
         Address: {screen: AddressScreen},
         NoInternet: {screen: NoInternetScreen},

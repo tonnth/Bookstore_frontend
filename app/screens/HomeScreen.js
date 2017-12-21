@@ -7,9 +7,10 @@ import {connect} from "react-redux";
 import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input} from 'native-base';
 import HorizontalList from '../components/HorizontalList'
 import Carousel from 'react-native-snap-carousel';
-import Globals from "../Globals";
+import Globals, {FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN} from "../Globals";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing";
 import IconFeather from 'react-native-vector-icons/Feather';
+import store from '../Store';
 
 const cards = [
     {
@@ -59,10 +60,12 @@ class HomeScreen extends Component
             listNewBooks: this.props.reduxState.listNewBooks,
         };
         that = this;
+
     }
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         let sanpham = 0;
         return (
             <Container style={styles.container}>
@@ -89,7 +92,7 @@ class HomeScreen extends Component
                     <Right style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
                         <Button transparent
                                 style={{marginRight: sanpham > 0 ? -25 : 0,}}
-                                onPress={() => this.props.navigation.navigate("Cart")}>
+                                onPress={() => this.props.navigation.navigate("Cart", {screenhhh: 'Cart'})}>
                             <IconFeather name="shopping-cart" size={25} color="#000"/>
                         </Button>
                         {sanpham > 0 &&
@@ -127,7 +130,6 @@ class HomeScreen extends Component
                                 }
                             }
                             onSnapToItem={this.updateView}
-                            autoplay={true}
                             loop={true}
                         />
                     </View>
@@ -197,6 +199,17 @@ class HomeScreen extends Component
             </View>
         );
     }
+
+    componentDidMount()
+    {
+        store.dispatch({type: UPDATE_CURRENT_SCREEN, payload: 'Home'})
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log('Home Render' , nextProps);
+        return true;
+    }
 }
 
 const mapStateToProps = reduxState =>
@@ -231,7 +244,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#eaeaea',
         flexDirection: 'row',
-        alignItems:'center',
+        alignItems: 'center',
     },
     content: {
         display: "flex",
