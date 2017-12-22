@@ -29,7 +29,7 @@ export default class SideMenu extends React.Component
                                     backgroundColor: Globals.COLOR.MAINCOLOR,
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    height: 300,
+                                    minHeight: 300,
                                 }}>
                     <Image
                         source={require("../img/linecolor.png")}
@@ -94,6 +94,7 @@ export default class SideMenu extends React.Component
                         paddingLeft: 30,
                         paddingRight: 15,
                         flex: 1,
+                        maxHeight: 500,
                         justifyContent: 'space-around',
                     }}>
                     <TouchableOpacity style={styles.item}
@@ -137,17 +138,6 @@ export default class SideMenu extends React.Component
 
                         <Text style={styles.text}>
                             Thông tin tài khoản
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.item}
-                                      onPress={() => {this.props.navigation.navigate('Setting')}}>
-                        <Image
-                            source={require("../img/setting.png")}
-                            style={styles.image}/>
-
-                        <Text style={styles.text}>
-                            Cài đặt
                         </Text>
                     </TouchableOpacity>
 

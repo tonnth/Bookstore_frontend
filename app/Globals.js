@@ -4,14 +4,15 @@ export default Globals = {
         MAINCOLOR: '#fc4a1a',
         MAINCOLOR2: '#F3F4F6',
     },
-    GRADIENT_COLOR: ['#26D0CE', '#1A2980'],
-    GRADIENT_OPACITY: 0.5,
+    GRADIENT_COLOR: ['#1e3c72', '#2a5298'],
+    GRADIENT_OPACITY: 0.8,
     ICONSIZE: 30,
     TITLESIZE_BIG: 40,
     TITLESIZE_MEDIUM: 35,
     APPNAME: 'BookStore',
     FONT: {fontFamily: 'OpenSans-Regular',},
     BACKGROUNDCOLOR: '#CED6DD',
+    URIIMAGE: 'https://hdqwalls.com/download/yosemite-mountains-national-park-2560x1440.jpg',
 };
 
 export const formatCurency = a =>

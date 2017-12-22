@@ -34,6 +34,7 @@ import FavoriteScreen from "./app/screens/FavoriteScreen";
 import OrderScreen from "./app/screens/OrderScreen";
 import OrderDetailScreen from "./app/screens/OrderDetailScreen";
 import SearchScreen from "./app/screens/SearchScreen";
+import AccountScreen from "./app/screens/AccountScreen";
 
 export default class App extends Component
 {
@@ -58,12 +59,16 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
+        Loading: {screen: LoadingScreen},
         Home: {screen: HomeScreen},
+        Login: {screen: LoginScreen},
+        Account: {screen: AccountScreen},
+
         Detail: {screen: DetailScreen},
         Search:{screen: SearchScreen},
         Confirm: {screen: ConfirmScreen},
         Order: {screen: OrderScreen},
-        Loading: {screen: LoadingScreen},
+
         OrderDetail:{screen: OrderDetailScreen},
 
         Favorite: {screen: FavoriteScreen},
@@ -72,7 +77,7 @@ export const Stack = StackNavigator(
         VerList: {screen: VerListScreen},
         Address: {screen: AddressScreen},
         NoInternet: {screen: NoInternetScreen},
-        Login: {screen: LoginScreen},
+
         Forgot: {screen: ForgotScreen},
         SignUp: {screen: SignUpScreen},
         ChangeInfo: {screen: ChangeInfoScreen},

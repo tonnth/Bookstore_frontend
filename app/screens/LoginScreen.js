@@ -11,6 +11,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {HInput} from "../components/HInput";
 import HButton from "../components/HButton";
 import {HButtonBack} from "../components/HButtonBack";
+import FastImage from "react-native-fast-image";
 
 export default class LoginScreen extends Component
 {
@@ -36,10 +37,10 @@ export default class LoginScreen extends Component
                     backgroundColor={'transparent'}
                     translucent
                 />
-                <ImageBackground
+                <FastImage
                     style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-                    source={require('../img/bookwall.jpg')}
-                    blurRadius={Platform.OS === 'ios' ? 2 : 1}>
+                    source={{uri: Globals.URIIMAGE}}
+                    blurRadius={Platform.OS === 'ios' ? 8 : 7}>
 
                     <LinearGradient colors={Globals.GRADIENT_COLOR}
                                     style={{
@@ -94,7 +95,7 @@ export default class LoginScreen extends Component
                             </Text>
                         </Text>
                     </TouchableOpacity>
-                </ImageBackground>
+                </FastImage>
             </KeyboardAwareScrollView>
         );
     }
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     buttonSignup: {
         backgroundColor: 'transparent',
         position: 'absolute',
-        bottom: 10,
+        bottom: 20,
     },
     textSignup: {
         fontFamily: 'OpenSans-Regular',
