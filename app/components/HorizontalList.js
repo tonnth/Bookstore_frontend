@@ -115,12 +115,13 @@ class HorizontalList extends Component
         let tempUri = Globals.BASE_URL + item.Hinh;
         return (
             <TouchableOpacity style={{marginRight: 10, width: 160, alignItems: 'center', marginLeft: marginLeft}}
-                              onPress={() => {
+                              onPress={() =>
+                              {
                                   //Lấy các sách thuộc thể loại này
                                   this.props.navigation.navigate('VerList')
                               }}>
                 <HImage
-                    style={{width: 150, height: 100, zIndex: 5}}
+                    style={{width: 150, height: 100, zIndex: 5, elevation: 1}}
                     uri={tempUri}
                     borderRadius={10}
                 />
@@ -136,34 +137,17 @@ class HorizontalList extends Component
                         alignItems: 'center',
                         backgroundColor: 'transparent',
                         zIndex: 10,
-                        elevation: 10,
+                        elevation: 6,
                         marginTop: 8,
                         marginBottom: 8,
                         marginLeft: 5,
                         marginRight: 5,
                         opacity: 0.75,
                         borderRadius: 10,
-                    }}/>
-                <View
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'transparent',
-                        zIndex: 11,
-                        elevation: 11,
-                        marginTop: 8,
-                        marginBottom: 8,
-                        marginLeft: 5,
-                        marginRight: 5,
                     }}>
                     <Text
                         style={styles.tentheloai}>{item.TenTheLoai}</Text>
-                </View>
+                </LinearGradient>
             </TouchableOpacity>
         );
     };
@@ -175,8 +159,9 @@ class HorizontalList extends Component
         let tempUri = Globals.BASE_URL + item.HinhAnh;
         let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
         return (
-            <TouchableOpacity style={{marginRight: 10, width: 130, height: 260,justifyContent: 'center', marginLeft: marginLeft}}
-                              onPress={() => this.props.navigation.navigate('Detail', item)}>
+            <TouchableOpacity
+                style={{marginRight: 10, width: 130, height: 260, justifyContent: 'center', marginLeft: marginLeft}}
+                onPress={() => this.props.navigation.navigate('Detail', item)}>
                 <HImage
                     style={{width: 120, height: 160}}
                     uri={tempUri}
@@ -269,7 +254,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 18,
         opacity: 1,
-        textAlign:'center',
+        textAlign: 'center',
     }
 });
 

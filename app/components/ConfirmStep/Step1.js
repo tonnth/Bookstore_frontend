@@ -106,7 +106,7 @@ export default class Step1 extends Component<>
                     />
 
                     <Item regular style={{borderRadius: 10, borderWidth: 1, marginTop: 10, height: 80, marginBottom: 10}}>
-                        <Input placeholder='Địa chỉ nhận hàng (tầng, số nhà, đường)'
+                        <Input placeholder='Địa chỉ nhận hàng'
                                multiline={true}/>
                     </Item>
                     <HButton text={'Tiếp tục'}

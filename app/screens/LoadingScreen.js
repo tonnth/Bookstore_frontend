@@ -7,6 +7,7 @@ import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 import Globals from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
+import FastImage from "react-native-fast-image";
 
 
 class LoadingScreen extends Component
@@ -27,9 +28,9 @@ class LoadingScreen extends Component
                     backgroundColor={'#fff'}
                     translucent={false}
                 />
-                <ImageBackground
+                <View
                     style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', backgroundColor: '#fff'}}
-                    // source={require('../img/loadingbackground.jpg')}
+
                     blurRadius={Platform.OS === 'ios' ? 7 : 2}
                     resizeMode={'cover'}>
 
@@ -45,10 +46,9 @@ class LoadingScreen extends Component
                     </View>
 
                     <Image
-                        source={require("../img/loading.gif")}
                         style={styles.loadicon}
-                        resizeMode="contain"/>
-                </ImageBackground>
+                        source={require("../img/loading.gif")}/>
+                </View>
             </View>
         );
     }

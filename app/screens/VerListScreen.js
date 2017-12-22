@@ -94,7 +94,7 @@ class VerListScreen extends Component
                     <Left>
                         <Button transparent
                                 onPress={() => this.props.navigation.goBack(null)}>
-                            <Icon name="arrow-back"
+                            <Icon name="ios-arrow-back"
                                   style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
                         </Button>
                     </Left>
@@ -137,7 +137,7 @@ class VerListScreen extends Component
             <TouchableOpacity style={{margin: 5, width: this.itemWidth, alignItems: 'center'}}
                               onPress={() => this.props.nav.navigate('Detail', item)}>
                 <HImage
-                    style={{width: widthImage, height: heightImage, zIndex: 5}}
+                    style={{width: widthImage, height: heightImage, zIndex: 5, elevation: 1}}
                     uri={tempUri}
                     borderRadius={10}
                 />
@@ -153,34 +153,17 @@ class VerListScreen extends Component
                         alignItems: 'center',
                         backgroundColor: 'transparent',
                         zIndex: 10,
-                        elevation: 4,
+                        elevation: 6,
                         marginTop: 8,
                         marginBottom: 8,
                         marginLeft: 5,
                         marginRight: 5,
                         opacity: 0.75,
                         borderRadius: 10,
-                    }}/>
-                <View
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'transparent',
-                        zIndex: 10,
-                        elevation: 4,
-                        marginTop: 8,
-                        marginBottom: 8,
-                        marginLeft: 5,
-                        marginRight: 5,
                     }}>
                     <Text
                         style={styles.tentheloai}>{item.TenTheLoai}</Text>
-                </View>
+                </LinearGradient>
             </TouchableOpacity>
         );
     };
@@ -264,11 +247,7 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 18,
         fontWeight: '600',
-        ...Platform.select({
-            ios: {
-                width: 300,
-            },
-        }),
+        width: 200, textAlign: 'center',
     },
     icon: {
         opacity: 0.5,

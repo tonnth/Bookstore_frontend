@@ -23,7 +23,7 @@ export default class LoginScreen extends Component
 
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
+        console.log(this.props.navigation.state.routeName + ' Render');
         return (
             <KeyboardAwareScrollView
                 innerRef={ref =>
@@ -37,10 +37,13 @@ export default class LoginScreen extends Component
                     backgroundColor={'transparent'}
                     translucent
                 />
-                <FastImage
-                    style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-                    source={{uri: Globals.URIIMAGE}}
-                    blurRadius={Platform.OS === 'ios' ? 8 : 7}>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                    <FastImage
+                        style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
+                        source={{
+                            uri: Globals.URIIMAGE,
+                            priority: FastImage.priority.normal,
+                        }}/>
 
                     <LinearGradient colors={Globals.GRADIENT_COLOR}
                                     style={{
@@ -95,14 +98,14 @@ export default class LoginScreen extends Component
                             </Text>
                         </Text>
                     </TouchableOpacity>
-                </FastImage>
+                </View>
             </KeyboardAwareScrollView>
         );
     }
 
     shouldComponentUpdate(nextProps)
     {
-        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {
