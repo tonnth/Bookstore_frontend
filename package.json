@@ -15,6 +15,7 @@
 		"react-native": "^0.51.0",
 		"react-native-easy-toast": "^1.0.9",
 		"react-native-fast-image": "^2.0.1",
+		"react-native-fingerprint-scanner": "^2.2.1",
 		"react-native-image-color-picker": "^1.0.3",
 		"react-native-iphone-x-helper": "^1.0.1",
 		"react-native-keyboard-aware-scroll-view": "^0.4.1",

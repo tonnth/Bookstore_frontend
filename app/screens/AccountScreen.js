@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, Text, Image, Dimensions, StyleSheet, Platform, StatusBar, ImageBackground
+    View, Text, Image, Dimensions, StyleSheet, Platform, StatusBar, ImageBackground, Switch, TouchableOpacity
 } from 'react-native';
 import HeaderDetail from '../components/HeaderDetail';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
@@ -16,7 +16,7 @@ import {
     Input,
     Card,
     Icon,
-    CardItem, H2, H3,
+    CardItem, H2, H3, ListItem,
 } from 'native-base';
 import Globals, {formatCurency} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
@@ -31,6 +31,7 @@ import {connect} from "react-redux";
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import Line from "../components/Line";
+import FingerprintPopup from "../components/FingerprintPopup/FingerprintPopup";
 
 class AccountScreen extends Component
 {
@@ -45,11 +46,15 @@ class AccountScreen extends Component
             heart: false,
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
+            toggled: false,
+            errorMessage: undefined,
+            popupShowed: false
         };
     }
 
     render()
     {
+        if (this.state.errorMessage) alert(this.state.errorMessage);
         console.log(this.props.navigation.state.routeName + ' Render');
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = 'https://i.ytimg.com/vi/fUWrhetZh9M/maxresdefault.jpg';
@@ -120,28 +125,80 @@ class AccountScreen extends Component
                                 navigation={this.props.navigation}/>
                         </Card>
 
-                        <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10, paddingTop: 10, paddingBottom: 10}}>
+                        <Card style={{
+                            width: window.width - 30,
+                            marginTop: 15,
+                            borderRadius: 10,
+                            paddingTop: 10,
+                            paddingBottom: 10
+                        }}>
+                            <TouchableOpacity
+                                style={{paddingLeft: 20, paddingRight: 20, flexDirection: 'column'}}
+                                onPress={() =>
+                                {
+                                    this.handleFingerprintShowed();
+                                }}>
+                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                    <Text style={{...Globals.FONT, fontSize: 18, fontWeight: '600',}}>Xác thực vân
+                                                                                                      tay</Text>
+                                    <Right>
+                                        <Switch
+                                            onValueChange={(value) => this.setState({toggled: value})}
+                                            value={this.state.toggled}/>
+                                    </Right>
+                                </View>
+                                <Text style={{...Globals.FONT, marginTop: 3}}>Bạn có thể dùng vân tay dể xác nhận đơn
+                                                                              hàng</Text>
+                            </TouchableOpacity>
+
+                            <Line/>
+
                             <Button transparent dark full small
+                                    style={{paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start'}}
                                     onPress={() => this.props.navigation.navigate('Order')}>
                                 <Text style={{...Globals.FONT, fontSize: 18, fontWeight: '600'}}>Đơn hàng của tôi</Text>
                             </Button>
+
                             <Line/>
-                            <Button transparent dark full small>
+
+                            <Button transparent dark full small
+                                    style={{paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start'}}>
                                 <Text style={{...Globals.FONT, fontSize: 18, fontWeight: '600'}}>Đổi mật khẩu</Text>
                             </Button>
+
                             <Line/>
-                            <Button transparent dark full small>
+
+                            <Button transparent dark full small
+                                    style={{paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start'}}>
                                 <Text style={{...Globals.FONT, fontSize: 18, fontWeight: '600'}}>Đăng xuất</Text>
                             </Button>
                         </Card>
 
+                        {this.state.popupShowed && (
+                            <FingerprintPopup
+                                style={styles.popup}
+                                handlePopupDismissed={this.handleFingerprintDismissed}
+                            />
+                        )}
                     </View>
                 </ParallaxScrollView>
 
                 <Toast ref="toast"
                        textStyle={{fontSize: 17, color: '#fff'}}/>
-            </View>);
+            </View>
+        );
     }
+
+    handleFingerprintShowed = () =>
+    {
+        this.setState({popupShowed: true});
+    };
+
+    handleFingerprintDismissed = (done = false) =>
+    {
+        this.setState({popupShowed: false});
+        if (done) this.setState({toggled: !this.state.toggled})
+    };
 
     shouldComponentUpdate(nextProps)
     {
