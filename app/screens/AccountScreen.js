@@ -35,6 +35,7 @@ import FingerprintPopup from "../components/FingerprintPopup/FingerprintPopup";
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 import PopupDialog, {ScaleAnimation} from 'react-native-popup-dialog';
+import {ifIphoneX, isIphoneX} from 'react-native-iphone-x-helper'
 
 const scaleAnimation = new ScaleAnimation();
 
@@ -76,6 +77,10 @@ class AccountScreen extends Component
         let tempUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFANoiGzwMeVa4PdAnNJ3GBAZbA-TDlCnubGAc7oR6nbmaYo5k';
         // hinh anh co the dung letter image trong doopage cung dc
         let name = 'Huynh Huy Hiep';
+
+        let title = 'Bảo mật thanh toán';
+        let text = 'Bạn có thể dùng vân tay để bảo mật thanh toán';
+        if (isIphoneX()) text = 'Bạn có thể dùng Face ID để bảo mật thanh toán';
         return (
             <View style={{flex: 1}}>
                 {this.renderDialog()}
@@ -171,16 +176,14 @@ class AccountScreen extends Component
                                     this.handleFingerprintShowed();
                                 }}>
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <Text style={{...Globals.FONT, fontSize: 18, fontWeight: '600',}}>Xác thực vân
-                                                                                                      tay</Text>
+                                    <Text style={{...Globals.FONT, fontSize: 18, fontWeight: '600',}}>{title}</Text>
                                     <Right>
                                         <Switch
-                                            onValueChange={(value) => this.setState({toggled: value})}
+                                            onValueChange={(value) => this.handleFingerprintShowed()}
                                             value={this.state.toggled}/>
                                     </Right>
                                 </View>
-                                <Text style={{...Globals.FONT, marginTop: 3}}>Bạn có thể dùng vân tay dể xác nhận đơn
-                                                                              hàng</Text>
+                                <Text style={{...Globals.FONT, marginTop: 3}}>{text}</Text>
                             </TouchableOpacity>}
 
                             {this.state.finger && <Line/>}

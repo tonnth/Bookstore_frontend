@@ -183,7 +183,7 @@ class HorizontalList extends Component
                     <Text
                         numberOfLines={1}
                         style={[styles.giaban, {fontWeight: '700', marginRight: 10}]}>
-                        -{item.KhuyenMai}%
+                        {item.KhuyenMai > 0 ? '-' + item.KhuyenMai + '%' : ''}
                     </Text>
                 </View>
 
