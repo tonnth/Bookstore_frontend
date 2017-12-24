@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, Text, Image, Dimensions, StyleSheet, Platform, StatusBar, ImageBackground, Switch, TouchableOpacity
+    View, Text, Image, Dimensions, StyleSheet, Platform, StatusBar, ImageBackground, Switch, TouchableOpacity, Alert
 } from 'react-native';
 import HeaderDetail from '../components/HeaderDetail';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
@@ -32,6 +32,11 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import Line from "../components/Line";
 import FingerprintPopup from "../components/FingerprintPopup/FingerprintPopup";
+import FingerprintScanner from 'react-native-fingerprint-scanner';
+
+import PopupDialog, {ScaleAnimation} from 'react-native-popup-dialog';
+
+const scaleAnimation = new ScaleAnimation();
 
 class AccountScreen extends Component
 {
@@ -48,8 +53,19 @@ class AccountScreen extends Component
             listNewBooks: this.props.reduxState.listNewBooks,
             toggled: false,
             errorMessage: undefined,
-            popupShowed: false
+            popupShowed: false,
+            finger: true,
         };
+    }
+
+    componentDidMount()
+    {
+        FingerprintScanner
+            .isSensorAvailable()
+            .catch(error =>
+            {
+                this.setState({finger: false,})
+            });
     }
 
     render()
@@ -57,11 +73,12 @@ class AccountScreen extends Component
         if (this.state.errorMessage) alert(this.state.errorMessage);
         console.log(this.props.navigation.state.routeName + ' Render');
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
-        let tempUri = 'https://i.ytimg.com/vi/fUWrhetZh9M/maxresdefault.jpg';
+        let tempUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFANoiGzwMeVa4PdAnNJ3GBAZbA-TDlCnubGAc7oR6nbmaYo5k';
         // hinh anh co the dung letter image trong doopage cung dc
-        let name = 'huynh huy hiep';
+        let name = 'Huynh Huy Hiep';
         return (
             <View style={{flex: 1}}>
+                {this.renderDialog()}
                 <StatusBar
                     barStyle="dark-content"
                     backgroundColor={'transparent'}
@@ -78,10 +95,24 @@ class AccountScreen extends Component
                     contentBackgroundColor={Globals.BACKGROUNDCOLOR}
                     renderBackground={() => (
                         <View key="background" style={{flex: 1, height: PARALLAX_HEADER_HEIGHT}}>
-                            <LinearGradient colors={['#ff00cc', '#333399']}
+                            <Image
+                                source={{uri: 'https://n6-img-fp.akamaized.net/free-vector/abstract-blue-background_1048-1511.jpg?size=338&ext=jpg'}}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    height: PARALLAX_HEADER_HEIGHT,
+                                    width: window.width,
+                                    transform: [{rotateX: '180deg'}]
+                                }}/>
+                            <LinearGradient colors={['#F4D03F','#16A085']}
                                             style={{
                                                 height: PARALLAX_HEADER_HEIGHT,
-                                                width: window.width
+                                                width: window.width,
+                                                opacity: 0.5,
+                                                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0
                                             }}/>
                         </View>
                     )}
@@ -113,7 +144,7 @@ class AccountScreen extends Component
                         <View key="fixed-header" style={styles.fixedSection}>
                             <HButtonBack
                                 navigation={this.props.navigation}
-                                color={'#fff'}/>
+                                color={'#000'}/>
                         </View>
                     )}>
                     <View key="background" style={{alignItems: 'center', flex: 1}}>
@@ -132,6 +163,7 @@ class AccountScreen extends Component
                             paddingTop: 10,
                             paddingBottom: 10
                         }}>
+                            {this.state.finger &&
                             <TouchableOpacity
                                 style={{paddingLeft: 20, paddingRight: 20, flexDirection: 'column'}}
                                 onPress={() =>
@@ -149,9 +181,9 @@ class AccountScreen extends Component
                                 </View>
                                 <Text style={{...Globals.FONT, marginTop: 3}}>Bạn có thể dùng vân tay dể xác nhận đơn
                                                                               hàng</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
 
-                            <Line/>
+                            {this.state.finger && <Line/>}
 
                             <Button transparent dark full small
                                     style={{paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start'}}
@@ -176,7 +208,6 @@ class AccountScreen extends Component
 
                         {this.state.popupShowed && (
                             <FingerprintPopup
-                                style={styles.popup}
                                 handlePopupDismissed={this.handleFingerprintDismissed}
                             />
                         )}
@@ -192,10 +223,12 @@ class AccountScreen extends Component
     handleFingerprintShowed = () =>
     {
         this.setState({popupShowed: true});
+        if (Platform.OS === 'android') this.popupDialog.show();
     };
 
-    handleFingerprintDismissed = (done = false) =>
+    handleFingerprintDismissed = (done = false, error = '') =>
     {
+        this.popupDialog.dismiss();
         this.setState({popupShowed: false});
         if (done) this.setState({toggled: !this.state.toggled})
     };
@@ -213,6 +246,43 @@ class AccountScreen extends Component
         //     return true;
         // }
         // return false;
+    }
+
+    renderDialog = () =>
+    {
+        return (
+            <PopupDialog
+                ref={(popupDialog) =>
+                {
+                    this.popupDialog = popupDialog;
+                }}
+                dialogAnimation={scaleAnimation}
+                width={0.9}
+                dialogStyle={{elevation: 10}}>
+                <View style={{flex: 1, alignItems: 'center', padding: 20, justifyContent: 'space-around'}}>
+                    <Image
+                        style={{width: 150, height: 150, marginTop: -20, marginBottom: -10}}
+                        source={require("../img/finger.gif")}/>
+
+                    <Text style={{...Globals.FONT, fontSize: 20, fontWeight: '600'}}>Vui lòng xác thực để tiếp
+                                                                                     tục</Text>
+                    <Text style={{
+                        ...Globals.FONT,
+                        fontSize: 16,
+                        textAlign: 'center',
+                    }}>
+                        Vui lòng đặt ngón tay của bạn lên máy quét vân tay của thiết bị để xác thực
+                    </Text>
+
+                    <TouchableOpacity
+                        onPress={() => this.handleFingerprintDismissed(false)}>
+                        <Text style={{...Globals.FONT, fontSize: 20, fontWeight: '600', color: 'red'}}>
+                            Hủy bỏ
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </PopupDialog>
+        );
     }
 }
 

@@ -63,7 +63,6 @@ export const Stack = StackNavigator(
         Home: {screen: HomeScreen},
         Login: {screen: LoginScreen},
         Account: {screen: AccountScreen},
-
         Detail: {screen: DetailScreen},
         Search:{screen: SearchScreen},
         Confirm: {screen: ConfirmScreen},

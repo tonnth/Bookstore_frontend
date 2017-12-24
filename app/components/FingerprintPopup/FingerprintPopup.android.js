@@ -8,10 +8,12 @@ import {
     ViewPropTypes
 } from 'react-native';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
+import PopupDialog, {ScaleAnimation} from 'react-native-popup-dialog';
+
+const scaleAnimation = new ScaleAnimation();
 
 export default class FingerprintPopup extends Component
 {
-
     constructor(props)
     {
         super(props);
@@ -29,8 +31,8 @@ export default class FingerprintPopup extends Component
             })
             .catch((error) =>
             {
-                this.props.handlePopupDismissed(false);
-                this.setState({errorMessage: error.message});
+                this.props.handlePopupDismissed(false, error.message);
+                Alert.alert('Fingerprint Authentication', error.message);
             });
     }
 
@@ -41,39 +43,11 @@ export default class FingerprintPopup extends Component
 
     handleAuthenticationAttempted = (error) =>
     {
-        this.setState({errorMessage: error.message});
+        //this.setState({errorMessage: error.message});
     };
 
     render()
     {
-        const {errorMessage} = this.state;
-        const {handlePopupDismissed} = this.props;
-
-        return (
-            <View style={{}}>
-                <View>
-
-                    <Image
-                        source={{uri: 'http://www.psdgraphics.com/file/fingerprint-icon.jpg'}}
-                    />
-
-                    <Text>
-                        Fingerprint{'\n'}Authentication
-                    </Text>
-                    <Text>
-                        {errorMessage || 'Scan your fingerprint on the\ndevice scanner to continue'}
-                    </Text>
-
-                    <TouchableOpacity
-                        onPress={() => handlePopupDismissed(false)}
-                    >
-                        <Text>
-                            BACK TO MAIN
-                        </Text>
-                    </TouchableOpacity>
-
-                </View>
-            </View>
-        );
+        return false;
     }
 }
