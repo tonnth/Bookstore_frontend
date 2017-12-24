@@ -53,20 +53,38 @@ class AccountScreen extends Component
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
             toggled: false,
-            errorMessage: undefined,
+            errorMessage: undefined, //bao mat van tay
+
             popupShowed: false,
+
             finger: true,
         };
     }
 
     componentDidMount()
     {
+        //bao mat van tay
         FingerprintScanner
             .isSensorAvailable()
             .catch(error =>
             {
                 this.setState({finger: false,})
             });
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 
     render()
@@ -209,6 +227,7 @@ class AccountScreen extends Component
                             </Button>
                         </Card>
 
+                        {/*bao mat van tay*/}
                         {this.state.popupShowed && (
                             <FingerprintPopup
                                 handlePopupDismissed={this.handleFingerprintDismissed}
@@ -223,12 +242,14 @@ class AccountScreen extends Component
         );
     }
 
+    //bao mat van tay
     handleFingerprintShowed = () =>
     {
         this.setState({popupShowed: true});
         if (Platform.OS === 'android') this.popupDialog.show();
     };
 
+    //bao mat van tay
     handleFingerprintDismissed = (done = false, error = '') =>
     {
         this.popupDialog.dismiss();
@@ -236,21 +257,7 @@ class AccountScreen extends Component
         if (done) this.setState({toggled: !this.state.toggled})
     };
 
-    shouldComponentUpdate(nextProps)
-    {
-        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
-        return true;
-        // if (nextProps.navigation.stackNav.index === 0)
-        // {
-        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
-        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
-        //     // IN YOUR COMPONENT
-        //
-        //     return true;
-        // }
-        // return false;
-    }
-
+    //bao mat van tay 
     renderDialog = () =>
     {
         return (
