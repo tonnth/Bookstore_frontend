@@ -21,7 +21,7 @@ export class HInput extends Component
                 }}
                 tintColor={this.props.tintColor ? this.props.tintColor : '#fff'}
                 baseColor={this.props.baseColor ? this.props.baseColor : '#d6d6d6'}
-                lineWidth={1}
+                onChangeText={this.props.onChangeText}
             />
         );
     }

@@ -60,7 +60,7 @@ class LoadingScreen extends Component
         console.log(this.props.reduxState.listPromotionBooks);
         //nav.navigate('Home');
 
-        nav.navigate('Cart');
+        nav.navigate('Home');
     }
 
     componentDidMount()

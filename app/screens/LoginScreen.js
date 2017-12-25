@@ -7,19 +7,29 @@ import LoadingButton from 'react-native-loading-button';
 import Globals from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import {TextField} from 'react-native-material-textfield';
+import * as api from "../config/api";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {HInput} from "../components/HInput";
 import HButton from "../components/HButton";
 import {HButtonBack} from "../components/HButtonBack";
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 export default class LoginScreen extends Component
 {
     constructor(props)
     {
         super(props);
-        this.state = {};
-    }
+        this.state = {
+            Email: '',
+            Password: '',
 
+        };
+    }
+validateEmail = (email) =>
+{
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
+}
     render()
     {
         return (
@@ -35,6 +45,7 @@ export default class LoginScreen extends Component
                     backgroundColor={'transparent'}
                     translucent
                 />
+                <Toast ref="toast"/>
                 <ImageBackground
                     style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
                     source={require('../img/bookwall.jpg')}
@@ -59,10 +70,22 @@ export default class LoginScreen extends Component
                             resizeMode="contain"/>
 
                         <HInput label="Email"
-                                width={300}/>
+                                width={300}
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        Email: text,
+                                    })
+                                }}
+                        />
 
                         <HInput label="Mật khẩu"
-                                width={300}/>
+                                width={300}
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        Password: text,
+                                    })
+                                }}
+                        />
 
                         <TouchableOpacity style={styles.buttonForgot}>
                             <Text style={styles.textForgot}
@@ -76,6 +99,39 @@ export default class LoginScreen extends Component
                                  border={20}
                                  style={{marginBottom: 40, marginTop: 40}}
                                  navigation={this.props.navigation}
+                                 action ={ async ()=>
+                                 {
+                                     if(this.state.Email == '' )
+                                     {
+                                         this.refs.toast.show('Please enter email and password',1000);
+                                         return;
+                                     }
+                                     if(!this.validateEmail(this.state.Email))
+                                     {
+                                         this.refs.toast.show('Email is invalid',1000);
+                                         return;
+                                     }
+                                     try
+                                     {
+                                         var res = await api.Login(this.state.Email,this.state.Password).data;
+                                     } catch(err)
+                                     {
+                                        console.log('Login error: ',err);
+                                     }
+
+                                     console.log(rest);
+                                     if(temp.code  === "200")
+                                     if(temp.code  === "200")
+                                     {
+                                         console('abcdefg');
+                                         this.props.navigate('Home');
+                                     }
+                                     else
+                                     {
+                                         this.refs.toast.show(temp.message,1000);
+                                     }
+
+                                 }}
                         />
                     </View>
                     <TouchableOpacity style={styles.buttonSignup}
