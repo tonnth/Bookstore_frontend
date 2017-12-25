@@ -14,6 +14,7 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import Step0 from "../components/ConfirmStep/Step0";
 import Step2 from "../components/ConfirmStep/Step2";
 import Step3 from "../components/ConfirmStep/Step3";
+import {ifIphoneX, isIphoneX} from 'react-native-iphone-x-helper'
 
 const labels1 = ["Địa chỉ", "Thanh toán", "Xác nhận"];
 const labels2 = ["Tài khoản", "Địa chỉ", "Thanh toán", "Xác nhận"];
@@ -50,7 +51,7 @@ export default class ConfirmScreen extends Component
         this.callout = new Map();
         this.state = {
             index: 0,
-            checkAccount: true, //kiem tra xem da dang nhap hay chua
+            checkAccount: false, //kiem tra xem da dang nhap hay chua
         }
     }
 
@@ -62,6 +63,7 @@ export default class ConfirmScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName + ' Render');
         return (
             <KeyboardAwareScrollView
                 innerRef={ref =>
@@ -73,23 +75,24 @@ export default class ConfirmScreen extends Component
                 <StatusBar
                     translucent={false}
                 />
-                <Header
-                    iosStatusbar="light-content"
-                    androidStatusBarColor="black"
-                    noShadow>
+                <Header style={[styles.header, {backgroundColor: '#fff'}]}
+                        iosStatusbar="light-content"
+                        androidStatusBarColor="black"
+                        noShadow>
                     <Left>
                         <Button transparent
                                 onPress={() => this.props.navigation.goBack(null)}>
-                            <Icon name="arrow-back"
+                            <Icon name="ios-arrow-back"
                                   style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
                         </Button>
                     </Left>
-                    <Body>
-                    <Title style={styles.title}>
-                        Bảo mật thanh toán
-                    </Title>
+                    <Body style={{flex: 1}}>
+                    <Text style={styles.title}>
+                        Đơn hàng của tôi
+                    </Text>
                     </Body>
                     <Right>
+
                     </Right>
                 </Header>
                 <View style={{flex: 1}}>
@@ -168,8 +171,7 @@ export default class ConfirmScreen extends Component
                                     width={itemWidth}
                                     action={() =>
                                     {
-                                        that.setState({index: 2});
-                                        that.carousel.snapToNext();
+                                        this.props.navigation.navigate('Home');
                                     }}/>}
                             </View>
                         </View>
@@ -250,8 +252,7 @@ export default class ConfirmScreen extends Component
                                     width={itemWidth}
                                     action={() =>
                                     {
-                                        // that.setState({index: 3});
-                                        // that.carousel.snapToNext();
+                                        this.props.navigation.navigate('Home');
                                     }}/>}
                             </View>
                         </View>
@@ -266,14 +267,38 @@ export default class ConfirmScreen extends Component
     {
 
     }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
+    }
 }
 
-const horizontalMargin = 3;
-const slideWidth = 300;
+const window = Dimensions.get('window');
+const check189 = () =>
+{
+    console.log('Ti le man hinh: ', window.height / window.width);
+    if (window.height / window.width >= 1.8) return true;
+    return false;
+};
 
-const sliderWidth = Dimensions.get('window').width;
+const horizontalMargin = 3;
+const slideWidth = 300 + (check189() ? 50 : 0);
+
+const sliderWidth = window.width;
 const itemWidth = slideWidth + horizontalMargin * 2;
-const itemHeight = Dimensions.get('window').height - 160;
+
+const itemHeight = window.height - 160 - (isIphoneX() || check189() ? 40 : 0);
 
 const styles = StyleSheet.create({
     container: {
@@ -326,10 +351,6 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 18,
         fontWeight: '600',
-        ...Platform.select({
-            ios: {
-                width: 300,
-            },
-        }),
+        width: 200, textAlign: 'center',
     },
 });

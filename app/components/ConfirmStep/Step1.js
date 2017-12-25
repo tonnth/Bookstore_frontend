@@ -48,113 +48,75 @@ export default class Step1 extends Component<>
         return (
             <ScrollView
                 contentContainerStyle={{
-                    flex: 1, alignItems: 'center'
+                    alignItems: 'center'
                 }}>
-                <Text
-                    style={{
-                        alignSelf: 'flex-start',
-                        margin: 15,
-                        marginBottom: 0,
-                        fontSize: 25,
-                        fontWeight: '600', ...Globals.FONT
-                    }}>
-                    Gửi tới
-                </Text>
-                <View style={{
-                    borderColor: '#BDBDBD',
-                    borderWidth: 1,
-                    marginTop: 10,
-                    marginBottom: 5,
-                    borderRadius: 5,
-                    width: this.props.width - 40, height: 40,
-                    padding: 5,
-                }}>
-                    <TextInput
-                        style={{flex: 1}}
-                        numberOfLines={1}
-                        onChangeText={(text) => this.setState({text})}
-                        value={this.state.text}
-                        placeholder={'Họ và tên'}
+                <View style={{margin: 15, alignItems: 'center', marginTop: 5,}}>
+                    <Text
+                        style={{
+                            alignSelf: 'flex-start',
+                            marginBottom: 0,
+                            fontSize: 25,
+                            fontWeight: '600', ...Globals.FONT
+                        }}>
+                        Gửi tới
+                    </Text>
+
+                    <Item regular style={{borderRadius: 10, borderWidth: 1, marginTop: 10}}>
+                        <Input placeholder="Họ và tên"/>
+                    </Item>
+
+                    <Item regular style={{borderRadius: 10, borderWidth: 1, marginTop: 10}}>
+                        <Input placeholder="Số điện thoại"
+                               keyboardType="numeric"/>
+                    </Item>
+
+                    <Dropdown
+                        containerStyle={{
+                            width: this.props.width - 50,
+                            marginTop: -10,
+                        }}
+                        label="Tỉnh/Thành phố"
+                        data={this.state.dataThanhpho}
+                        labelHeight={26}
+                        pickerStyle={{height: 350}}
+                        onChangeText={(value, index, data) =>
+                        {
+                            this.getTenQuanhuyen(this.state.dataThanhpho[index].id);
+                        }}
+                    />
+
+                    <Dropdown
+                        containerStyle={{width: this.props.width - 50}}
+                        label="Quận/huyện"
+                        data={this.state.dataQuanhuyen}
+                        labelHeight={26}
+                        pickerStyle={{height: 300}}
+                        onChangeText={(value, index, data) =>
+                        {
+                            this.getTenPhuongXa(this.state.dataQuanhuyen[index].id);
+                        }}
+                    />
+
+                    <Dropdown
+                        containerStyle={{width: this.props.width - 50}}
+                        label="Phường, xã"
+                        data={this.state.dataPhuongxa}
+                        labelHeight={26}
+                        pickerStyle={{height: 250}}
+                    />
+
+                    <Item regular style={{borderRadius: 10, borderWidth: 1, marginTop: 10, height: 80, marginBottom: 10}}>
+                        <Input placeholder='Địa chỉ nhận hàng'
+                               multiline={true}/>
+                    </Item>
+                    <HButton text={'Tiếp tục'}
+                             width={this.props.width - 40}
+                             navigation={this.props.navigation}
+                             shadow
+                             border={20}
+                             action={this.props.action}
                     />
                 </View>
-
-                <View style={{
-                    borderColor: '#BDBDBD',
-                    borderWidth: 1,
-                    marginTop: 10,
-                    marginBottom: 5,
-                    borderRadius: 5,
-                    width: this.props.width - 40, height: 40,
-                    padding: 5,
-                }}>
-                    <TextInput
-                        style={{flex: 1}}
-                        numberOfLines={1}
-                        onChangeText={(text) => this.setState({text})}
-                        value={this.state.text}
-                        keyboardType="numeric"
-                        placeholder={'Số điện thoại'}
-                    />
-                </View>
-
-                <Dropdown
-                    containerStyle={{
-                        width: this.props.width - 40,
-                        marginTop: -10,
-                    }}
-                    label="Tỉnh/Thành phố"
-                    data={this.state.dataThanhpho}
-                    labelHeight={26}
-                    pickerStyle={{height: 350}}
-                    onChangeText={(value, index, data) => {
-                        this.getTenQuanhuyen(this.state.dataThanhpho[index].id);
-                    }}
-                />
-
-                <Dropdown
-                    containerStyle={{width: this.props.width - 40}}
-                    label="Quận/huyện"
-                    data={this.state.dataQuanhuyen}
-                    labelHeight={26}
-                    pickerStyle={{height: 300}}
-                    onChangeText={(value, index, data) => {
-                        this.getTenPhuongXa(this.state.dataQuanhuyen[index].id);
-                    }}
-                />
-
-                <Dropdown
-                    containerStyle={{width: this.props.width - 40}}
-                    label="Phường, xã"
-                    data={this.state.dataPhuongxa}
-                    labelHeight={26}
-                    pickerStyle={{height: 250}}
-                />
-
-                <View style={{
-                    borderColor: '#BDBDBD',
-                    borderWidth: 1,
-                    marginTop: 10,
-                    marginBottom: 15,
-                    borderRadius: 5,
-                    width: this.props.width - 40, height: 80,
-                    padding: 5,
-                }}>
-                    <TextInput
-                        style={{flex: 1}}
-                        multiline={true}
-                        numberOfLines={2}
-                        onChangeText={(text) => this.setState({text})}
-                        value={this.state.text}
-                        placeholder={'Địa chỉ nhận hàng (tầng, số nhà, đường)'}
-                    />
-                </View>
-                <HButton text={'Tiếp tục'}
-                         width={this.props.width - 40}
-                         navigation={this.props.navigation}
-                         shadow
-                         border={20}
-                         action={this.props.action}
-                />
             </ScrollView>
         );
     }

@@ -49,6 +49,7 @@ class DetailScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = Globals.BASE_URL + this.params.HinhAnh;
         let giaKhuyenMai = this.params.GiaBan * (100 - this.params.KhuyenMai) / 100;
@@ -210,6 +211,21 @@ class DetailScreen extends Component
                 <Toast ref="toast"
                        textStyle={{fontSize: 17, color: '#fff'}}/>
             </View>);
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 

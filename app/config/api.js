@@ -50,14 +50,14 @@ exports.getSachMoi =  function ()
     })
 }
 
-exports.Login = function (Email,Password)
+exports.Login = function (Email,MatKhau)
 {
     console.log('API LOGIN')
     let url = Globals.BASE_URL + 'khachhang/dangnhap';
     return axios.post(url,
         {
             Email: Email,
-            MatKhau: Password,
+            MatKhau: MatKhau,
         })
 }
 

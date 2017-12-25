@@ -3,9 +3,11 @@ package com.bookstore_frontend;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.hieuvp.fingerprint.ReactNativeFingerprintScannerPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -26,9 +28,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeFingerprintScannerPackage(),
+            new VectorIconsPackage(),
             new MapsPackage(),
             new LinearGradientPackage(),
-            new VectorIconsPackage()
+            new FastImageViewPackage()
       );
     }
 

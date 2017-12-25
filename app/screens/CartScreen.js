@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import {connect} from "react-redux";
-import Globals, {formatCurency, TheLoai} from "../Globals";
+import Globals, {FETCHING_NEW_BOOKS_FAIL, formatCurency, TheLoai, UPDATE_CURRENT_SCREEN} from "../Globals";
 import * as api from "../config/api";
 import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
@@ -18,6 +18,7 @@ import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input, 
 import {HButtonBack} from "../components/HButtonBack";
 import HButton from "../components/HButton";
 import UIStepper from 'react-native-ui-stepper';
+import store from "../Store";
 
 const {height, width} = Dimensions.get("window");
 
@@ -33,14 +34,9 @@ class CartScreen extends Component
             refreshing: false,
             value: 10,
             total_page: 1,
-            dataSource: this.props.reduxState.listPromotionBooks.slice(0, 6),
+            dataSource: this.props.reduxState.listPromotionBooks.slice(0,5),
         };
         this.itemWidth = width;
-    }
-
-    componentDidMount()
-    {
-
     }
 
     handleRefresh = () =>
@@ -70,7 +66,9 @@ class CartScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         this.heightFooter = 80;
+        let empty = this.state.dataSource.length === 0;
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -101,6 +99,7 @@ class CartScreen extends Component
                     </Right>
                 </Header>
                 {this.renderBody()}
+                {!empty &&
                 <View style={[{
                     position: 'absolute',
                     bottom: 0,
@@ -134,8 +133,9 @@ class CartScreen extends Component
                              navigation={this.props.navigation}
                              shadow
                              border={20}
+                             action={() => this.props.navigation.navigate('Confirm')}
                     />
-                </View>
+                </View>}
             </View>
         );
     }
@@ -258,6 +258,26 @@ class CartScreen extends Component
                                  shadow/>
                     </View>
                 </View>);
+    }
+
+    componentDidMount()
+    {
+        store.dispatch({type: UPDATE_CURRENT_SCREEN, payload: 'Cart'})
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log('Cart Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 

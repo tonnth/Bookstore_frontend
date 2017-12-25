@@ -12,7 +12,11 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {HInput} from "../components/HInput";
 import HButton from "../components/HButton";
 import {HButtonBack} from "../components/HButtonBack";
+
 import Toast, {DURATION} from 'react-native-easy-toast'
+
+import FastImage from "react-native-fast-image";
+
 
 export default class LoginScreen extends Component
 {
@@ -32,6 +36,7 @@ validateEmail = (email) =>
 }
     render()
     {
+        console.log(this.props.navigation.state.routeName + ' Render');
         return (
             <KeyboardAwareScrollView
                 innerRef={ref =>
@@ -45,11 +50,16 @@ validateEmail = (email) =>
                     backgroundColor={'transparent'}
                     translucent
                 />
+
                 <Toast ref="toast"/>
-                <ImageBackground
-                    style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-                    source={require('../img/bookwall.jpg')}
-                    blurRadius={Platform.OS === 'ios' ? 2 : 1}>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                    <FastImage
+                        style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
+                        source={{
+                            uri: Globals.URIIMAGE,
+                            priority: FastImage.priority.normal,
+                        }}/>
+
 
                     <LinearGradient colors={Globals.GRADIENT_COLOR}
                                     style={{
@@ -111,24 +121,24 @@ validateEmail = (email) =>
                                          this.refs.toast.show('Email is invalid',1000);
                                          return;
                                      }
+
                                      try
                                      {
-                                         var res = await api.Login(this.state.Email,this.state.Password).data;
+
+                                         var res = await api.Login(this.state.Email,this.state.Password);
                                      } catch(err)
                                      {
                                         console.log('Login error: ',err);
                                      }
+                                     console.log(res);
 
-                                     console.log(rest);
-                                     if(temp.code  === "200")
-                                     if(temp.code  === "200")
+                                     if(res.data.code  === 200)
                                      {
-                                         console('abcdefg');
-                                         this.props.navigate('Home');
+                                         this.props.navigation.navigate('Home');
                                      }
                                      else
                                      {
-                                         this.refs.toast.show(temp.message,1000);
+                                         this.refs.toast.show(res.data.message,1000);
                                      }
 
                                  }}
@@ -149,9 +159,24 @@ validateEmail = (email) =>
                             </Text>
                         </Text>
                     </TouchableOpacity>
-                </ImageBackground>
+                </View>
             </KeyboardAwareScrollView>
         );
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        // console.log(this.props.navigation.state.routeName + ' Render', nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 
@@ -170,7 +195,7 @@ const styles = StyleSheet.create({
     buttonSignup: {
         backgroundColor: 'transparent',
         position: 'absolute',
-        bottom: 10,
+        bottom: 20,
     },
     textSignup: {
         fontFamily: 'OpenSans-Regular',

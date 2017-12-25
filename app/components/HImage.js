@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TouchableOpacity, Image, StyleSheet, Text, View} from 'react-native';
 import Globals from "../Globals";
+import FastImage from "react-native-fast-image";
 
 export default class HImage extends Component
 {
-    render() 
+    render()
     {
         const {style, uri, borderRadius} = this.props;
         const styles = StyleSheet.create({
@@ -23,19 +24,22 @@ export default class HImage extends Component
                 shadowRadius: 3,
 
                 // android (Android +5.0)
-                elevation: 3,
+                elevation: 5,
+
             },
         });
 
         return (
             <View style={styles.image}>
-                <Image
-                    source={{uri: uri}}
-                    style={{
-                        flex: 1,
-                        overflow: 'hidden',
-                        borderRadius: borderRadius,
-                    }}/>
+                <View style={{overflow: 'hidden', borderRadius: borderRadius,flex:1}}>
+                    <FastImage
+                        source={{uri: uri, priority: FastImage.priority.hight,}}
+                        style={{
+                            flex: 1,
+                            overflow: 'hidden',
+                            borderRadius: borderRadius,
+                        }}/>
+                </View>
             </View>
         );
     }

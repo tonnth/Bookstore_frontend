@@ -7,6 +7,7 @@ import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 import Globals from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
+import FastImage from "react-native-fast-image";
 
 
 class LoadingScreen extends Component
@@ -19,6 +20,7 @@ class LoadingScreen extends Component
 
     render()
     {
+        console.log(this.props.navigation.state.routeName +  ' Render');
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -26,9 +28,9 @@ class LoadingScreen extends Component
                     backgroundColor={'#fff'}
                     translucent={false}
                 />
-                <ImageBackground
+                <View
                     style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', backgroundColor: '#fff'}}
-                    // source={require('../img/loadingbackground.jpg')}
+
                     blurRadius={Platform.OS === 'ios' ? 7 : 2}
                     resizeMode={'cover'}>
 
@@ -44,10 +46,9 @@ class LoadingScreen extends Component
                     </View>
 
                     <Image
-                        source={require("../img/loading.gif")}
                         style={styles.loadicon}
-                        resizeMode="contain"/>
-                </ImageBackground>
+                        source={require("../img/loading.gif")}/>
+                </View>
             </View>
         );
     }
@@ -58,9 +59,11 @@ class LoadingScreen extends Component
         await api.getSachKhuyenMai();
         await  api.getSachMoi();
         console.log(this.props.reduxState.listPromotionBooks);
-        //nav.navigate('Home');
+        nav.navigate('Home', {screen: 'Home'});
+
 
         nav.navigate('Home');
+
     }
 
     componentDidMount()
@@ -73,6 +76,21 @@ class LoadingScreen extends Component
         // }, 1000);
 
         this.getData();
+    }
+
+    shouldComponentUpdate(nextProps)
+    {
+        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        return true;
+        // if (nextProps.navigation.stackNav.index === 0)
+        // {
+        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
+        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
+        //     // IN YOUR COMPONENT
+        //
+        //     return true;
+        // }
+        // return false;
     }
 }
 
