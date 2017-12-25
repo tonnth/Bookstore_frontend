@@ -4,10 +4,11 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
-import Globals from "../Globals";
+import Globals, {resetAction} from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
 import FastImage from "react-native-fast-image";
+import {NavigationActions} from "react-navigation";
 
 
 class LoadingScreen extends Component
@@ -55,12 +56,12 @@ class LoadingScreen extends Component
 
     async getData()
     {
-        let nav = this.props.navigation;
         await api.getSachKhuyenMai();
         await  api.getSachMoi();
         console.log(this.props.reduxState.listPromotionBooks);
-        nav.navigate('Home', {screen: 'Home'});
+       // nav.navigate('Home', {screen: 'Home'});
 
+        this.props.navigation.dispatch(resetAction);
         //nav.navigate('Cart');
     }
 

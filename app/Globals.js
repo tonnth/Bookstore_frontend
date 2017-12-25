@@ -1,3 +1,5 @@
+import {NavigationActions} from "react-navigation";
+
 export default Globals = {
     BASE_URL: 'https://tohiti-bookstore-backend.herokuapp.com/',
     COLOR: {
@@ -20,6 +22,12 @@ export const formatCurency = a =>
     if (a === " ") return a;
     return a.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " VNĐ";
 };
+
+export const resetAction = NavigationActions.reset({
+    index: 0,
+    actions: [
+        NavigationActions.navigate({ routeName: 'Home'})
+    ] });
 
 export const TheLoai = [
     {

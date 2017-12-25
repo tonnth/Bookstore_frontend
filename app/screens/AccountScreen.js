@@ -257,7 +257,7 @@ class AccountScreen extends Component
         if (done) this.setState({toggled: !this.state.toggled})
     };
 
-    //bao mat van tay 
+    //bao mat van tay
     renderDialog = () =>
     {
         return (

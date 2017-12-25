@@ -45,6 +45,9 @@ const cards = [
     },
 ];
 
+import {NavigationActions} from 'react-navigation';
+import PopupDialog from "react-native-popup-dialog";
+
 class HomeScreen extends Component
 {
     constructor(props)
@@ -58,9 +61,9 @@ class HomeScreen extends Component
             searching: false,
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
+            show: false,
         };
         that = this;
-
     }
 
     render()
@@ -72,6 +75,7 @@ class HomeScreen extends Component
                 <StatusBar
                     translucent={false}
                 />
+
                 <Header style={styles.header}
                         iosStatusbar="light-content"
                         androidStatusBarColor="black"
@@ -209,6 +213,43 @@ class HomeScreen extends Component
     {
         console.log('Home Render' , nextProps);
         return true;
+    }
+
+    renderDialog = () =>
+    {
+        return (
+            <PopupDialog
+                ref={(popupDialog) =>
+                {
+                    this.popupDialog = popupDialog;
+                }}
+                width={0.9}
+                show={this.state.show}
+                dialogStyle={{elevation: 10}}>
+                <View style={{flex: 1, alignItems: 'center', padding: 20, justifyContent: 'space-around'}}>
+                    <Image
+                        style={{width: 150, height: 150, marginTop: -20, marginBottom: -10}}
+                        source={require("../img/finger.gif")}/>
+
+                    <Text style={{...Globals.FONT, fontSize: 20, fontWeight: '600'}}>Vui lòng xác thực để tiếp
+                                                                                     tục</Text>
+                    <Text style={{
+                        ...Globals.FONT,
+                        fontSize: 16,
+                        textAlign: 'center',
+                    }}>
+                        Vui lòng đặt ngón tay của bạn lên máy quét vân tay của thiết bị để xác thực
+                    </Text>
+
+                    <TouchableOpacity
+                        onPress={() => this.handleFingerprintDismissed(false)}>
+                        <Text style={{...Globals.FONT, fontSize: 20, fontWeight: '600', color: 'red'}}>
+                            Hủy bỏ
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </PopupDialog>
+        );
     }
 }
 

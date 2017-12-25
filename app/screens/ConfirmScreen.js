@@ -3,7 +3,7 @@ import {
     View, Text, Image, Platform, StatusBar, Dimensions, StyleSheet,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import Globals from "../Globals";
+import Globals, {resetAction} from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import {HButtonBack} from "../components/HButtonBack";
 import StepIndicator from 'react-native-step-indicator';
@@ -171,7 +171,7 @@ export default class ConfirmScreen extends Component
                                     width={itemWidth}
                                     action={() =>
                                     {
-                                        this.props.navigation.navigate('Home');
+                                        this.props.navigation.dispatch(resetAction);
                                     }}/>}
                             </View>
                         </View>
@@ -252,7 +252,8 @@ export default class ConfirmScreen extends Component
                                     width={itemWidth}
                                     action={() =>
                                     {
-                                        this.props.navigation.navigate('Home');
+                                        this.props.navigation.dispatch(resetAction);
+                                        //this.props.navigation.navigate('Home');
                                     }}/>}
                             </View>
                         </View>
