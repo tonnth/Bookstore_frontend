@@ -4,12 +4,20 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
+<<<<<<< HEAD
 import Globals, {UPDATE_CURRENT_SCREEN, UPDATE_TOKEN} from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
 import FastImage from "react-native-fast-image";
 import {getFromLocal} from "../config/storage";
 import store from "../Store";
+=======
+import Globals, {resetAction} from "../Globals";
+import TimerMixin from 'react-timer-mixin';
+import * as api from "../config/api";
+import FastImage from "react-native-fast-image";
+import {NavigationActions} from "react-navigation";
+>>>>>>> develop
 
 
 class LoadingScreen extends Component
@@ -58,9 +66,9 @@ class LoadingScreen extends Component
 
     async getData()
     {
-        let nav = this.props.navigation;
         await api.getSachKhuyenMai();
         await  api.getSachMoi();
+
 
         var token = await getFromLocal('token');
         if(token != null &&  token != undefined)
@@ -70,17 +78,10 @@ class LoadingScreen extends Component
         }
 
 
-
-
-
-
         nav.navigate('Home', {screen: 'Home'});
-
-
-
-
-
-        // nav.navigate('Home');
+        console.log(this.props.reduxState.listPromotionBooks);
+        this.props.navigation.dispatch(resetAction);
+        //nav.navigate('Cart');
 
     }
 
