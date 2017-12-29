@@ -16,7 +16,7 @@ import {HButtonBack} from "../components/HButtonBack";
 import Toast, {DURATION} from 'react-native-easy-toast'
 
 import FastImage from "react-native-fast-image";
-
+import {getFromLocal, setToLocal} from "../config/storage";
 
 export default class LoginScreen extends Component
 {
@@ -28,6 +28,7 @@ export default class LoginScreen extends Component
             Password: '',
 
         };
+
     }
 validateEmail = (email) =>
 {
@@ -134,6 +135,7 @@ validateEmail = (email) =>
 
                                      if(res.data.code  === 200)
                                      {
+                                         setToLocal('token', res.data.token);
                                          this.props.navigation.navigate('Home');
                                      }
                                      else

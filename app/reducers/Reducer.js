@@ -3,6 +3,7 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_ACCESS_TOKEN, FETCHING_ACCESS_TOKEN_SUCCESS, FETCHING_ACCESS_TOKEN_FAIL,
     FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN,
+    UPDATE_TOKEN, FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS
 } from '../Globals';
 
 
@@ -22,9 +23,11 @@ const initialState = {
 
     //Token
     token: null,
-    hasError_Token: false,
-    errorMessage_Token: null,
 
+    //User
+    user: null,
+    hasError_User: false,
+    errorMessage_User: null,
     screen: '',
 };
 
@@ -82,34 +85,41 @@ export const reducer = (state = initialState, action) =>
                 currentBook: null,
             });
 
-        case FETCHING_ACCESS_TOKEN:
+        case FETCHING_USER:
             return Object.assign(state, {
                 ...state,
                 isFetching: true,
             });
 
-
-        case FETCHING_ACCESS_TOKEN_SUCCESS:
+        case FETCHING_USER_SUCCESS:
             return Object.assign(state, {
                 ...state,
                 isFetching: false,
-                token: action.payload,
-                hasError_Token: false,
+                user: action.payload.data,
+                hasError_User: false,
             });
 
-        case FETCHING_ACCESS_TOKEN_FAIL:
+        case FETCHING_USER_FAIL:
             return Object.assign(state, {
                 ...state,
                 isFetching: false,
-                hasError_Token: true,
-                errorMessage_Token: action.payload.response.data,
+                hasError_User: true,
+                errorMessage_User: action.payload.response.data,
             });
 
         case UPDATE_CURRENT_SCREEN:
+        return Object.assign(state, {
+            ...state,
+            screen: action.payload,
+        });
+
+        case UPDATE_TOKEN:
             return Object.assign(state, {
                 ...state,
-                screen: action.payload,
+                token: action.payload,
             });
+
+
         default:
             return state;
     }

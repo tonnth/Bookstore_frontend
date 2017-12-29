@@ -2,6 +2,7 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL,
+    FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS,
 } from '../Globals';
 import axios from 'axios';
 import store from '../Store';
@@ -59,5 +60,34 @@ exports.Login = function (Email,MatKhau)
             Email: Email,
             MatKhau: MatKhau,
         })
+}
+
+exports.getThongTinKhachHang =  function (token)
+{
+    let url = Globals.BASE_URL + 'khachhang/thongtin';
+    console.log("GET Thong tin khach hang: " + url);
+    return store.dispatch(dispatch =>
+    {
+        dispatch({type: FETCHING_USER});
+        return axios.get(url,
+            {
+                headers:
+                    {
+                        'Authorization': '' + token,
+                    }
+            }
+            )
+            .then(res =>
+            {
+                console.log(res.data);
+                dispatch({type: FETCHING_USER_SUCCESS, payload: res});
+            })
+            .catch(err =>
+            {
+                console.log(err.response.data);
+                dispatch({type: FETCHING_USER_FAIL, payload: err})
+            });
+
+    })
 }
 

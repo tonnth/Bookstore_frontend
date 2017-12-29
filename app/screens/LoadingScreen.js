@@ -4,10 +4,12 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
-import Globals from "../Globals";
+import Globals, {UPDATE_CURRENT_SCREEN, UPDATE_TOKEN} from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
 import FastImage from "react-native-fast-image";
+import {getFromLocal} from "../config/storage";
+import store from "../Store";
 
 
 class LoadingScreen extends Component
@@ -16,6 +18,7 @@ class LoadingScreen extends Component
     {
         console.log("LOADING SCREEN");
         super(props);
+
     }
 
     render()
@@ -58,11 +61,26 @@ class LoadingScreen extends Component
         let nav = this.props.navigation;
         await api.getSachKhuyenMai();
         await  api.getSachMoi();
-        console.log(this.props.reduxState.listPromotionBooks);
+
+        var token = await getFromLocal('token');
+        if(token != null &&  token != undefined)
+        {
+            store.dispatch({type: UPDATE_TOKEN, payload: token});
+            api.getThongTinKhachHang(token);
+        }
+
+
+
+
+
+
         nav.navigate('Home', {screen: 'Home'});
 
 
-        nav.navigate('Home');
+
+
+
+        // nav.navigate('Home');
 
     }
 

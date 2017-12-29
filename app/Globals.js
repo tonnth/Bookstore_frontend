@@ -1,5 +1,6 @@
 export default Globals = {
     BASE_URL: 'https://tohiti-bookstore-backend.herokuapp.com/',
+    //BASE_URL: '192.168.1.48/',
     COLOR: {
         MAINCOLOR: '#fc4a1a',
         MAINCOLOR2: '#F3F4F6',
@@ -105,4 +106,9 @@ export const FETCHING_ACCESS_TOKEN = 'FETCHING_ACCESS_TOKEN';
 export const FETCHING_ACCESS_TOKEN_SUCCESS = 'FETCHING_ACCESS_TOKEN_SUCCESS';
 export const FETCHING_ACCESS_TOKEN_FAIL = 'FETCHING_ACCESS_TOKEN_FAIL';
 
+export const FETCHING_USER = 'FETCHING_USER';
+export const FETCHING_USER_SUCCESS = 'FETCHING_USER_SUCCESS';
+export const FETCHING_USER_FAIL = 'FETCHING_USER_FAIL';
+
 export const UPDATE_CURRENT_SCREEN = 'UPDATE_CURRENT_SCREEN';
+export const UPDATE_TOKEN = 'UPDATE_TOKEN';
