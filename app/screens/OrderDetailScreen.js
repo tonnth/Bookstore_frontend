@@ -17,7 +17,7 @@ import {
     Icon,
     CardItem,
 } from 'native-base';
-import {formatCurency} from "../Globals";
+import {formatCurency, formatDate, formatOrderId} from "../Globals";
 import Line from "../components/Line";
 import Globals from "../Globals";
 import {connect} from "react-redux";
@@ -57,9 +57,12 @@ class OrderDetailScreen extends Component<>
     constructor(props)
     {
         super(props);
+        this.item = this.props.navigation.state.params.item;
         this.state = {
             text: '',
-            dataSource: [1, 2, 3, 4],
+            //dataSource: [1, 2, 3, 4],
+            dataSource: this.item.dsSanPham,
+            stepCount: 3,
         };
     }
 
@@ -67,6 +70,16 @@ class OrderDetailScreen extends Component<>
     {
     }
 
+    accounting = () =>
+    {
+        var dsSanPham = this.item.dsSanPham;
+        var total = 0;
+        for(i =0; i <  dsSanPham.length; i++)
+        {
+            total += dsSanPham[i].GiaBan*(1-dsSanPham[i].KhuyenMai/100)*dsSanPham[i].SoLuongBan;
+        }
+        return total;
+    }
     render()
     {
         console.log(this.props.navigation.state.routeName +  ' Render');
@@ -118,21 +131,21 @@ class OrderDetailScreen extends Component<>
                                 Đơn hàng: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>{madon}</Text>
+                                    numberOfLines={1}>{formatOrderId(this.item.MaHoaDon.toString())}</Text>
                             </Text>
 
                             <Text style={{marginBottom: 5}}>
                                 Tổng cộng: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>{formatCurency(700000)}</Text>
+                                    numberOfLines={1}>{formatCurency(this.item.TongTienHoaDon)}</Text>
                             </Text>
 
                             <Text style={{marginBottom: 5}}>
                                 Đặt ngày: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>{ngaydat}</Text>
+                                    numberOfLines={1}>{formatDate(this.item.NgayLapHoaDon.toString())}</Text>
                             </Text>
                         </Card>
 
@@ -152,7 +165,7 @@ class OrderDetailScreen extends Component<>
                                 Họ tên: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>Nguyễn trần hoàng tôn</Text>
+                                    numberOfLines={1}>{this.item.TenNguoiNhan}</Text>
                             </Text>
                             <Text style={{marginBottom: 5}}>
                                 Email: {" "}
@@ -164,13 +177,13 @@ class OrderDetailScreen extends Component<>
                                 Số điện thoại: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>01229716386</Text>
+                                    numberOfLines={1}>{this.item.SoDienThoai}</Text>
                             </Text>
                             <Text style={{marginBottom: 5}}>
                                 Địa chỉ: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>974/14 Lo gốm</Text>
+                                    numberOfLines={1}>{this.item.DiaChiGiaoHang}</Text>
                             </Text>
                         </Card>
 
@@ -200,7 +213,7 @@ class OrderDetailScreen extends Component<>
                                 Đã giao: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>{ngaygiao}</Text>
+                                    numberOfLines={1}>{formatDate(this.item.NgayThuTien)}</Text>
                             </Text>}
 
                             {state < 2 &&
@@ -250,7 +263,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{formatCurency(700000)}</Text>
+                                    }}>{formatCurency(this.accounting())}</Text>
                             </View>
 
                             <View style={{
@@ -271,7 +284,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{formatCurency(0)}</Text>
+                                    }}>{formatCurency(this.item.PhiGiaoHang)}</Text>
                             </View>
                             {soxu > 0 &&
                             <View style={{
@@ -292,7 +305,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{soxu} ({' ' + formatCurency(-soxu*1000)})</Text>
+                                    }}>{this.item.SoXuSuDung} ({' ' + formatCurency(-this.item.SoXuSuDung*1000)})</Text>
                             </View>}
                             <Line width={(window.width - 20 - 30)}
                                   style={{alignSelf: 'center', marginBottom: 20}}/>
@@ -316,7 +329,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 17,
                                         fontWeight: '700',
                                         color: Globals.COLOR.MAINCOLOR
-                                    }}>{formatCurency(700000)}</Text>
+                                    }}>{formatCurency(this.item.TongTienHoaDon)}</Text>
                             </View>
                         </Card>
                     </View>
@@ -348,29 +361,30 @@ class OrderDetailScreen extends Component<>
                 }}>
                 <HImage
                     style={{width: widthImage, height: heightImage}}
-                    uri={tempUri}
+                    uri={Globals.BASE_URL + item.HinhAnh}
                     borderRadius={5}
                 />
 
                 <View style={{marginTop: 10, marginLeft: 10, width: widthImage*2}}>
                     <Text
                         style={styles.tensach}
-                        numberOfLines={2}>{ten}</Text>
+                        numberOfLines={2}>{item.TenSach}</Text>
 
 
                     <Text
                         numberOfLines={1}
-                        style={[styles.soluong, {marginTop: 10}]}>{formatCurency(dongia) + ' X ' + soluong}</Text>
+                        style={[styles.soluong, {marginTop: 10}]}>{formatCurency(item.GiaBan * (1 - item.KhuyenMai/100)) + ' X ' + item.SoLuongBan}</Text>
 
                     <Text
                         numberOfLines={1}
-                        style={[styles.giaban]}>{formatCurency(thanhtien)}</Text>
+                        style={[styles.giaban]}>{formatCurency(item.GiaBan* (1 - item.KhuyenMai/100) * item.SoLuongBan)}</Text>
 
                 </View>
             </View>
 
         );
     }
+   
 
     shouldComponentUpdate(nextProps)
     {

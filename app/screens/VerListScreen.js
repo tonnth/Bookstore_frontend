@@ -37,7 +37,7 @@ class VerListScreen extends Component
 
     async getData()
     {
-        await api.getSachKhuyenMai();
+        await api.getPromotionBooks();
         console.log(this.props.reduxState.books.data);
         this.setState({
             dataSource: [

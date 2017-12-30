@@ -49,9 +49,9 @@ class AccountScreen extends Component
         console.log(this.params);
 
         this.state = {
+            user: this.props.reduxState.user,
             heart: false,
-            listPromotionBooks: this.props.reduxState.listPromotionBooks,
-            listNewBooks: this.props.reduxState.listNewBooks,
+            favourite_books: this.props.reduxState.favourite_books,
             toggled: false,
             errorMessage: undefined, //bao mat van tay
 
@@ -94,7 +94,7 @@ class AccountScreen extends Component
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFANoiGzwMeVa4PdAnNJ3GBAZbA-TDlCnubGAc7oR6nbmaYo5k';
         // hinh anh co the dung letter image trong doopage cung dc
-        let name = 'Huynh Huy Hiep';
+        let name = this.state.user.HoTenKhachHang;
 
         let title = 'Bảo mật thanh toán';
         let text = 'Bạn có thể dùng vân tay để bảo mật thanh toán';
@@ -175,7 +175,7 @@ class AccountScreen extends Component
                         <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10}}>
                             <HorizontalList
                                 title={"Sách bạn yêu thích"}
-                                data={this.state.listNewBooks}
+                                data={this.state.favourite_books}
                                 navigation={this.props.navigation}/>
                         </Card>
 

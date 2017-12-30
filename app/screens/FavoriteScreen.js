@@ -36,7 +36,8 @@ class FavoriteScreen extends Component
             refreshing: false,
             value: 10,
             total_page: 1,
-            dataSource: [1, 2]
+            //dataSource: [1, 2],
+            dataSource: this.props.reduxState.favourite_books,
         };
         this.itemWidth = width;
     }
@@ -117,19 +118,35 @@ class FavoriteScreen extends Component
         );
     }
 
+    renderGiaCu = (item) => {
+        if(item.KhuyenMai != 0)
+        {
+            return(
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text
+                        numberOfLines={1}
+                        style={styles.giaban2}>
+                        {formatCurency(item.GiaBan)}{" "}
+                    </Text>
+                    <Text
+                        numberOfLines={1}
+                        style={styles.khuyenmai}>
+                        -{item.KhuyenMai}%
+                    </Text>
+                </View>
+            );
+        }
+    }
+
     renderItem = ({item, index}) =>
     {
-        //let tempUri = Globals.BASE_URL + item.HinhAnh;
-        //let tenSach = 'dac nhan tam';
-        //let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
         let widthImage = 100;
         let heightImage = widthImage * 3 / 2;
+        let tempUri = Globals.BASE_URL+item.HinhAnh;
+        let tenSach = item.TenSach;
+        let giaBan = formatCurency(item.GiaBan*(1 - item.KhuyenMai/100));
 
-        let tempUri = 'http://sachnoionline.net/upload/book/107.jpg';
-        let tenSach = 'dac nhan tam dfbdfndfndfndndndfndfnfnfnfnfnfnfnfnfnfnfnf';
-        let giaKhuyenMai = 100000;
-        let giaBan = 130000;
-        let khuyenMai = 40;
+
 
         return (
             <View style={{
@@ -147,19 +164,9 @@ class FavoriteScreen extends Component
 
                         <Text
                             numberOfLines={1}
-                            style={styles.giaban}>{formatCurency(giaKhuyenMai)}</Text>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Text
-                                numberOfLines={1}
-                                style={styles.giaban2}>
-                                {formatCurency(giaBan)}{" "}
-                            </Text>
-                            <Text
-                                numberOfLines={1}
-                                style={styles.khuyenmai}>
-                                -{khuyenMai}%
-                            </Text>
-                        </View>
+                            style={styles.giaban}>{giaBan}</Text>
+                        {this.renderGiaCu(item)}
+
                     </View>
                     <Button transparent
                             style={{position: 'absolute', top: 0, right: 0}}
@@ -188,7 +195,7 @@ class FavoriteScreen extends Component
                         }}
                         onPress={() =>
                         {
-                            this.refs.toast.show('Đã thêm ' + tenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
+                            this.refs.toast.show('Đã thêm ' + item.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
                         }}
                     >
                         <IconFeather name="shopping-cart" size={30} color="#fff"
@@ -207,6 +214,8 @@ class FavoriteScreen extends Component
             </View>
         );
     };
+
+
 
     renderBody = () =>
     {

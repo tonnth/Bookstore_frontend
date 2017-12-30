@@ -3,13 +3,20 @@ import {Image, Text, View, TouchableOpacity, StyleSheet} from "react-native";
 import Globals from "../Globals";
 import {Container} from "native-base";
 import LinearGradient from "react-native-linear-gradient";
+import {connect} from "react-redux";
 
-export default class SideMenu extends React.Component
+class SideMenu extends React.Component
 {
     constructor(props)
     {
         super(props);
-        this.state = {slidemenuWidth: 0};
+        console.log('###SIDE MENU');
+        console.log(this.props.reduxState.user);
+
+        this.state = {
+            slidemenuWidth: 0,
+
+        };
         console.log('SLIDE MENU ', this.props)
     }
 
@@ -183,6 +190,12 @@ export default class SideMenu extends React.Component
         );
     }
 }
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
+
+export default connect(mapStateToProps)(SideMenu);
 
 const styles = StyleSheet.create({
     container: {

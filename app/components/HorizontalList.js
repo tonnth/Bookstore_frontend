@@ -178,7 +178,7 @@ class HorizontalList extends Component
                     <Text
                         numberOfLines={1}
                         style={styles.giaban2}>
-                        {formatCurency(item.GiaBan)}{" "}
+                        {item.KhuyenMai > 0 ? formatCurency(item.GiaBan) : ''}
                     </Text>
                     <Text
                         numberOfLines={1}

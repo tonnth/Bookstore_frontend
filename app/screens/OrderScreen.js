@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import {connect} from "react-redux";
-import Globals, {formatCurency, TheLoai} from "../Globals";
+import Globals, {formatCurency,formatDate, formatOrderId,TheLoai} from "../Globals";
 import * as api from "../config/api";
 import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
@@ -28,15 +28,17 @@ class OrderScreen extends Component
 {
     constructor(props)
     {
-        console.log("FAVORITE SCREEN");
+        console.log("ORDER SCREEN");
         super(props);
         this.params = this.props.navigation.state.params;
+        console.log(this.props.reduxState.order_history);
         this.state = {
             page: 1,
             refreshing: false,
             value: 10,
             total_page: 1,
-            dataSource: [1, 2, 3, 4]
+            //dataSource: [1, 2, 3, 4]
+            dataSource: this.props.reduxState.order_history,
         };
         this.itemWidth = width;
     }
@@ -137,41 +139,35 @@ class OrderScreen extends Component
                         Đơn hàng {" "}
                         <Text
                             style={styles.madon}
-                            numberOfLines={1}>{madon}</Text>
+                            numberOfLines={1}>{formatOrderId(item.MaHoaDon.toString())}</Text>
                     </Text>
 
                     <Text
                         style={styles.ngaydat}
-                        numberOfLines={1}>{ngaydat}</Text>
+                        numberOfLines={1}>{formatDate(item.NgayLapHoaDon.toString())}</Text>
                 </View>
                 <Card style={{flex: 1, justifyContent: 'center'}}>
                     <View style={{flex: 1}}>
                         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', padding: 10}}>
                             <HImage
                                 style={{width: widthImage, height: heightImage}}
-                                uri={tempUri}
+                                uri={Globals.BASE_URL + item.dsSanPham[0].HinhAnh}
                                 borderRadius={5}
                             />
                             <View style={{width: widthImage * 2, marginLeft: 10, marginTop: 10}}>
                                 <Text
                                     style={styles.tensach}
-                                    numberOfLines={2}>{tenSach}</Text>
+                                    numberOfLines={2}>{item.dsSanPham[0].TenSach}</Text>
 
                                 <Text
                                     numberOfLines={1}
-                                    style={styles.giaban}>{formatCurency(tongTien)}</Text>
+                                    style={styles.giaban}>{formatCurency(item.TongTienHoaDon)}</Text>
 
-                                <Text
-                                    numberOfLines={1}
-                                    style={[styles.trangthai, {
-                                        borderColor: stateColor[state],
-                                        borderWidth: 2,
-                                        color: '#000'
-                                    }]}>{trangthai[state]}</Text>
+                                {this.renderOrderState(item.TrangThai)}
                             </View>
                         </View>
                         <TouchableOpacity style={styles.button}
-                                          onPress={() => this.props.navigation.navigate('OrderDetail')}>
+                                          onPress={() => this.props.navigation.navigate('OrderDetail', {item})}>
                             <Text style={styles.text}>
                                 QUẢN LÝ ĐƠN HÀNG
                             </Text>
@@ -182,6 +178,34 @@ class OrderScreen extends Component
         );
     };
 
+    renderOrderState = (state) =>
+    {
+        let trangthai = ['Xử lý', 'Giao hàng', 'Đã nhận', 'Hủy'];
+        let stateColor = ['#E0E0E0', '#FFEB3B', '#76FF03', '#FF5252'];
+        '#E0E0E0'
+        '#FFEB3B'
+
+        if (state === "Đã thanh toán")
+            return (
+                <Text
+                    numberOfLines={1}
+                    style={[styles.trangthai, {
+                        borderColor: '#76FF03',
+                        borderWidth: 2,
+                        color: '#000'
+                    }]}>Đã nhận</Text>
+            );
+        if (state === "Chưa thanh toán(Không cho nợ)" || state === "Chưa thanh toán")
+            return (
+                <Text
+                    numberOfLines={1}
+                    style={[styles.trangthai, {
+                        borderColor: '#FFEB3B',
+                        borderWidth: 2,
+                        color: '#000'
+                    }]}>Đang giao</Text>
+            );
+    }
     renderBody = () =>
     {
         if (this.state.dataSource.length > 0)

@@ -24,6 +24,24 @@ export const formatCurency = a =>
     return a.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " VNĐ";
 };
 
+export const formatDate = str =>
+{
+    var year, month, day;
+    year = str.slice(0,4);
+    month =str.slice(5,7);
+    day = str.slice(8,10);
+    return day + "/" + month + "/" + year;
+}
+export const formatOrderId = str =>
+{
+    var a ='#';
+    for( i =0; i < (8 - str.length);i++)
+    {
+        a= a+'0';
+    }
+    return a+ str;
+}
+
 export const resetAction = NavigationActions.reset({
     index: 0,
     actions: [
@@ -117,6 +135,14 @@ export const FETCHING_ACCESS_TOKEN_FAIL = 'FETCHING_ACCESS_TOKEN_FAIL';
 export const FETCHING_USER = 'FETCHING_USER';
 export const FETCHING_USER_SUCCESS = 'FETCHING_USER_SUCCESS';
 export const FETCHING_USER_FAIL = 'FETCHING_USER_FAIL';
+
+export const FETCHING_FAVOURITE = 'FETCHING_FAVOURITE';
+export const FETCHING_FAVOURITE_SUCCESS = 'FETCHING_FAVOURITE_SUCCESS';
+export const FETCHING_FAVOURITE_FAIL = 'FETCHING_FAVOURITE_FAIL';
+
+export const FETCHING_ORDER_HISTORY = 'FETCHING_ORDER_HISTORY';
+export const FETCHING_ORDER_HISTORY_SUCCESS = 'FETCHING_ORDER_HISTORY_SUCCESS';
+export const FETCHING_ORDER_HISTORY_FAIL = 'FETCHING_ORDER_HISTORY_FAIL';
 
 export const UPDATE_CURRENT_SCREEN = 'UPDATE_CURRENT_SCREEN';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
