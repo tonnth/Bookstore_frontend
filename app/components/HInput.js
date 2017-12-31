@@ -22,6 +22,7 @@ export class HInput extends Component
                 tintColor={this.props.tintColor ? this.props.tintColor : '#fff'}
                 baseColor={this.props.baseColor ? this.props.baseColor : '#d6d6d6'}
                 onChangeText={this.props.onChangeText}
+                secureTextEntry={this.props.secureTextEntry ? this.props.secureTextEntry : false}
             />
         );
     }

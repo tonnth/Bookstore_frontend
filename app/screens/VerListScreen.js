@@ -23,30 +23,20 @@ class VerListScreen extends Component
 {
     constructor(props)
     {
-        console.log("HORIZONTALLIST");
+        console.log("VERTICAL LIST");
         super(props);
         this.params = this.props.navigation.state.params;
         this.state = {
             page: 1,
             refreshing: false,
             total_page: 1,
-            dataSource: this.params.data,
+            dataSource: this.params.data.data,
         };
         this.itemWidth = width / this.params.colNumber - 10;
+        console.log(this.state.dataSource);
     }
 
-    async getData()
-    {
-        await api.getPromotionBooks();
-        console.log(this.props.reduxState.books.data);
-        this.setState({
-            dataSource: [
-                ...this.state.dataSource,
-                ...this.props.reduxState.books.data
-            ],
-            refreshing: false
-        });
-    }
+
 
     componentDidMount()
     {
@@ -171,9 +161,12 @@ class VerListScreen extends Component
     renderItem = ({item, index}) =>
     {
         let tempUri = Globals.BASE_URL + item.HinhAnh;
+        console.log(tempUri);
         let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
         let widthImage = this.itemWidth - 10;
         let heightImage = widthImage * 3 / 2;
+        console.log(widthImage);
+        console.log(heightImage);
 
         return (
             <TouchableOpacity style={{width: this.itemWidth, justifyContent: 'center', margin: 5}}
@@ -193,12 +186,12 @@ class VerListScreen extends Component
                     <Text
                         numberOfLines={1}
                         style={styles.giaban2}>
-                        {formatCurency(item.GiaBan)}{" "}
+                        {item.KhuyenMai > 0 ? formatCurency(item.GiaBan) : ''}
                     </Text>
                     <Text
                         numberOfLines={1}
                         style={[styles.giaban, {fontWeight: '700'}]}>
-                        -{item.KhuyenMai}%
+                        {item.KhuyenMai > 0 ? '-'+item.KhuyenMai+'%' : ''}
                     </Text>
                 </View>
 

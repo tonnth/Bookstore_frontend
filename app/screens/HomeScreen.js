@@ -14,34 +14,27 @@ import store from '../Store';
 
 const cards = [
     {
-        name: 'Toà nhà Saigon Centre',
-        phone: '(84.28) 62.706.333',
-        time: '9:30 - 22:00',
-        image: 'http://alqabdah.com/wp-content/uploads/2017/01/500.jpg'
+        name: 'Không bao giờ là đủ',
+        image: Globals.BASE_URL+'a1.jpg',
+        sach: {
+
+        }
     },
     {
-        name: 'Takashimaya Vietnam',
-        phone: '(84.28) 38.277.239',
-        time: '9:30 - 21:30',
-        image: 'https://hips.hearstapps.com/pop.h-cdn.co/assets/cm/15/05/54cb5d94587ec_-_tallest-buildings-05-1214-lgn.jpg'
+        name: 'Cứ mơ và cứ đi',
+        image: Globals.BASE_URL+'a2.jpg'
     },
     {
-        name: 'Phố đi bộ Nguyễn Huệ',
-        phone: '(84.28) 37.442.313',
-        time: '9:30 - 21:30',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMY8o5OoSftqg_yNLsA1hBvXLOZ4GbXZUM16aIp2cZafwWK3nb'
+        name: 'Bitcoin và tiền kĩ thuật số',
+        image: Globals.BASE_URL+'a3.jpg'
     },
     {
-        name: 'Buzza Pizza',
-        phone: '(84.28) 35.511.568',
-        time: '9:00-22:30',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGg6XCdw5PQx3wY9yAtBFvYpUfwdT04QChn8Y6_ODQWPj8H7GboQ'
+        name: 'Con sẻ vàng',
+        image: Globals.BASE_URL+'a4.jpg'
     },
     {
-        name: 'HALO',
-        phone: '(84.28) 38.301.822',
-        time: '9:00 - 22:00',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnvYeoHwLHazqphO9ufhxALgsqA1SfTVO4gLiWv7EMn4jA2mzv'
+        name: 'Pikalong và những người bạn',
+        image: Globals.BASE_URL+'a5.jpg',
     },
 ];
 

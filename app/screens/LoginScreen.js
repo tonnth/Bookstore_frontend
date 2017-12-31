@@ -3,10 +3,8 @@ import {
     View, Text, Image, ImageBackground, StyleSheet, StatusBar, Platform, TouchableOpacity
 } from 'react-native';
 import {Button, Header, Icon, Input, Item, Label} from "native-base";
-import LoadingButton from 'react-native-loading-button';
-import Globals from "../Globals";
+import Globals,{validateEmail} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
-import {TextField} from 'react-native-material-textfield';
 import * as api from "../config/api";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {HInput} from "../components/HInput";
@@ -30,11 +28,7 @@ export default class LoginScreen extends Component
         };
 
     }
-validateEmail = (email) =>
-{
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email.toLowerCase());
-}
+
     render()
     {
         console.log(this.props.navigation.state.routeName + ' Render');
@@ -52,7 +46,8 @@ validateEmail = (email) =>
                     translucent
                 />
 
-                <Toast ref="toast"/>
+                <Toast ref="toast"
+                       textStyle={{fontSize: 17, color: '#fff'}}/>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <FastImage
                         style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
@@ -96,6 +91,7 @@ validateEmail = (email) =>
                                         Password: text,
                                     })
                                 }}
+                                secureTextEntry={true}
                         />
 
                         <TouchableOpacity style={styles.buttonForgot}>
@@ -114,12 +110,12 @@ validateEmail = (email) =>
                                  {
                                      if(this.state.Email == '' )
                                      {
-                                         this.refs.toast.show('Please enter email and password',1000);
+                                         this.refs.toast.show('Vui lòng nhập email và mật khẩu',1000);
                                          return;
                                      }
-                                     if(!this.validateEmail(this.state.Email))
+                                     if(!validateEmail(this.state.Email))
                                      {
-                                         this.refs.toast.show('Email is invalid',1000);
+                                         this.refs.toast.show('Email không hợp lệ',1000);
                                          return;
                                      }
 
@@ -129,13 +125,14 @@ validateEmail = (email) =>
                                          var res = await api.Login(this.state.Email,this.state.Password);
                                      } catch(err)
                                      {
-                                        console.log('Login error: ',err);
+                                        console.log('Lỗi đăng nhập: ',err);
                                      }
                                      console.log(res);
 
                                      if(res.data.code  === 200)
                                      {
                                          setToLocal('token', res.data.token);
+                                         api.getUserInfo(res.data.token);
                                          this.props.navigation.navigate('Home');
                                      }
                                      else

@@ -115,10 +115,14 @@ class HorizontalList extends Component
         let tempUri = Globals.BASE_URL + item.Hinh;
         return (
             <TouchableOpacity style={{marginRight: 10, width: 160, alignItems: 'center', marginLeft: marginLeft}}
-                              onPress={() =>
+                              onPress={ async () =>
                               {
                                   //Lấy các sách thuộc thể loại này
-                                  this.props.navigation.navigate('VerList')
+                                  var data  = await api.getBookByGenre(item.MaTheLoai);
+                                  this.props.navigation.navigate('VerList', {
+                                      data: data,
+                                      colNumber: this.props.theloai ? 2 : 3,
+                                  });
                               }}>
                 <HImage
                     style={{width: 150, height: 100, zIndex: 5, elevation: 1}}

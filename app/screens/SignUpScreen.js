@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import {Button, Header, Icon, Input, Item, Label, Left} from "native-base";
 import LoadingButton from 'react-native-loading-button';
-import Globals from "../Globals";
+import Globals, {validateEmail} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import {TextField} from 'react-native-material-textfield';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -13,6 +13,9 @@ import {HButtonBack} from "../components/HButtonBack";
 import {HInput} from "../components/HInput";
 import HButton from "../components/HButton";
 import FastImage from "react-native-fast-image";
+import Toast, {DURATION} from 'react-native-easy-toast'
+import * as api from "../config/api";
+import {setToLocal} from "../config/storage";
 
 export default class SignUpScreen extends Component
 {
@@ -22,7 +25,9 @@ export default class SignUpScreen extends Component
         this.state = {
 
             email: '',
-            password: '',
+            password1: '',
+            password2: '',
+            name:'',
         };
         this.isLoading = false
     }
@@ -43,6 +48,8 @@ export default class SignUpScreen extends Component
                     backgroundColor={'transparent'}
                     translucent
                 />
+                <Toast ref="toast"
+                       textStyle={{fontSize: 17, color: '#fff'}}/>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <FastImage
                         style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
@@ -67,22 +74,98 @@ export default class SignUpScreen extends Component
                         </Text>
 
                         <HInput label="Email"
-                                width={300}/>
+                                width={300}
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        email: text,
+                                    })
+                                }}
+                        />
 
                         <HInput label="Họ và tên"
-                                width={300}/>
+                                width={300}
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        name: text,
+                                    })
+                                }}
+                        />
 
                         <HInput label="Mật khẩu"
-                                width={300}/>
+                                width={300}
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        password1: text,
+                                    })
+                                }}
+                                secureTextEntry={true}
+                        />
 
                         <HInput label="Xác nhận mật khẩu"
-                                width={300}/>
+                                width={300}
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        password2: text,
+                                    })
+                                }}
+                                secureTextEntry={true}
+                        />
 
                         <HButton text={'Đăng kí'}
                                  width={200}
                                  style={{marginBottom: 40, marginTop: 40}}
                                  navigation={this.props.navigation}
-                                 border={20}/>
+                                 border={20}
+                                 action = { async () =>
+                                 {
+                                     if(this.state.email == '' )
+                                     {
+                                         this.refs.toast.show('Vui lòng nhập email và mật khẩu',1000);
+                                         return;
+                                     }
+                                     if(!validateEmail(this.state.email))
+                                     {
+                                         this.refs.toast.show('Email không hợp lệ',1000);
+                                         return;
+                                     }
+                                     if(this.state.name.length < 4)
+                                     {
+                                         this.refs.toast.show('Họ tên phải có ít nhất 4 kí tự',1000);
+                                         return;
+                                     }
+                                     if(this.state.password1.length < 4)
+                                     {
+                                         this.refs.toast.show('Mật khẩu phải có ít nhất 4 kí tự',1000);
+                                         return;
+                                     }
+                                     if(this.state.password1 != this.state.password2 )
+                                     {
+                                         this.refs.toast.show('Xác nhận mật khẩu không khớp',1000);
+                                         return;
+                                     }
+
+
+                                     try
+                                     {
+
+                                         var res = await api.SignUp(this.state.email,this.state.password1,this.state.name);
+                                     }
+                                     catch(err)
+                                     {
+                                         console.log('Lỗi: ',err);
+                                     }
+                                     this.refs.toast.show(res.data.message,1000);
+                                     if(res.data.code  === 200)
+                                     {
+
+                                         this.props.navigation.navigate('Login');
+                                     }
+
+
+                                 }}
+                        />
+
+
                     </View>
                 </View>
             </KeyboardAwareScrollView>

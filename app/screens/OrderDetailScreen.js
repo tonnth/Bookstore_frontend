@@ -384,7 +384,7 @@ class OrderDetailScreen extends Component<>
 
         );
     }
-   
+
 
     shouldComponentUpdate(nextProps)
     {

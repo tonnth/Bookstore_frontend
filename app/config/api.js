@@ -51,7 +51,12 @@ exports.getNewBooks =  function ()
 
     })
 }
-
+exports.getBookByGenre =  function (MaTheLoai)
+{
+    let url = Globals.BASE_URL + 'sach/theloai/'+MaTheLoai;
+    console.log("GET Sach Theo The Loai: " + url);
+    return  axios.get(url);
+}
 exports.Login = function (Email,MatKhau)
 {
     console.log('API LOGIN')
@@ -60,6 +65,18 @@ exports.Login = function (Email,MatKhau)
         {
             Email: Email,
             MatKhau: MatKhau,
+        })
+}
+
+exports.SignUp = function (Email,MatKhau,HoTen)
+{
+    console.log('API SIGNUP')
+    let url = Globals.BASE_URL + 'khachhang/dangky';
+    return axios.post(url,
+        {
+            Email: Email,
+            MatKhau: MatKhau,
+            HoTenKhachHang: HoTen,
         })
 }
 

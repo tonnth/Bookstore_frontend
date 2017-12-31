@@ -59,9 +59,10 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
+
         Loading: {screen: LoadingScreen},
         Login: {screen: LoginScreen},
-
+        SignUp: {screen: SignUpScreen},
 
         Home: {screen: HomeScreen},
         Account: {screen: AccountScreen},
@@ -84,7 +85,7 @@ export const Stack = StackNavigator(
         Confirm: {screen: ConfirmScreen},
 
         Forgot: {screen: ForgotScreen},
-        SignUp: {screen: SignUpScreen},
+
         ChangeInfo: {screen: ChangeInfoScreen},
     },
     {
