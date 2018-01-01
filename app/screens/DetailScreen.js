@@ -198,7 +198,8 @@ class DetailScreen extends Component
                          shadow
                          border={5}
                          action={ () => {
-                             addToCart(this.params,this.props.reduxState.cart);
+                             console.log(this.params);
+                              addToCart(this.params,this.props.reduxState.cart);
                              this.refs.toast.show('Đã thêm ' + this.params.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
                          }}
                 />

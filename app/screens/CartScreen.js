@@ -185,7 +185,7 @@ class CartScreen extends Component
                         </View>
                         <View style={{position: 'absolute', bottom: 20, right:-20}}>
                             <UIStepper
-                                initialValue={item.SoLuong}
+                                initialValue={item.SoLuongBan}
                                 minimumValue={1}
                                 maximumValue={item.SoLuongTon}
                                 displayValue={true}
@@ -197,7 +197,7 @@ class CartScreen extends Component
                                 textColor={'#616161'}
                                 onValueChange={(value) =>
                                 {
-                                    this.total += (value - item.SoLuong) * item.GiaBan*(1-item.KhuyenMai/100);
+                                    this.total += (value - item.SoLuongBan) * item.GiaBan*(1-item.KhuyenMai/100);
                                     this.setState({
                                         total: this.total,
                                     })
@@ -212,7 +212,7 @@ class CartScreen extends Component
                             onPress={async () =>
                             {
                                 console.log(item);
-                                this.total -= item.GiaBan*(1-item.KhuyenMai/100)*item.SoLuong;
+                                this.total -= item.GiaBan*(1-item.KhuyenMai/100)*item.SoLuongBan;
                                 await this.setState({
                                     total: this.total,
                                 })

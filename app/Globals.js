@@ -71,7 +71,7 @@ export const addToCart = (book, cart) =>
     {
         if(book.MaSach === tempCart[i].MaSach)
         {
-            tempCart[i].SoLuong +=1;
+            tempCart[i].SoLuongBan +=1;
             store.dispatch({type: UPDATE_CART, payload: tempCart});
             push=false;
             break;
@@ -80,7 +80,7 @@ export const addToCart = (book, cart) =>
     if(push)
     {
         var tempBook = book;
-        tempBook.SoLuong =1;
+        tempBook.SoLuongBan = 1;
         tempCart.push(tempBook);
         store.dispatch({type: UPDATE_CART, payload: tempCart});
     }
@@ -120,14 +120,11 @@ export const updateCartItem = (book, cart) =>
 }
 export const accountingTotal = (dsSanPham) =>
 {
-    console.log('Tính tổng');
-    console.log(dsSanPham);
     var total = 0;
     for (i = 0; i < dsSanPham.length; i++)
     {
-        total += dsSanPham[i].GiaBan * (1 - dsSanPham[i].KhuyenMai / 100) * dsSanPham[i].SoLuong;
+        total += dsSanPham[i].GiaBan * (1 - dsSanPham[i].KhuyenMai / 100) * dsSanPham[i].SoLuongBan;
     }
-    console.log('Total là=', total);
     return total;
 }
 

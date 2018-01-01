@@ -66,12 +66,13 @@ class OrderDetailScreen extends Component<>
             dataSource: this.item.dsSanPham,
 
         };
+        console.log(this.item.dsSanPham);
+        console.log(this.props.reduxState.cart);
     }
 
     componentDidMount()
     {
     }
-
 
     getThoiGianGiaoHang = (NgayLapHoaDon) =>
     {
