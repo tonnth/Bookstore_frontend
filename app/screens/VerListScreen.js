@@ -30,7 +30,7 @@ class VerListScreen extends Component
             page: 1,
             refreshing: false,
             total_page: 1,
-            dataSource: this.params.data.data,
+            dataSource: this.params.data,
         };
         this.itemWidth = width / this.params.colNumber - 10;
         console.log(this.state.dataSource);

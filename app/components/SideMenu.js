@@ -22,6 +22,7 @@ class SideMenu extends React.Component
 
     render()
     {
+        console.log('Render slidemenu');
         let that = this;
         // https://oblador.github.io/react-native-vector-icons/
         return (
@@ -89,7 +90,7 @@ class SideMenu extends React.Component
                                         fontSize: 20,
                                         fontWeight: 'bold',
                                     }}>
-                                    Hoàng Tôn
+                                    {this.props.reduxState.user ? this.props.reduxState.user.HoTenKhachHang: ''}
                                 </Text>
                             </View>
                         </View>

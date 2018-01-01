@@ -5,15 +5,13 @@ import {
 import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 
-import Globals, {UPDATE_CURRENT_SCREEN, UPDATE_TOKEN,resetAction} from "../Globals";
+import Globals, {UPDATE_CURRENT_SCREEN, UPDATE_TOKEN, resetAction} from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
 import FastImage from "react-native-fast-image";
 import {getFromLocal} from "../config/storage";
 import store from "../Store";
 import {NavigationActions} from "react-navigation";
-
-
 
 
 class LoadingScreen extends Component
@@ -27,7 +25,7 @@ class LoadingScreen extends Component
 
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
+        console.log(this.props.navigation.state.routeName + ' Render');
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -41,7 +39,7 @@ class LoadingScreen extends Component
                     blurRadius={Platform.OS === 'ios' ? 7 : 2}
                     resizeMode={'cover'}>
 
-                    <View style={{width: 300, alignItems: 'center', justifyContent: 'center', marginTop:150}}>
+                    <View style={{width: 300, alignItems: 'center', justifyContent: 'center', marginTop: 150}}>
                         <Image
                             source={require("../img/logo.png")}
                             style={styles.logo}
@@ -63,20 +61,19 @@ class LoadingScreen extends Component
     async getData()
     {
         await api.getPromotionBooks();
-        await  api.getNewBooks();
+        await api.getNewBooks();
 
 
         var token = await getFromLocal('token');
-        if(token != null &&  token != undefined)
+
+        if (token != null && token != undefined)
         {
             store.dispatch({type: UPDATE_TOKEN, payload: token});
-            api.getUserInfo(token);
+            api.getUserInfo(token).then(() => this.props.navigation.navigate('Home', {screen: 'Home'}));
             api.getOrderHistory(token);
             api.getFavouriteBooks(token);
         }
-
-        this.props.navigation.navigate('Home', {screen: 'Home'});
-
+        else this.props.navigation.navigate('Home', {screen: 'Home'});
 
         console.log(this.props.reduxState.listPromotionBooks);
 
@@ -99,7 +96,7 @@ class LoadingScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {
@@ -136,7 +133,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: '700'
     },
-    loadicon:{
+    loadicon: {
         position: 'absolute',
         bottom: -60,
         alignSelf: 'center',

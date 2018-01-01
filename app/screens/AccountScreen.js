@@ -46,7 +46,7 @@ class AccountScreen extends Component
         console.log("DETAIL SCREEN");
         super(props);
         this.params = this.props.navigation.state.params;
-        console.log(this.params);
+        // console.log(this.params);
 
         this.state = {
             user: this.props.reduxState.user,
@@ -74,7 +74,7 @@ class AccountScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
+      //  console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {
@@ -90,7 +90,7 @@ class AccountScreen extends Component
     render()
     {
         if (this.state.errorMessage) alert(this.state.errorMessage);
-        console.log(this.props.navigation.state.routeName + ' Render');
+      //  console.log(this.props.navigation.state.routeName + ' Render');
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFANoiGzwMeVa4PdAnNJ3GBAZbA-TDlCnubGAc7oR6nbmaYo5k';
         // hinh anh co the dung letter image trong doopage cung dc

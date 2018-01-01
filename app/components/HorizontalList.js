@@ -20,9 +20,8 @@ class HorizontalList extends Component
 {
     constructor(props)
     {
-
         super(props);
-        console.log("HORIZONTALLIST", this.props.data);
+       // console.log("HORIZONTALLIST", this.props.data);
         this.state = {
             page: 1,
             refreshing: false,
