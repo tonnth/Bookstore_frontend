@@ -105,7 +105,7 @@ class HomeScreen extends Component
                                           this.props.navigation.navigate('Search');
                                       }}>
                         <View style={styles.searchbar}>
-                            <Icon name="ios-search"/>
+                            <IconFeather name="search" style={{fontSize: 25}}/>
                             <Text style={{marginLeft: 13, fontSize: 17, ...Globals.FONT}}>Search</Text>
                         </View>
                     </TouchableOpacity>
@@ -276,9 +276,11 @@ const styles = StyleSheet.create({
     searchbar: {
         padding: 0,
         borderBottomWidth: 1,
-        borderBottomColor: '#eaeaea',
+        borderBottomColor: '#212121',
         flexDirection: 'row',
         alignItems: 'center',
+        paddingBottom: 5,
+        opacity: 0.5
     },
     content: {
         display: "flex",

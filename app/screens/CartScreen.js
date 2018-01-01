@@ -19,6 +19,7 @@ import {HButtonBack} from "../components/HButtonBack";
 import HButton from "../components/HButton";
 import UIStepper from 'react-native-ui-stepper';
 import store from "../Store";
+import Feather from "react-native-vector-icons/Feather";
 
 const {height, width} = Dimensions.get("window");
 
@@ -34,7 +35,7 @@ class CartScreen extends Component
             refreshing: false,
             value: 10,
             total_page: 1,
-            dataSource: this.props.reduxState.listPromotionBooks.slice(0,5),
+            dataSource: this.props.reduxState.listPromotionBooks.slice(0, 5),
         };
         this.itemWidth = width;
     }
@@ -66,7 +67,7 @@ class CartScreen extends Component
 
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
+        console.log(this.props.navigation.state.routeName + ' Render');
         this.heightFooter = 80;
         let empty = this.state.dataSource.length === 0;
         return (
@@ -177,7 +178,7 @@ class CartScreen extends Component
                                 -{item.KhuyenMai}%
                             </Text>
                         </View>
-                        <View style={{position: 'absolute', bottom: 20, right:-20}}>
+                        <View style={{position: 'absolute', bottom: 20, right: -20}}>
                             <UIStepper
                                 initialValue={index}
                                 minimumValue={1}
@@ -197,7 +198,7 @@ class CartScreen extends Component
                         </View>
                     </View>
                     <Button transparent
-                            style={{position: 'absolute', top: 0, right: 0}}
+                            style={{position: 'absolute', top: 0, right: 10}}
                             onPress={() =>
                             {
                                 this.state.dataSource.splice(index, 1);
@@ -205,8 +206,8 @@ class CartScreen extends Component
                                     dataSource: this.state.dataSource,
                                 });
                             }}>
-                        <Icon name="ios-close-outline"
-                              style={{color: '#000', fontSize: Globals.ICONSIZE + 5, opacity: 0.8}}/>
+                        <Feather name="x"
+                                 style={{color: '#000', fontSize: Globals.ICONSIZE - 10, opacity: 0.7}}/>
                     </Button>
 
                 </Card>
@@ -267,7 +268,7 @@ class CartScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log('Cart Render' , nextProps);
+        console.log('Cart Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {

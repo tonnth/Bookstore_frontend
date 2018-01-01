@@ -4,6 +4,7 @@ import Globals from "../Globals";
 import {Container} from "native-base";
 import LinearGradient from "react-native-linear-gradient";
 import {connect} from "react-redux";
+import IconFeather from 'react-native-vector-icons/Feather';
 
 class SideMenu extends React.Component
 {
@@ -61,38 +62,28 @@ class SideMenu extends React.Component
                                 marginBottom: 130,
                                 width: that.state.slidemenuWidth,
                                 justifyContent: 'center',
-                                flexDirection: 'row',
                                 alignItems: 'center',
                             }}>
-                            <Image
-                                source={require("../img/man.png")}
+
+                            <Text
                                 style={{
-                                    height: 60,
-                                    width: 60,
-                                    marginRight: 10,
-                                }}/>
-                            <View>
-                                <Text
-                                    style={{
-                                        fontFamily: 'OpenSans-Regular',
-                                        color: "white",
-                                        backgroundColor: 'transparent',
-                                        fontSize: 15,
-                                        opacity: 0.8,
-                                    }}>
-                                    Xin chào
-                                </Text>
-                                <Text
-                                    style={{
-                                        fontFamily: 'OpenSans-Regular',
-                                        color: "white",
-                                        backgroundColor: 'transparent',
-                                        fontSize: 20,
-                                        fontWeight: 'bold',
-                                    }}>
-                                    {this.props.reduxState.user ? this.props.reduxState.user.HoTenKhachHang: ''}
-                                </Text>
-                            </View>
+                                    fontFamily: 'OpenSans-Regular',
+                                    color: "white",
+                                    backgroundColor: 'transparent',
+                                    fontSize: 15,
+                                }}>
+                                Xin chào
+                            </Text>
+                            <Text
+                                style={{
+                                    fontFamily: 'OpenSans-Regular',
+                                    color: "white",
+                                    backgroundColor: 'transparent',
+                                    fontSize: 35,
+                                    fontWeight: 'bold',
+                                }}>
+                                {this.props.reduxState.user ? this.props.reduxState.user.HoTenKhachHang : ''}
+                            </Text>
                         </View>
                     </View>
                 </LinearGradient>
@@ -106,10 +97,13 @@ class SideMenu extends React.Component
                         justifyContent: 'space-around',
                     }}>
                     <TouchableOpacity style={styles.item}
-                                      onPress={() => {this.props.navigation.navigate('Home')}}>
-                        <Image
-                            source={require("../img/home.png")}
-                            style={styles.image}/>
+                                      onPress={() =>
+                                      {
+                                          this.props.navigation.navigate('Home')
+                                      }}>
+
+                        <IconFeather name="home" size={25} color="#fff"
+                                     style={styles.image}/>
 
                         <Text style={styles.text}>
                             Trang chủ
@@ -117,10 +111,13 @@ class SideMenu extends React.Component
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.item}
-                                      onPress={() => {this.props.navigation.navigate('Order')}}>
-                        <Image
-                            source={require("../img/box.png")}
-                            style={styles.image}/>
+                                      onPress={() =>
+                                      {
+                                          this.props.navigation.navigate('Order')
+                                      }}>
+
+                        <IconFeather name="shopping-cart" size={25} color="#fff"
+                                     style={styles.image}/>
 
                         <Text style={styles.text}>
                             Đơn hàng của tôi
@@ -128,10 +125,13 @@ class SideMenu extends React.Component
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.item}
-                                      onPress={() => {this.props.navigation.navigate('Favorite')}}>
-                        <Image
-                            source={require("../img/like.png")}
-                            style={styles.image}/>
+                                      onPress={() =>
+                                      {
+                                          this.props.navigation.navigate('Favorite')
+                                      }}>
+
+                        <IconFeather name="heart" size={25} color="#fff"
+                                     style={styles.image}/>
 
                         <Text style={styles.text}>
                             Danh sách yêu thích
@@ -139,10 +139,13 @@ class SideMenu extends React.Component
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.item}
-                                      onPress={() => {this.props.navigation.navigate('Account')}}>
-                        <Image
-                            source={require("../img/user.png")}
-                            style={styles.image}/>
+                                      onPress={() =>
+                                      {
+                                          this.props.navigation.navigate('Account')
+                                      }}>
+
+                        <IconFeather name="info" size={25} color="#fff"
+                                     style={styles.image}/>
 
                         <Text style={styles.text}>
                             Thông tin tài khoản
@@ -155,9 +158,9 @@ class SideMenu extends React.Component
                         {
                             this.props.navigation.navigate('Login');
                         }}>
-                        <Image
-                            source={require("../img/signout.png")}
-                            style={styles.image}/>
+
+                        <IconFeather name="log-out" size={25} color="#fff"
+                                     style={styles.image}/>
 
                         <Text style={styles.text}>
                             Đăng xuất
@@ -191,6 +194,7 @@ class SideMenu extends React.Component
         );
     }
 }
+
 const mapStateToProps = reduxState =>
 {
     return {reduxState};
