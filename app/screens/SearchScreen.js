@@ -128,13 +128,13 @@ class SearchScreen extends Component
                             marginBottom: 5,
                             alignSelf: 'flex-start',
                             marginLeft: 50,
+                            opacity: 0.7
                         }}>Lịch sử tìm kiếm</Text>
                     <View style={{
                         width: width - 80,
-                        backgroundColor: '#BDBDBD',
+                        backgroundColor: 'transparent',
                         minHeight: 100,
-                        borderRadius: 15,
-                        padding: 15,
+                        marginTop: 5,
                     }}>
                         {this.renderItem(goiy[0])}
                         {this.renderItem(goiy[1])}
@@ -152,10 +152,15 @@ class SearchScreen extends Component
         return (
             <TouchableOpacity
                 style={{
-                    justifyContent: 'center',
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#d9d9d9',
-                    padding: 10,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    backgroundColor: '#fff',
+                    padding: 5,
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                    flexDirection: 'row',
                 }}
                 onPress={() =>
                 {
@@ -163,6 +168,10 @@ class SearchScreen extends Component
                 <Text
                     style={{color: '#000', fontSize: 20,}}
                     numberOfLines={1}>{item}</Text>
+                <Button transparent
+                        onPress={() => {}}>
+                    <Icon name="ios-close-outline" size={25} color="#000" style={{color: '#000'}}/>
+                </Button>
             </TouchableOpacity>
         );
     };
