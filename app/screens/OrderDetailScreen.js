@@ -17,7 +17,7 @@ import {
     Icon,
     CardItem,
 } from 'native-base';
-import {formatCurency, formatDate, formatOrderId} from "../Globals";
+import {formatCurency, formatDate, formatOrderId, datetoString} from "../Globals";
 import Line from "../components/Line";
 import Globals from "../Globals";
 import {connect} from "react-redux";
@@ -56,13 +56,15 @@ class OrderDetailScreen extends Component<>
 {
     constructor(props)
     {
+        console.log('ORDER DETAIL SCREEN');
         super(props);
         this.item = this.props.navigation.state.params.item;
+        console.log(this.item);
         this.state = {
             text: '',
             //dataSource: [1, 2, 3, 4],
             dataSource: this.item.dsSanPham,
-            stepCount: 3,
+
         };
     }
 
@@ -70,23 +72,50 @@ class OrderDetailScreen extends Component<>
     {
     }
 
-    accounting = () =>
+    accountingTotal = () =>
     {
         var dsSanPham = this.item.dsSanPham;
         var total = 0;
-        for(i =0; i <  dsSanPham.length; i++)
+        for (i = 0; i < dsSanPham.length; i++)
         {
-            total += dsSanPham[i].GiaBan*(1-dsSanPham[i].KhuyenMai/100)*dsSanPham[i].SoLuongBan;
+            total += dsSanPham[i].GiaBan * (1 - dsSanPham[i].KhuyenMai / 100) * dsSanPham[i].SoLuongBan;
         }
         return total;
     }
+    getThoiGianGiaoHang = (NgayLapHoaDon) =>
+    {
+
+        var year, month, day;
+        year = NgayLapHoaDon.slice(0, 4);
+        month = NgayLapHoaDon.slice(5, 7);
+        day = NgayLapHoaDon.slice(8, 10);
+        var date = new Date(month+"/"+day+"/"+year);
+        var date1= new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+        var date2= new Date(date.getFullYear(), date.getMonth(), date.getDate() + 3);
+        return datetoString(date1) + " đến " + datetoString(date2);
+    }
+
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
+
+        let state = 0; //trạng thái đơn hàng 0, 1 , 2, xu ly, giao hang, da dong
+        console.log(this.props.navigation.state.routeName + ' Render');
+        if (this.item.NgayThuTien == null)
+        {
+            if (this.item.TrangThai === 'Chưa thanh toán(Không cho nợ)' || this.item.TrangThai === 'Chưa thanh toán')
+            {
+                state = 1;
+            }
+        }
+        else
+        {
+            state = 2;
+        }
+
         let soxu = 10;
         let madon = '#00001233';
         let ngaydat = '08/08/2017';
-        let state = 2; //trạng thái đơn hàng 0, 1 , 2, xu ly, giao hang, da dong
+
         let ngaygiao = '12/12/2017';
         let ngaygiaodukien = [moment(ngaydat, "DD/MM/YYYY").add(1, 'days').format("DD/MM/YYYY"), moment(ngaydat, "DD/MM/YYYY").add(5, 'days').format("DD/MM/YYYY")];
         return (
@@ -223,7 +252,7 @@ class OrderDetailScreen extends Component<>
                                 </Text>
                                 <Text
                                     style={[styles.madon, {marginBottom: 5}]}
-                                    numberOfLines={1}>{ngaygiaodukien[0] + ' đến ' + ngaygiaodukien[1]}</Text>
+                                    numberOfLines={1}>{ this.getThoiGianGiaoHang(this.item.NgayLapHoaDon)}</Text>
                             </View>}
                         </Card>
 
@@ -263,7 +292,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{formatCurency(this.accounting())}</Text>
+                                    }}>{formatCurency(this.accountingTotal())}</Text>
                             </View>
 
                             <View style={{
@@ -305,7 +334,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{this.item.SoXuSuDung} ({' ' + formatCurency(-this.item.SoXuSuDung*1000)})</Text>
+                                    }}>{this.item.SoXuSuDung} ({' ' + formatCurency(-this.item.SoXuSuDung * 1000)})</Text>
                             </View>}
                             <Line width={(window.width - 20 - 30)}
                                   style={{alignSelf: 'center', marginBottom: 20}}/>
@@ -365,7 +394,7 @@ class OrderDetailScreen extends Component<>
                     borderRadius={5}
                 />
 
-                <View style={{marginTop: 10, marginLeft: 10, width: widthImage*2}}>
+                <View style={{marginTop: 10, marginLeft: 10, width: widthImage * 2}}>
                     <Text
                         style={styles.tensach}
                         numberOfLines={2}>{item.TenSach}</Text>
@@ -373,11 +402,11 @@ class OrderDetailScreen extends Component<>
 
                     <Text
                         numberOfLines={1}
-                        style={[styles.soluong, {marginTop: 10}]}>{formatCurency(item.GiaBan * (1 - item.KhuyenMai/100)) + ' X ' + item.SoLuongBan}</Text>
+                        style={[styles.soluong, {marginTop: 10}]}>{formatCurency(item.GiaBan * (1 - item.KhuyenMai / 100)) + ' X ' + item.SoLuongBan}</Text>
 
                     <Text
                         numberOfLines={1}
-                        style={[styles.giaban]}>{formatCurency(item.GiaBan* (1 - item.KhuyenMai/100) * item.SoLuongBan)}</Text>
+                        style={[styles.giaban]}>{formatCurency(item.GiaBan * (1 - item.KhuyenMai / 100) * item.SoLuongBan)}</Text>
 
                 </View>
             </View>
@@ -388,7 +417,7 @@ class OrderDetailScreen extends Component<>
 
     shouldComponentUpdate(nextProps)
     {
-        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {

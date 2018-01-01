@@ -24,6 +24,14 @@ export const formatCurency = a =>
     return a.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " VNĐ";
 };
 
+export const datetoString = date =>
+{
+   var mm = date.getMonth() +1;
+   var dd= date.getDate();
+   var strD = (dd>9 ? '' : '0') + dd;
+   var strM = (mm>9 ? '' : '0') + mm;
+   return strD+"/"+strM+"/"+date.getFullYear();
+}
 export const formatDate = str =>
 {
     var year, month, day;

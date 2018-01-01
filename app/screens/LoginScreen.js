@@ -3,7 +3,7 @@ import {
     View, Text, Image, ImageBackground, StyleSheet, StatusBar, Platform, TouchableOpacity
 } from 'react-native';
 import {Button, Header, Icon, Input, Item, Label} from "native-base";
-import Globals,{validateEmail} from "../Globals";
+import Globals, {UPDATE_TOKEN, validateEmail} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import * as api from "../config/api";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -15,6 +15,7 @@ import Toast, {DURATION} from 'react-native-easy-toast'
 
 import FastImage from "react-native-fast-image";
 import {getFromLocal, setToLocal} from "../config/storage";
+import store from "../Store";
 
 export default class LoginScreen extends Component
 {
@@ -132,7 +133,10 @@ export default class LoginScreen extends Component
                                      if(res.data.code  === 200)
                                      {
                                          setToLocal('token', res.data.token);
+                                         store.dispatch({type: UPDATE_TOKEN, payload: res.data.token});
                                          api.getUserInfo(res.data.token);
+                                         api.getOrderHistory(res.data.token);
+                                         api.getFavouriteBooks(res.data.token);
                                          this.props.navigation.navigate('Home');
                                      }
                                      else
