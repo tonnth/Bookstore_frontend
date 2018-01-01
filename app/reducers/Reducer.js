@@ -2,7 +2,7 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_ACCESS_TOKEN, FETCHING_ACCESS_TOKEN_SUCCESS, FETCHING_ACCESS_TOKEN_FAIL,
-    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN,
+    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART,
     UPDATE_TOKEN, FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS,
     FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS, FETCHING_FAVOURITE_FAIL,
     FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS,
@@ -40,6 +40,9 @@ const initialState = {
     order_history: null,
     hasError_Order_History: false,
     errorMessage_Order_History:null,
+
+    //Cart
+    cart: [],
 
 
     screen: '',
@@ -172,6 +175,12 @@ export const reducer = (state = initialState, action) =>
             ...state,
             screen: action.payload,
         });
+
+        case UPDATE_CART:
+            return Object.assign(state, {
+                ...state,
+                cart: action.payload,
+            });
 
         case UPDATE_TOKEN:
             return Object.assign(state, {

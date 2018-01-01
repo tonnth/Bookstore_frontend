@@ -10,7 +10,10 @@ import {
 } from "react-native";
 
 import {connect} from "react-redux";
-import Globals, {FETCHING_NEW_BOOKS_FAIL, formatCurency, TheLoai, UPDATE_CURRENT_SCREEN} from "../Globals";
+import Globals, {
+    FETCHING_NEW_BOOKS_FAIL, formatCurency, removeFromCart, TheLoai, UPDATE_CURRENT_SCREEN,
+    updateCartItem, accountingTotal
+} from "../Globals";
 import * as api from "../config/api";
 import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
@@ -27,15 +30,17 @@ class CartScreen extends Component
 {
     constructor(props)
     {
-        console.log("HORIZONTALLIST");
+        console.log("Cart Screen");
         super(props);
         this.params = this.props.navigation.state.params;
+        this.total = accountingTotal( this.props.reduxState.cart);
         this.state = {
             page: 1,
             refreshing: false,
             value: 10,
             total_page: 1,
-            dataSource: this.props.reduxState.listPromotionBooks.slice(0, 5),
+            dataSource: this.props.reduxState.cart,
+            total: this.total,
         };
         this.itemWidth = width;
     }
@@ -125,7 +130,7 @@ class CartScreen extends Component
                                 fontWeight: '800', fontSize: 22, textShadowColor: 'rgba(0, 0, 0, 0.75)',
                                 textShadowOffset: {width: -1, height: 1},
                                 textShadowRadius: 2
-                            }}>{formatCurency(100000)}</Text>
+                            }}>{formatCurency(this.state.total)}</Text>
 
                     </View>
 
@@ -143,6 +148,7 @@ class CartScreen extends Component
 
     renderItem = ({item, index}) =>
     {
+        console.log(item);
         let tempUri = Globals.BASE_URL + item.HinhAnh;
         let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
         let widthImage = 100;
@@ -170,19 +176,19 @@ class CartScreen extends Component
                             <Text
                                 numberOfLines={1}
                                 style={styles.giaban2}>
-                                {formatCurency(item.GiaBan)}{" "}
+                                {item.KhuyenMai > 0 ? formatCurency(item.GiaBan) : ''}
                             </Text>
                             <Text
                                 numberOfLines={1}
                                 style={styles.khuyenmai}>
-                                -{item.KhuyenMai}%
+                                {item.KhuyenMai > 0 ? '-' + item.KhuyenMai + '%' : ''}
                             </Text>
                         </View>
                         <View style={{position: 'absolute', bottom: 20, right: -20}}>
                             <UIStepper
-                                initialValue={index}
+                                initialValue={item.SoLuongBan}
                                 minimumValue={1}
-                                maximumValue={10}
+                                maximumValue={item.SoLuongTon}
                                 displayValue={true}
                                 borderRadius={20}
                                 borderWidth={2}
@@ -192,16 +198,30 @@ class CartScreen extends Component
                                 textColor={'#616161'}
                                 onValueChange={(value) =>
                                 {
-                                    this.setState({value})
+                                    this.total += (value - item.SoLuongBan) * item.GiaBan*(1-item.KhuyenMai/100);
+                                    this.setState({
+                                        total: this.total,
+                                    })
+                                    item.SoLuong=value;
+                                    updateCartItem(item,this.props.reduxState.cart);
                                 }}
                             />
                         </View>
                     </View>
                     <Button transparent
-                            style={{position: 'absolute', top: 0, right: 10}}
-                            onPress={() =>
+                            style={{position: 'absolute', top: 0, right: 0}}
+                            onPress={async () =>
                             {
+                                console.log(item);
+                                this.total -= item.GiaBan*(1-item.KhuyenMai/100)*item.SoLuongBan;
+                                await this.setState({
+                                    total: this.total,
+                                })
+
+
+
                                 this.state.dataSource.splice(index, 1);
+                                removeFromCart(item, this.props.reduxState.cart);
                                 this.setState({
                                     dataSource: this.state.dataSource,
                                 });

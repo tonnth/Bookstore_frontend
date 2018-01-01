@@ -20,7 +20,6 @@ class LoadingScreen extends Component
     {
         console.log("LOADING SCREEN");
         super(props);
-
     }
 
     render()

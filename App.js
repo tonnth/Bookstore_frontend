@@ -59,7 +59,6 @@ export default class App extends Component
 
 export const Stack = StackNavigator(
     {
-
         Loading: {screen: LoadingScreen},
         Login: {screen: LoginScreen},
         SignUp: {screen: SignUpScreen},

@@ -18,7 +18,7 @@ import {
     Icon,
     CardItem,
 } from 'native-base';
-import Globals, {formatCurency} from "../Globals";
+import Globals, {addToCart, formatCurency} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import {HButtonBack} from "../components/HButtonBack";
 import HImage from "../components/HImage";
@@ -112,7 +112,7 @@ class DetailScreen extends Component
                                     {this.params.TenSach}
                                 </Text>
                                 <Text style={styles.bookTacGia}>
-                                    đây là tên tác giả
+                                    {this.params.TacGia}
                                 </Text>
 
                                 <Text
@@ -123,12 +123,12 @@ class DetailScreen extends Component
                                     <Text
                                         numberOfLines={1}
                                         style={styles.giaban2}>
-                                        {formatCurency(this.params.GiaBan)}{" "}
+                                        {this.params.KhuyenMai > 0 ? formatCurency(this.params.GiaBan) : ''}
                                     </Text>
                                     <Text
                                         numberOfLines={1}
                                         style={styles.khuyenmai}>
-                                        -{this.params.KhuyenMai}%
+                                        {this.params.KhuyenMai > 0 ? '-' + this.params.KhuyenMai + '%' : ''}
                                     </Text>
                                 </View>
                             </View>
@@ -174,17 +174,7 @@ class DetailScreen extends Component
                                 title={'GIỚI THIỆU SÁCH'}/>
                             <Text
                                 style={{...Globals.FONT, margin: 10, marginTop: 0, fontSize: 16, textAlign: 'justify'}}>
-                                Mọi người đều quan tâm muốn biết làm sao một quốc gia nghèo khó bị chiến tranh tàn phá
-                                có thể đạt được mức độ bình đẳng xã hội cao nhất thế giới và trở thành một trong những
-                                xã hội có nền công nghệ thông tin phát triển cao nhất với tất cả những mặt tốt và xấu
-                                của nó. Cuốn sách này trình bày rất nhiều các khía cạnh của câu truyện thành công này,
-                                với các chủ điểm từ quốc hội độc viện đến tủ phơi bát, từ chăm sóc trẻ ban ngày tới cầu
-                                giặt công cộng, từ công việc cộng đồng (“đàn ong thợ”) đến chủ nghĩa ba bên, từ bơi lội
-                                trong băng đến chính phủ liên hiệp, và từ hệ điều hành Linux đến Ông già Noel. Tất cả
-                                những thành tựu này có thể thể hiện cô đọng trong sáu bí quyết của giáo dục miễn phí,
-                                chính quyền tự quản, bình đẳng giới, tính xã hội dân sự, ra quyết định dựa trên sự đồng
-                                thuận và an sinh xã hội cho tất cả mọi người – và niềm tin cũng như sự bình yên xã hội
-                                và những điều này đem lại.
+                                {this.params.MoTa}
                             </Text>
                         </Card>
                         <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10}}>
@@ -207,6 +197,11 @@ class DetailScreen extends Component
                          navigation={this.props.navigation}
                          shadow
                          border={5}
+                         action={ () => {
+                             console.log(this.params);
+                              addToCart(this.params,this.props.reduxState.cart);
+                             this.refs.toast.show('Đã thêm ' + this.params.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
+                         }}
                 />
                 <Toast ref="toast"
                        textStyle={{fontSize: 17, color: '#fff'}}/>
