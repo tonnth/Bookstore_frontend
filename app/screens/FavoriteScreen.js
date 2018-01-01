@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import {connect} from "react-redux";
-import Globals, {formatCurency, TheLoai} from "../Globals";
+import Globals, {formatCurency, TheLoai, UPDATE_CART, removeFromCart,addToCart} from "../Globals";
 import * as api from "../config/api";
 import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
@@ -21,6 +21,7 @@ import UIStepper from 'react-native-ui-stepper';
 import {DURATION} from "react-native-easy-toast";
 import Toast from "react-native-easy-toast";
 import IconFeather from 'react-native-vector-icons/Feather';
+import store from "../Store";
 
 const {height, width} = Dimensions.get("window");
 
@@ -118,26 +119,6 @@ class FavoriteScreen extends Component
         );
     }
 
-    renderGiaCu = (item) => {
-        if(item.KhuyenMai != 0)
-        {
-            return(
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text
-                        numberOfLines={1}
-                        style={styles.giaban2}>
-                        {formatCurency(item.GiaBan)}{" "}
-                    </Text>
-                    <Text
-                        numberOfLines={1}
-                        style={styles.khuyenmai}>
-                        -{item.KhuyenMai}%
-                    </Text>
-                </View>
-            );
-        }
-    }
-
     renderItem = ({item, index}) =>
     {
         let widthImage = 100;
@@ -165,7 +146,19 @@ class FavoriteScreen extends Component
                         <Text
                             numberOfLines={1}
                             style={styles.giaban}>{giaBan}</Text>
-                        {this.renderGiaCu(item)}
+                        {/*{this.renderGiaCu(item)}*/}
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Text
+                                numberOfLines={1}
+                                style={styles.giaban2}>
+                                {item.KhuyenMai > 0 ? formatCurency(item.GiaBan) : ''}
+                            </Text>
+                            <Text
+                                numberOfLines={1}
+                                style={styles.khuyenmai}>
+                                {item.KhuyenMai > 0 ? '-' + item.KhuyenMai + '%' : ''}
+                            </Text>
+                        </View>
 
                     </View>
                     <Button transparent
@@ -195,6 +188,7 @@ class FavoriteScreen extends Component
                         }}
                         onPress={() =>
                         {
+                            addToCart(item,this.props.reduxState.cart);
                             this.refs.toast.show('Đã thêm ' + item.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
                         }}
                     >

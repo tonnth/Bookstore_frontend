@@ -1,4 +1,5 @@
 import {NavigationActions} from "react-navigation";
+import store from "./Store";
 
 export default Globals = {
     BASE_URL: 'https://tohiti-bookstore-backend.herokuapp.com/',
@@ -60,6 +61,74 @@ export const validateEmail = email =>
 {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email.toLowerCase());
+}
+
+export const addToCart = (book, cart) =>
+{
+    var push = true;
+    var tempCart = cart;
+    for(i = 0; i < tempCart.length; i++)
+    {
+        if(book.MaSach === tempCart[i].MaSach)
+        {
+            tempCart[i].SoLuong +=1;
+            store.dispatch({type: UPDATE_CART, payload: tempCart});
+            push=false;
+            break;
+        }
+    }
+    if(push)
+    {
+        var tempBook = book;
+        tempBook.SoLuong =1;
+        tempCart.push(tempBook);
+        store.dispatch({type: UPDATE_CART, payload: tempCart});
+    }
+
+}
+
+export const removeFromCart = (book, cart) =>
+{
+    var tempCart = cart;
+    for(i = 0; i < tempCart.length; i++)
+    {
+        if(book.MaSach === tempCart[i].MaSach)
+        {
+            tempCart.splice(i,1);
+            store.dispatch({type: UPDATE_CART, payload: tempCart});
+            break;
+
+        }
+    }
+
+}
+
+export const updateCartItem = (book, cart) =>
+{
+    var tempCart = cart;
+    for(i = 0; i < tempCart.length; i++)
+    {
+        if(book.MaSach === tempCart[i].MaSach)
+        {
+            tempCart[i]=book;
+            store.dispatch({type: UPDATE_CART, payload: tempCart});
+            break;
+
+        }
+    }
+
+}
+export const accountingTotal = (dsSanPham) =>
+{
+    console.log('Tính tổng');
+    console.log(dsSanPham);
+    var total = 0;
+    for (i = 0; i < dsSanPham.length; i++)
+    {
+        total += dsSanPham[i].GiaBan * (1 - dsSanPham[i].KhuyenMai / 100) * dsSanPham[i].SoLuong;
+    }
+    console.log('Total là=', total);
+    return total;
 }
 
 export const TheLoai = [
@@ -160,3 +229,4 @@ export const FETCHING_ORDER_HISTORY_FAIL = 'FETCHING_ORDER_HISTORY_FAIL';
 
 export const UPDATE_CURRENT_SCREEN = 'UPDATE_CURRENT_SCREEN';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const UPDATE_CART = 'UPDATE_CART';

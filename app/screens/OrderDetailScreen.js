@@ -17,7 +17,7 @@ import {
     Icon,
     CardItem,
 } from 'native-base';
-import {formatCurency, formatDate, formatOrderId, datetoString} from "../Globals";
+import {formatCurency, formatDate, formatOrderId, datetoString, accountingTotal} from "../Globals";
 import Line from "../components/Line";
 import Globals from "../Globals";
 import {connect} from "react-redux";
@@ -72,16 +72,7 @@ class OrderDetailScreen extends Component<>
     {
     }
 
-    accountingTotal = () =>
-    {
-        var dsSanPham = this.item.dsSanPham;
-        var total = 0;
-        for (i = 0; i < dsSanPham.length; i++)
-        {
-            total += dsSanPham[i].GiaBan * (1 - dsSanPham[i].KhuyenMai / 100) * dsSanPham[i].SoLuongBan;
-        }
-        return total;
-    }
+
     getThoiGianGiaoHang = (NgayLapHoaDon) =>
     {
 
@@ -115,7 +106,7 @@ class OrderDetailScreen extends Component<>
         let soxu = 10;
         let madon = '#00001233';
         let ngaydat = '08/08/2017';
-
+        let tongtien= accountingTotal(this.item.dsSanPham);
         let ngaygiao = '12/12/2017';
         let ngaygiaodukien = [moment(ngaydat, "DD/MM/YYYY").add(1, 'days').format("DD/MM/YYYY"), moment(ngaydat, "DD/MM/YYYY").add(5, 'days').format("DD/MM/YYYY")];
         return (
@@ -292,7 +283,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{formatCurency(this.accountingTotal())}</Text>
+                                    }}>{formatCurency(tongtien)}</Text>
                             </View>
 
                             <View style={{
