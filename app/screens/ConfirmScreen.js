@@ -232,7 +232,7 @@ export default class ConfirmScreen extends Component
                                 {this.state.index === index &&
                                 <Step2
                                     width={itemWidth}
-                                    action={() =>
+                                    action={(bienostep) =>
                                     {
                                         that.setState({index: 3});
                                         that.carousel.snapToNext();

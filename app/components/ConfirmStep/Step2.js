@@ -206,7 +206,9 @@ export default class Step2 extends Component<>
                     navigation={this.props.navigation}
                     shadow
                     border={20}
-                    action={this.props.action}
+                    action={() => {
+                        this.props.action(5)
+                    }}
                 />
             </ScrollView>
         );
