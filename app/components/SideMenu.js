@@ -30,15 +30,19 @@ class SideMenu extends React.Component
             <Container style={styles.container}
                        onLayout={e =>
                        {
-                           that.setState({slidemenuWidth: e.nativeEvent.layout.width})
+                           console.log(e.nativeEvent.layout);
+                           that.setState({
+                               slidemenuWidth: e.nativeEvent.layout.width,
+                               slidemenuHeight: e.nativeEvent.layout.height
+                           })
                        }}>
 
-                <LinearGradient colors={['#f7b733', '#fc4a1a']}
+                <LinearGradient colors={this.props.reduxState.user ? ['#f7b733', '#fc4a1a'] : ['#00F260', '#0575E6']}
                                 style={{
                                     backgroundColor: Globals.COLOR.MAINCOLOR,
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    minHeight: 300,
+                                    minHeight: this.props.reduxState.user ? 300 : this.state.slidemenuHeight / 2 + 100,
                                 }}>
                     <Image
                         source={require("../img/linecolor.png")}
@@ -56,7 +60,7 @@ class SideMenu extends React.Component
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}>
-
+                        {this.props.reduxState.user &&
                         <View
                             style={{
                                 marginBottom: 130,
@@ -82,9 +86,17 @@ class SideMenu extends React.Component
                                     fontSize: 35,
                                     fontWeight: 'bold',
                                 }}>
-                                {this.props.reduxState.user ? this.props.reduxState.user.HoTenKhachHang : ''}
+                                {this.props.reduxState.user.HoTenKhachHang}
                             </Text>
-                        </View>
+                        </View>}
+
+                        {!this.props.reduxState.user &&
+                        <View>
+                            <Image
+                                source={require("../img/logo.png")}
+                                style={styles.logo}
+                                resizeMode="contain"/>
+                        </View>}
                     </View>
                 </LinearGradient>
                 <View
@@ -93,7 +105,8 @@ class SideMenu extends React.Component
                         paddingLeft: 30,
                         paddingRight: 15,
                         flex: 1,
-                        maxHeight: 500,
+                        marginBottom: 50,
+                        maxHeight: this.props.reduxState.user ? 500 : 250,
                         justifyContent: 'space-around',
                     }}>
                     <TouchableOpacity style={styles.item}
@@ -109,7 +122,7 @@ class SideMenu extends React.Component
                             Trang chủ
                         </Text>
                     </TouchableOpacity>
-
+                    {this.props.reduxState.user &&
                     <TouchableOpacity style={styles.item}
                                       onPress={() =>
                                       {
@@ -122,8 +135,9 @@ class SideMenu extends React.Component
                         <Text style={styles.text}>
                             Đơn hàng của tôi
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
 
+                    {this.props.reduxState.user &&
                     <TouchableOpacity style={styles.item}
                                       onPress={() =>
                                       {
@@ -136,8 +150,9 @@ class SideMenu extends React.Component
                         <Text style={styles.text}>
                             Danh sách yêu thích
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
 
+                    {this.props.reduxState.user &&
                     <TouchableOpacity style={styles.item}
                                       onPress={() =>
                                       {
@@ -150,8 +165,9 @@ class SideMenu extends React.Component
                         <Text style={styles.text}>
                             Thông tin tài khoản
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
 
+                    {this.props.reduxState.user &&
                     <TouchableOpacity
                         style={styles.item}
                         onPress={() =>
@@ -165,7 +181,23 @@ class SideMenu extends React.Component
                         <Text style={styles.text}>
                             Đăng xuất
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
+
+                    {!this.props.reduxState.user &&
+                    <TouchableOpacity
+                        style={styles.item}
+                        onPress={() =>
+                        {
+                            this.props.navigation.navigate('Login');
+                        }}>
+
+                        <IconFeather name="log-in" size={25} color="#fff"
+                                     style={styles.image}/>
+
+                        <Text style={styles.text}>
+                            Đăng nhập
+                        </Text>
+                    </TouchableOpacity>}
                 </View>
 
                 <TouchableOpacity
@@ -174,7 +206,11 @@ class SideMenu extends React.Component
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        height: 50,
+                        height: 40,
+                        position: 'absolute',
+                        bottom: 0,
+                        width: this.state.slidemenuWidth,
+
                     }}
                     onPress={() =>
                     {
@@ -204,7 +240,7 @@ export default connect(mapStateToProps)(SideMenu);
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white'
+        backgroundColor: '#000'
     },
     header: {
         paddingRight: 15,
@@ -240,5 +276,10 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginTop: 5,
         marginRight: 20,
+    },
+    logo: {
+        height: 130,
+        width: 100,
+        marginBottom: 200,
     },
 });

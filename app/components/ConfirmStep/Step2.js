@@ -243,6 +243,7 @@ class Step2 extends Component<>
                         tempOrder.TongTienHoaDon=this.state.TongTienHoaDon;
                         store.dispatch({type: UPDATE_ORDER, payload: tempOrder});
                         this.props.action();
+
                     }}
                 />
 

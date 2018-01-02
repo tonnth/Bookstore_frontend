@@ -7,6 +7,7 @@ import MapView from 'react-native-maps';
 import Globals from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import {HButtonBack} from "../components/HButtonBack";
+import FastImage from "react-native-fast-image";
 
 const infoAddress = [
     {
@@ -44,26 +45,9 @@ export default class AddressScreen extends Component
         }
     }
 
-    updateView = (index) =>
-    {
-        console.log(index, this.callout.get(index));
-        this.refs.map.animateToRegion({
-            latitude: infoAddress[index].latitude,
-            longitude: infoAddress[index].longitude,
-            latitudeDelta: 0.00022,
-            longitudeDelta: 0.00421,
-        }, 1000);
-        const refCallout = this.callout.get(index);
-        TimerMixin.setTimeout(() =>
-        {
-            refCallout.showCallout();
-        }, 1100);
-    };
-
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
-        let that = this;
+        console.log(this.props.navigation.state.routeName + ' Render');
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -71,42 +55,6 @@ export default class AddressScreen extends Component
                     backgroundColor={'#fff'}
                     translucent
                 />
-                <MapView
-                    ref="map"
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: infoAddress[0].latitude,
-                        longitude: infoAddress[0].longitude,
-                        latitudeDelta: 0.00022,
-                        longitudeDelta: 0.00421,
-                    }}>
-                    {infoAddress.map((marker, index) => (
-                        <MapView.Marker
-                            key={index}
-                            coordinate={{latitude: marker.latitude, longitude: marker.longitude,}}
-                            ref={c =>
-                            {
-                                that.callout.set(index, c)
-                            }}>
-                            <Image
-                                source={require('../img/location.png')}
-                                style={{
-                                    width: 40, height: 40,
-                                }}/>
-                            <MapView.Callout>
-                                <View style={{width: Dimensions.get('window').width - 100}}>
-                                    <Text style={styles.title}>
-                                        {marker.name}
-                                    </Text>
-                                    <Text style={styles.decrip}>
-                                        {marker.phone}
-                                    </Text>
-
-                                </View>
-                            </MapView.Callout>
-                        </MapView.Marker>
-                    ))}
-                </MapView>
                 <View style={styles.carousel}>
                     <Carousel
                         ref={(c) =>
@@ -119,9 +67,6 @@ export default class AddressScreen extends Component
                         itemWidth={itemWidth}
                         containerCustomStyle={{flex: 1}}
                         onSnapToItem={this.updateView}
-                        loop
-                        autoplay={true}
-                        autoplayInterval={4000}
                     />
                 </View>
                 <HButtonBack
@@ -132,17 +77,45 @@ export default class AddressScreen extends Component
 
     renderItem = ({item, index}) =>
     {
+        let that = this;
         return (
             <View style={styles.slide}>
                 <View style={styles.slideInnerContainer}>
                     <View style={styles.image}>
-                        <Image
-                            source={{uri: item.image}}
-                            style={{
-                                flex: 1,
-                                overflow: 'hidden',
-                                borderRadius: 10,
-                            }}/>
+                        <View style={styles.map}>
+                            <View
+                                style={{flex: 1, borderRadius: 20, overflow: 'hidden'}}>
+                                <MapView
+                                    ref="map"
+                                    style={{flex: 1}}
+                                    initialRegion={{
+                                        latitude: infoAddress[index].latitude,
+                                        longitude: infoAddress[index].longitude,
+                                        latitudeDelta: 0.00022,
+                                        longitudeDelta: 0.00421,
+                                    }}>
+
+                                    <MapView.Marker
+                                        key={index}
+                                        coordinate={{
+                                            latitude: infoAddress[index].latitude,
+                                            longitude: infoAddress[index].longitude,
+                                        }}
+                                        ref={c =>
+                                        {
+                                            that.callout.set(index, c)
+                                        }}>
+                                    </MapView.Marker>
+
+                                </MapView>
+                            </View>
+                        </View>
+                        <Text style={styles.title}>
+                            {infoAddress[index].name}
+                        </Text>
+                        <Text style={styles.decrip}>
+                            {infoAddress[index].phone}
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -156,7 +129,7 @@ export default class AddressScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log('Address Render' , nextProps);
+        console.log('Address Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {
@@ -175,7 +148,7 @@ const slideWidth = 300;
 
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
-const itemHeight = 200;
+const itemHeight = Dimensions.get('window').height - 100;
 
 const styles = StyleSheet.create({
     container: {
@@ -183,9 +156,16 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     map: {
-        position: 'absolute',
-        top: 0, bottom: 0, left: 0, right: 0,
-        ...StyleSheet.absoluteFillObject,
+        height: itemHeight / 2,
+        borderRadius: 20,
+
+        backgroundColor: 'white',
+        shadowOffset: {width: 0, height: 3},
+        shadowOpacity: 0.5,
+        shadowRadius: 6,
+
+        // android (Android +5.0)
+        elevation: 5,
     },
     slide: {
         width: itemWidth,
@@ -199,15 +179,16 @@ const styles = StyleSheet.create({
         // other styles for the inner container
     },
     carousel: {
-        position: 'absolute',
         height: itemHeight + 10,
-        bottom: 10,
         justifyContent: 'center',
+        marginBottom: 20,
     },
     image: {
         flex: 1,
-        borderRadius: 10,
+        borderRadius: 25,
 
+        padding: 15,
+        flexDirection: 'column',
         backgroundColor: 'white',
         shadowOffset: {width: 0, height: 3},
         shadowOpacity: 0.5,
@@ -218,6 +199,7 @@ const styles = StyleSheet.create({
     },
     title: {
         ...Globals.FONT,
+        marginTop: 20,
         color: '#000',
         backgroundColor: 'transparent',
         fontSize: 18,
