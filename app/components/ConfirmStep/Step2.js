@@ -19,22 +19,28 @@ import {
 } from 'native-base';
 import HButton from "../HButton";
 import {HInput} from "../HInput";
-import Globals, {formatCurency} from "../../Globals";
+import Globals, {formatCurency, UPDATE_ORDER} from "../../Globals";
 import {Dropdown} from 'react-native-material-dropdown';
 import {tinhthanhpho} from "../../tinhthanhpho";
 import {quanhuyen} from "../../quan_huyen";
 import {xaphuong} from "../../xa_phuong";
+import Toast, {DURATION} from 'react-native-easy-toast';
 import Line from "../Line";
+import {connect} from "react-redux";
+import store from "../../Store";
 
-export default class Step2 extends Component<>
+class Step2 extends Component<>
 {
     constructor(props)
     {
         super(props);
         this.state = {
             text: '',
+            SoXuSuDung: 0,
+            TongTienHoaDon: this.props.reduxState.order.TongTienHoaDon,
+
         };
-        this.soxu = 10;
+        this.soxu = (this.props.reduxState.user) ? this.props.reduxState.user.SoXuTichLuy : 0;
     }
 
     componentDidMount()
@@ -43,11 +49,14 @@ export default class Step2 extends Component<>
 
     render()
     {
+        var tempUser
         return (
             <ScrollView
                 contentContainerStyle={{
                     alignItems: 'center', flex: 1,
                 }}>
+                <Toast ref="toast"
+                       textStyle={{fontSize: 17, color: '#fff'}}/>
                 <Text
                     style={{
                         alignSelf: 'flex-start',
@@ -70,7 +79,7 @@ export default class Step2 extends Component<>
                             fontSize: 13,
                             ...Globals.FONT
                         }}>
-                        {'Bạn có ' + this.soxu + ' xu, tương đương với ' + formatCurency(10000)}
+                        {'Bạn có ' + this.soxu + ' xu, tương đương với ' + formatCurency(this.soxu*1000)}
                     </Text>
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 10,}}>
                         <Text
@@ -82,7 +91,16 @@ export default class Step2 extends Component<>
                             {'Dùng '}
                         </Text>
                         <Item regular style={{borderRadius: 10, borderWidth: 1,width: 100, height: 40}}>
-                            <Input placeholder="Số xu"/>
+                            <Input
+                                placeholder="Số xu"
+                                keyboardType="numeric"
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        SoXuSuDung: text,
+                                        TongTienHoaDon: (this.props.reduxState.order.TongTienHoaDon - parseInt(text)*1000),
+                                    })
+                                }}
+                            />
                         </Item>
                         <Text
                             style={{
@@ -103,7 +121,7 @@ export default class Step2 extends Component<>
                             fontSize: 13,
                             ...Globals.FONT
                         }}>
-                        {'Bạn được giảm ' + formatCurency(10000)}
+                        {'Bạn được giảm ' + formatCurency(this.state.SoXuSuDung*1000)}
                     </Text>
                 </View>}
                 <View
@@ -134,7 +152,7 @@ export default class Step2 extends Component<>
                             fontSize: 15,
                             fontWeight: '600',
                             alignSelf: 'flex-end'
-                        }}>{formatCurency(700000)}</Text>
+                        }}>{formatCurency(this.props.reduxState.order.TongTienHoaDon)}</Text>
                 </View>
 
                 <View style={{
@@ -155,7 +173,7 @@ export default class Step2 extends Component<>
                             fontSize: 15,
                             fontWeight: '600',
                             alignSelf: 'flex-end'
-                        }}>{formatCurency(700000)}</Text>
+                        }}>{formatCurency(0)}</Text>
                 </View>
                 {this.soxu > 0 &&
                 <View style={{
@@ -176,7 +194,7 @@ export default class Step2 extends Component<>
                             fontSize: 15,
                             fontWeight: '600',
                             alignSelf: 'flex-end'
-                        }}>10</Text>
+                        }}>{this.state.SoXuSuDung}</Text>
                 </View>}
                 <Line width={(this.props.width - 40)}/>
                 <View style={{
@@ -197,7 +215,7 @@ export default class Step2 extends Component<>
                             fontSize: 15,
                             fontWeight: '700',
                             alignSelf: 'flex-end'
-                        }}>{formatCurency(700000)}</Text>
+                        }}>{formatCurency(this.state.TongTienHoaDon)}</Text>
                 </View>
                 <HButton
                     style={{position: 'absolute', bottom: 15}}
@@ -206,9 +224,35 @@ export default class Step2 extends Component<>
                     navigation={this.props.navigation}
                     shadow
                     border={20}
-                    action={this.props.action}
+                    action={() =>
+                    {
+                        if(this.state.SoXuSuDung > this.soxu)
+                        {
+                            this.refs.toast.show('Số xu sử dụng phải nhỏ hơn số xu hiện có.');
+                            return;
+                        }
+                        if(this.state.SoXuSuDung*1000 > this.props.reduxState.order.TongTienHoaDon)
+                        {
+                            this.refs.toast.show('Số xu sử dụng không được vượt quá giá trị đơn hàng');
+                            return;
+                        }
+
+
+                        var tempOrder = this.props.reduxState.order;
+                        tempOrder.SoXuSuDung = this.state.SoXuSuDung;
+                        tempOrder.TongTienHoaDon=this.state.TongTienHoaDon;
+                        store.dispatch({type: UPDATE_ORDER, payload: tempOrder});
+                        this.props.action();
+                    }}
                 />
+
             </ScrollView>
         );
     }
 }
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
+
+export default connect(mapStateToProps)(Step2);

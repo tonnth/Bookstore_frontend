@@ -192,7 +192,7 @@ class OrderDetailScreen extends Component<>
                                 Email: {" "}
                                 <Text
                                     style={styles.madon}
-                                    numberOfLines={1}>hoangton1996@gmail.com</Text>
+                                    numberOfLines={1}>{''}</Text>
                             </Text>
                             <Text style={{marginBottom: 5}}>
                                 Số điện thoại: {" "}

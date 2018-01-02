@@ -19,23 +19,28 @@ import {
 } from 'native-base';
 import HButton from "../HButton";
 import {HInput} from "../HInput";
-import Globals, {formatCurency} from "../../Globals";
+import Globals, {formatCurency, UPDATE_ORDER, UPDATE_CART} from "../../Globals";
 import {Dropdown} from 'react-native-material-dropdown';
 import {tinhthanhpho} from "../../tinhthanhpho";
 import {quanhuyen} from "../../quan_huyen";
 import {xaphuong} from "../../xa_phuong";
 import Line from "../Line";
 import HImage from "../HImage";
+import {connect} from "react-redux";
+import store from "../../Store";
+import * as api from "../../config/api";
 
-export default class Step3 extends Component<>
+class Step3 extends Component<>
 {
     constructor(props)
     {
         super(props);
+        console.log('STEP 3');
         this.state = {
             text: '',
-            dataSource: [1, 2, 3, 4],
+            dataSource: this.props.reduxState.cart,
         };
+        console.log(this.props.reduxState.order);
     }
 
     componentDidMount()
@@ -79,7 +84,7 @@ export default class Step3 extends Component<>
                                 fontSize: 22,
                                 fontWeight: '600',
                                 color: Globals.COLOR.MAINCOLOR,
-                            }}>{formatCurency(700000)}</Text>
+                            }}>{formatCurency(this.props.reduxState.order.TongTienHoaDon)}</Text>
                     </View>
 
                     <View
@@ -103,21 +108,21 @@ export default class Step3 extends Component<>
                                 fontSize: 16,
                                 fontWeight: '600',
                                 marginBottom: 5,
-                            }}>Nguyễn trần hoàng tôn</Text>
+                            }}>{this.props.reduxState.order.TenNguoiNhan}</Text>
                         <Text
                             style={{
                                 ...Globals.FONT,
                                 fontSize: 16,
                                 fontWeight: '600',
                                 marginBottom: 5,
-                            }}>974/14 Lo gốm</Text>
+                            }}>{this.props.reduxState.order.DiaChiGiaoHang}</Text>
                         <Text
                             style={{
                                 ...Globals.FONT,
                                 fontSize: 16,
                                 fontWeight: '600',
                                 marginBottom: 5,
-                            }}>01229716386</Text>
+                            }}>{this.props.reduxState.order.SoDienThoai}</Text>
                         <Text
                             style={{
                                 ...Globals.FONT,
@@ -153,7 +158,27 @@ export default class Step3 extends Component<>
                     navigation={this.props.navigation}
                     shadow
                     border={20}
-                    action={this.props.action}
+                    action={ async ()=>
+                    {
+                        console.log('POST ORDER:', this.props.reduxState.order);
+
+                        try
+                        {
+                            var res = await api.Order(this.props.reduxState.token,this.props.reduxState.order);
+                        } catch(err)
+                        {
+                            console.log('Lỗi đăng nhập: ',err);
+                        }
+                        if(res.data.code === " đặt hàng thành công")
+                        {
+                            var clear = [];
+                            store.dispatch({type: UPDATE_CART, payload: clear});
+                            store.dispatch({type: UPDATE_ORDER, payload: clear});
+                            await api.getOrderHistory(this.props.reduxState.token);
+                            this.props.action();
+                        }
+
+                    }}
                 />
             </View>
         );
@@ -162,11 +187,11 @@ export default class Step3 extends Component<>
     renderItem = (item, key) =>
     {
         //let tempUri = Globals.BASE_URL + item.HinhAnh;
-        let tempUri = 'http://sachnoionline.net/upload/book/107.jpg';
-        let ten = 'dac nhan tam dfbdfndfndfndndndfndfnfnfnfnfnfnfnfnfnfnfnf';
-        let thanhtien = 100000;
-        let soluong = 5;
-        let dongia = 25000;
+        let tempUri = Globals.BASE_URL+item.HinhAnh;
+        let ten = item.TenSach;
+        let soluong = item.SoLuongBan;
+        let dongia = item.GiaBan*(1-item.KhuyenMai/100);
+        let thanhtien = soluong*dongia;
         let widthImage = 100;
         let heightImage = widthImage * 3 / 2;
         return (
@@ -203,7 +228,12 @@ export default class Step3 extends Component<>
         );
     }
 }
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
 
+export default connect(mapStateToProps)(Step3);
 
 const styles = StyleSheet.create({
     container: {

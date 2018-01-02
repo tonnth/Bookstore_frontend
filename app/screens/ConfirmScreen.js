@@ -15,6 +15,7 @@ import Step0 from "../components/ConfirmStep/Step0";
 import Step2 from "../components/ConfirmStep/Step2";
 import Step3 from "../components/ConfirmStep/Step3";
 import {ifIphoneX, isIphoneX} from 'react-native-iphone-x-helper'
+import {connect} from "react-redux";
 
 const labels1 = ["Địa chỉ", "Thanh toán", "Xác nhận"];
 const labels2 = ["Tài khoản", "Địa chỉ", "Thanh toán", "Xác nhận"];
@@ -42,7 +43,7 @@ const customStyles = {
     currentStepLabelColor: '#fe7013'
 };
 
-export default class ConfirmScreen extends Component
+class ConfirmScreen extends Component
 {
     constructor(props)
     {
@@ -51,7 +52,7 @@ export default class ConfirmScreen extends Component
         this.callout = new Map();
         this.state = {
             index: 0,
-            checkAccount: false, //kiem tra xem da dang nhap hay chua
+            isLoggedIn: (this.props.reduxState.user != null && this.props.reduxState.user != undefined), //kiem tra xem da dang nhap hay chua
         }
     }
 
@@ -99,9 +100,9 @@ export default class ConfirmScreen extends Component
                     <View style={styles.step}>
                         <StepIndicator
                             customStyles={customStyles}
-                            stepCount={this.state.checkAccount ? 3 : 4}
+                            stepCount={this.state.isLoggedIn ? 3 : 4}
                             currentPosition={this.state.index}
-                            labels={this.state.checkAccount ? labels1 : labels2}
+                            labels={this.state.isLoggedIn ? labels1 : labels2}
                         />
                     </View>
                     <View style={styles.carousel}>
@@ -110,8 +111,8 @@ export default class ConfirmScreen extends Component
                             {
                                 this.carousel = c;
                             }}
-                            data={this.state.checkAccount ? [1, 2, 3] : [1, 2, 3, 4]}
-                            renderItem={this.state.checkAccount ? this.renderItem1 : this.renderItem2}
+                            data={this.state.isLoggedIn ? [1, 2, 3] : [1, 2, 3, 4]}
+                            renderItem={this.state.isLoggedIn ? this.renderItem1 : this.renderItem2}
                             sliderWidth={sliderWidth}
                             itemWidth={itemWidth}
                             containerCustomStyle={{flex: 1}}
@@ -135,11 +136,12 @@ export default class ConfirmScreen extends Component
                                 {this.state.index === index &&
                                 <Step1
                                     width={itemWidth}
-                                    action={() =>
+                                    action={(state) =>
                                     {
                                         that.setState({index: 1});
                                         that.carousel.snapToNext();
-                                    }}/>}
+                                    }}
+                                    />}
                             </View>
                         </View>
                     </View>
@@ -152,7 +154,7 @@ export default class ConfirmScreen extends Component
                                 {this.state.index === index &&
                                 <Step2
                                     width={itemWidth}
-                                    action={() =>
+                                    action={(state) =>
                                     {
                                         that.setState({index: 2});
                                         that.carousel.snapToNext();
@@ -284,7 +286,12 @@ export default class ConfirmScreen extends Component
         // return false;
     }
 }
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
 
+export default connect(mapStateToProps)(ConfirmScreen);
 const window = Dimensions.get('window');
 const check189 = () =>
 {

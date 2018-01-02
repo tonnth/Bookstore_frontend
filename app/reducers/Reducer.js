@@ -2,7 +2,7 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_ACCESS_TOKEN, FETCHING_ACCESS_TOKEN_SUCCESS, FETCHING_ACCESS_TOKEN_FAIL,
-    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART,
+    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART, UPDATE_ORDER,
     UPDATE_TOKEN, FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS,
     FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS, FETCHING_FAVOURITE_FAIL,
     FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS,
@@ -43,6 +43,9 @@ const initialState = {
 
     //Cart
     cart: [],
+
+    //Order
+    order: null,
 
 
     screen: '',
@@ -156,7 +159,7 @@ export const reducer = (state = initialState, action) =>
             return Object.assign(state, {
                 ...state,
                 isFetching: false,
-                order_history: action.payload.data,
+                order_history: action.payload.data.reverse(),
                 hasError_Order_History: false,
             });
 
@@ -187,7 +190,11 @@ export const reducer = (state = initialState, action) =>
                 ...state,
                 token: action.payload,
             });
-
+        case UPDATE_ORDER:
+            return Object.assign(state, {
+                ...state,
+                order: action.payload,
+            });
 
         default:
             return state;

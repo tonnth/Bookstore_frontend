@@ -196,14 +196,22 @@ class CartScreen extends Component
                                 borderColor={'#9E9E9E'}
                                 tintColor={'#9E9E9E'}
                                 textColor={'#616161'}
-                                onValueChange={(value) =>
+                                onValueChange={ async (value) =>
                                 {
-                                    this.total += (value - item.SoLuongBan) * item.GiaBan*(1-item.KhuyenMai/100);
+                                    if(value > item.SoLuongBan)
+                                    {
+                                        this.total += item.GiaBan*(1-item.KhuyenMai/100);
+                                    }
+                                    if(value < item.SoLuongBan)
+                                    {
+                                        this.total -= item.GiaBan*(1-item.KhuyenMai/100);
+                                    }
+
                                     this.setState({
                                         total: this.total,
                                     })
-                                    item.SoLuong=value;
-                                    updateCartItem(item,this.props.reduxState.cart);
+                                    item.SoLuongBan=value;
+                                    await updateCartItem(item,this.props.reduxState.cart);
                                 }}
                             />
                         </View>

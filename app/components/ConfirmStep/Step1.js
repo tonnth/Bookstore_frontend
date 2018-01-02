@@ -19,22 +19,31 @@ import {
 } from 'native-base';
 import HButton from "../HButton";
 import {HInput} from "../HInput";
-import Globals from "../../Globals";
+import Globals, {accountingTotal, UPDATE_ORDER} from "../../Globals";
 import {Dropdown} from 'react-native-material-dropdown';
 import {tinhthanhpho} from "../../tinhthanhpho";
 import {quanhuyen} from "../../quan_huyen";
 import {xaphuong} from "../../xa_phuong";
-
-export default class Step1 extends Component<>
+import {connect} from "react-redux";
+import store from "../../Store";
+import Toast, {DURATION} from 'react-native-easy-toast';
+class Step1 extends Component<>
 {
     constructor(props)
     {
         super(props);
+        console.log("STEP 1: ")
+        console.log(this.props);
         this.state = {
-            text: '',
             dataThanhpho: [],
             dataQuanhuyen: [],
             dataPhuongxa: [],
+            hoTen: '',
+            soDienThoai: '',
+            tinhThanhPho: '',
+            quanHuyen: '',
+            phuongXa: '',
+            diaChi: '',
         };
     }
 
@@ -62,12 +71,26 @@ export default class Step1 extends Component<>
                     </Text>
 
                     <Item regular style={{borderRadius: 10, borderWidth: 1, marginTop: 10}}>
-                        <Input placeholder="Họ và tên"/>
+                        <Input
+                            placeholder="Họ và tên"
+                            onChangeText ={(text)=>{
+                                this.setState({
+                                    hoTen: text,
+                                })
+                            }}
+                        />
                     </Item>
 
                     <Item regular style={{borderRadius: 10, borderWidth: 1, marginTop: 10}}>
-                        <Input placeholder="Số điện thoại"
-                               keyboardType="numeric"/>
+                        <Input
+                            placeholder="Số điện thoại"
+                            keyboardType="numeric"
+                            onChangeText ={(text)=>{
+                                this.setState({
+                                    soDienThoai: text,
+                                })
+                            }}
+                        />
                     </Item>
 
                     <Dropdown
@@ -81,6 +104,9 @@ export default class Step1 extends Component<>
                         pickerStyle={{height: 350}}
                         onChangeText={(value, index, data) =>
                         {
+                            this.setState({
+                                tinhThanhPho: value,
+                            })
                             this.getTenQuanhuyen(this.state.dataThanhpho[index].id);
                         }}
                     />
@@ -93,6 +119,9 @@ export default class Step1 extends Component<>
                         pickerStyle={{height: 300}}
                         onChangeText={(value, index, data) =>
                         {
+                            this.setState({
+                                quanHuyen: value,
+                            })
                             this.getTenPhuongXa(this.state.dataQuanhuyen[index].id);
                         }}
                     />
@@ -103,19 +132,67 @@ export default class Step1 extends Component<>
                         data={this.state.dataPhuongxa}
                         labelHeight={26}
                         pickerStyle={{height: 250}}
+                        onChangeText={(value, index, data) =>
+                        {
+                            this.setState({
+                                phuongXa: value,
+                            })
+
+                        }}
                     />
 
                     <Item regular style={{borderRadius: 10, borderWidth: 1, marginTop: 10, height: 80, marginBottom: 10}}>
-                        <Input placeholder='Địa chỉ nhận hàng'
-                               multiline={true}/>
+                        <Input
+                            placeholder='Địa chỉ nhận hàng'
+                            multiline={true}
+                            onChangeText ={(text)=>{
+                                this.setState({
+                                    diaChi: text,
+                                })
+                            }}
+                        />
                     </Item>
                     <HButton text={'Tiếp tục'}
                              width={this.props.width - 40}
                              navigation={this.props.navigation}
                              shadow
                              border={20}
-                             action={this.props.action}
+                             action={()=>{
+                                 console.log('STATE', this.state.tinhThanhPho);
+                                 if(this.state.tinhThanhPho === '' || this.state.hoTen === ''|| this.state.quanHuyen === '' || this.state.phuongXa==='' || this.state.SoDienThoai==='' || this.state.diaChi==='')
+                                 {
+                                     this.refs.toast.show('Thông tin không hợp lệ.',1200);
+                                     return;
+                                 }
+                                 var GioHang = [];
+                                 var tempCart =this.props.reduxState.cart;
+                                for(i = 0; i < tempCart.length; i++ )
+                                {
+                                   var tempBook = {
+                                        MaSach: tempCart[i].MaSach,
+                                        SoLuongBan: tempCart[i].SoLuongBan,
+                                        GiaBan: tempCart[i].GiaBan*(1-tempCart[i].KhuyenMai/100),
+                                    };
+                                   GioHang.push(tempBook);
+                                }
+
+
+                                 var diachi = this.state.diaChi+', '+this.state.phuongXa+', '+this.state.quanHuyen+', '+this.state.tinhThanhPho;
+                                 var tempOrder ={
+                                     token:this.props.reduxState.token,
+                                     MaKhuVucGiaoHang: 3,
+                                     DiaChiGiaoHang: diachi,
+                                     TenNguoiNhan: this.state.hoTen,
+                                     SoDienThoai: this.state.soDienThoai,
+                                     TongTienHoaDon: accountingTotal( this.props.reduxState.cart),
+                                     GioHang: GioHang,
+                                 }
+                                 store.dispatch({type: UPDATE_ORDER, payload: tempOrder});
+                                 this.props.action(tempOrder);
+                             }}
                     />
+                    <Toast ref="toast"
+                           textStyle={{fontSize: 17, color: '#fff'}}/>
                 </View>
             </ScrollView>
         );
@@ -126,7 +203,7 @@ export default class Step1 extends Component<>
         data = [];
         Object.entries(tinhthanhpho).forEach(([key, val]) =>
         {
-            console.log(key, val);          // the name of the current key.
+            // console.log(key, val);          // the name of the current key.
             data.push({value: val.name_with_type, id: val.code})
         });
 
@@ -145,7 +222,7 @@ export default class Step1 extends Component<>
         {
             if (val.parent_code === code)
             {
-                console.log(key, val);          // the name of the current key.
+                 // console.log(key, val);          // the name of the current key.
                 data.push({value: val.name_with_type, id: val.code})
             }
         });
@@ -164,7 +241,7 @@ export default class Step1 extends Component<>
         {
             if (val.parent_code === code)
             {
-                console.log(key, val);          // the name of the current key.
+                //console.log(key, val);          // the name of the current key.
                 data.push({value: val.name_with_type, id: val.code})
             }
         });
@@ -177,3 +254,9 @@ export default class Step1 extends Component<>
         });
     };
 }
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
+
+export default connect(mapStateToProps)(Step1);

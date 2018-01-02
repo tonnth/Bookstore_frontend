@@ -79,6 +79,18 @@ exports.SignUp = function (Email,MatKhau,HoTen)
             HoTenKhachHang: HoTen,
         })
 }
+exports.Order = function (token,order)
+{
+    console.log('API Order')
+    let url = Globals.BASE_URL + 'khachhang/dathang';
+    return axios.post(url,order,{
+        headers:
+            {
+                'Authorization': '' + token,
+            }
+    });
+}
+
 
 exports.getUserInfo =  function (token)
 {

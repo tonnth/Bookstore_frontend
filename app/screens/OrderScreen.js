@@ -38,7 +38,7 @@ class OrderScreen extends Component
             value: 10,
             total_page: 1,
             //dataSource: [1, 2, 3, 4]
-            dataSource: this.props.reduxState.order_history.reverse(),
+            dataSource: this.props.reduxState.order_history,
         };
         this.itemWidth = width;
     }
