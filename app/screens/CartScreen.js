@@ -6,7 +6,7 @@ import {
     Dimensions,
     FlatList,
     TouchableOpacity,
-    StyleSheet, StatusBar, Platform
+    StyleSheet, StatusBar, Platform, DeviceEventEmitter
 } from "react-native";
 
 import {connect} from "react-redux";
@@ -33,7 +33,7 @@ class CartScreen extends Component
         console.log("Cart Screen");
         super(props);
         this.params = this.props.navigation.state.params;
-        this.total = accountingTotal( this.props.reduxState.cart);
+        this.total = accountingTotal(this.props.reduxState.cart);
         this.state = {
             page: 1,
             refreshing: false,
@@ -72,6 +72,7 @@ class CartScreen extends Component
 
     render()
     {
+        let {params} = this.props.navigation.state;
         console.log(this.props.navigation.state.routeName + ' Render');
         this.heightFooter = 80;
         let empty = this.state.dataSource.length === 0;
@@ -86,7 +87,15 @@ class CartScreen extends Component
                         noShadow>
                     <Left>
                         <Button transparent
-                                onPress={() => this.props.navigation.goBack(null)}>
+                                onPress={() =>
+                                {
+                                    if (params.updateSp)
+                                    {
+                                        params.updateSp();
+                                    }
+
+                                    this.props.navigation.goBack(null)
+                                }}>
                             <Icon name="arrow-back"
                                   style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
                         </Button>
@@ -154,6 +163,7 @@ class CartScreen extends Component
         let widthImage = 100;
         let heightImage = widthImage * 3 / 2;
         let marginBottom = index === this.state.dataSource.length - 1 ? this.heightFooter + 10 : 0;
+
         return (
             <View style={{
                 width: this.itemWidth,
@@ -196,22 +206,22 @@ class CartScreen extends Component
                                 borderColor={'#9E9E9E'}
                                 tintColor={'#9E9E9E'}
                                 textColor={'#616161'}
-                                onValueChange={ async (value) =>
+                                onValueChange={async (value) =>
                                 {
-                                    if(value > item.SoLuongBan)
+                                    if (value > item.SoLuongBan)
                                     {
-                                        this.total += item.GiaBan*(1-item.KhuyenMai/100);
+                                        this.total += item.GiaBan * (1 - item.KhuyenMai / 100);
                                     }
-                                    if(value < item.SoLuongBan)
+                                    if (value < item.SoLuongBan)
                                     {
-                                        this.total -= item.GiaBan*(1-item.KhuyenMai/100);
+                                        this.total -= item.GiaBan * (1 - item.KhuyenMai / 100);
                                     }
 
                                     this.setState({
                                         total: this.total,
                                     })
-                                    item.SoLuongBan=value;
-                                    await updateCartItem(item,this.props.reduxState.cart);
+                                    item.SoLuongBan = value;
+                                    await updateCartItem(item, this.props.reduxState.cart);
                                 }}
                             />
                         </View>
@@ -221,11 +231,10 @@ class CartScreen extends Component
                             onPress={async () =>
                             {
                                 console.log(item);
-                                this.total -= item.GiaBan*(1-item.KhuyenMai/100)*item.SoLuongBan;
+                                this.total -= item.GiaBan * (1 - item.KhuyenMai / 100) * item.SoLuongBan;
                                 await this.setState({
                                     total: this.total,
                                 })
-
 
 
                                 this.state.dataSource.splice(index, 1);

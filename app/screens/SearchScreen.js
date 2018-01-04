@@ -6,11 +6,11 @@ import {
     Dimensions,
     FlatList,
     TouchableOpacity,
-    StyleSheet, StatusBar, Platform
+    StyleSheet, StatusBar, Platform, TextInput
 } from "react-native";
 
 import {connect} from "react-redux";
-import Globals, {formatCurency, TheLoai} from "../Globals";
+import Globals, {change_alias, formatCurency, TheLoai} from "../Globals";
 import * as api from "../config/api";
 import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
@@ -37,14 +37,15 @@ class SearchScreen extends Component
         };
         this.itemWidth = width / 3 - 10;
     }
+
     search = (e) =>
     {
         console.log(e.toLowerCase());
-        let text = e.toLowerCase();
+        let text = change_alias(e.toLowerCase());
         let trucks = this.state.initData;
         let filteredName = trucks.filter((item) =>
         {
-            return item.TenSach.toString().toLowerCase().match(text)
+            return change_alias(item.TenSach.toString().toLowerCase()).match(text);
         })
         if (!text || text === '')
         {
@@ -65,7 +66,6 @@ class SearchScreen extends Component
             })
         }
     };
-
 
     componentDidMount()
     {
@@ -112,22 +112,31 @@ class SearchScreen extends Component
                         iosStatusbar="light-content"
                         androidStatusBarColor="black"
                         noShadow>
-
                     <Button transparent
+                            style={{width: 40}}
                             onPress={() => this.props.navigation.goBack(null)}>
                         <Icon name="ios-arrow-back"
                               style={{color: '#000', fontSize: Globals.ICONSIZE}}/>
                     </Button>
 
-                    <View style={{width: 300, flexDirection: 'row', alignItems: 'center',}}>
-                        <Input placeholder="Nhập vào từ khóa" style={{width: 300}}
-                               onChangeText ={(text)=>{
-                                   this.setState({
-                                       keyWord: text,
-                                   });
-                                   this.search(text);
-                               }}/>
-                        <Icon name="ios-search"/>
+                    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                        <TextInput placeholder="Nhập vào từ khóa"
+                                   style={{
+                                       flex: 1,
+                                       paddingLeft: 10,
+                                       borderBottomWidth: 1,
+                                       borderBottomColor: '#c2c2c2',
+                                       height: 35,
+                                       fontSize: 15,
+                                       ...Globals.FONT
+                                   }}
+                                   onChangeText={(text) =>
+                                   {
+                                       this.setState({
+                                           keyWord: text,
+                                       });
+                                       this.search(text);
+                                   }}/>
                     </View>
                 </Header>
                 {this.state.dataSource.length > 0 &&
@@ -194,38 +203,50 @@ class SearchScreen extends Component
                     style={{color: '#000', fontSize: 20,}}
                     numberOfLines={1}>{item}</Text>
                 <Button transparent
-                        onPress={() => {}}>
+                        onPress={() =>
+                        {
+                        }}>
                     <Icon name="ios-close-outline" size={25} color="#000" style={{color: '#000'}}/>
                 </Button>
             </TouchableOpacity>
         );
     };
 
-    renderItem2 = (item,index) =>
+    renderItem2 = ({item, index}) =>
     {
+        let tempUri = Globals.BASE_URL + item.HinhAnh;
+        console.log(item);
+        let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
+        let widthImage = this.itemWidth - 10;
+        let heightImage = widthImage * 3 / 2;
+
         return (
-            <TouchableOpacity
-                style={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    backgroundColor: '#fff',
-                    padding: 5,
-                    paddingLeft: 20,
-                    paddingRight: 10,
-                    borderRadius: 10,
-                    marginBottom: 10,
-                    flexDirection: 'row',
-                }}
-                onPress={() =>
-                {
-                }}>
+            <TouchableOpacity style={{width: this.itemWidth, justifyContent: 'center', margin: 5}}
+                              onPress={() => this.props.navigation.navigate('Detail', item)}>
+                <HImage
+                    style={{width: widthImage, height: heightImage}}
+                    uri={tempUri}
+                    borderRadius={10}
+                />
                 <Text
-                    style={{color: '#000', fontSize: 20,}}
+                    style={styles.tensach}
                     numberOfLines={1}>{item.TenSach}</Text>
-                <Button transparent
-                        onPress={() => {}}>
-                    <Icon name="ios-close-outline" size={25} color="#000" style={{color: '#000'}}/>
-                </Button>
+                <Text
+                    numberOfLines={1}
+                    style={styles.giaban}>{formatCurency(giaKhuyenMai)}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Text
+                        numberOfLines={1}
+                        style={styles.giaban2}>
+                        {item.KhuyenMai > 0 ? formatCurency(item.GiaBan) : ''}
+                    </Text>
+                    <Text
+                        numberOfLines={1}
+                        style={[styles.giaban, {fontWeight: '700'}]}>
+                        {item.KhuyenMai > 0 ? '-'+item.KhuyenMai+'%' : ''}
+                    </Text>
+                </View>
+
             </TouchableOpacity>
         );
     };

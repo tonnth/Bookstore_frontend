@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import {connect} from "react-redux";
-import Globals, {formatCurency, TheLoai, UPDATE_CART, removeFromCart,addToCart} from "../Globals";
+import Globals, {formatCurency, TheLoai, UPDATE_CART, removeFromCart, addToCart} from "../Globals";
 import * as api from "../config/api";
 import HImage from "../components/HImage";
 import LinearGradient from "react-native-linear-gradient";
@@ -37,7 +37,6 @@ class FavoriteScreen extends Component
             refreshing: false,
             value: 10,
             total_page: 1,
-            //dataSource: [1, 2],
             dataSource: this.props.reduxState.favourite_books,
         };
         this.itemWidth = width;
@@ -75,7 +74,7 @@ class FavoriteScreen extends Component
 
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
+        console.log(this.props.navigation.state.routeName + ' Render');
         let empty = this.state.dataSource.length === 0;
         let sanpham = 0;
         this.heightFooter = 80;
@@ -102,7 +101,7 @@ class FavoriteScreen extends Component
                     </Body>
                     <Right style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
                         <Button transparent
-                                style={{marginRight: sanpham > 0 ? -25: 0,}}
+                                style={{marginRight: sanpham > 0 ? -25 : 0,}}
                                 onPress={() => this.props.navigation.navigate("Cart")}>
                             <IconFeather name="shopping-cart" size={25} color="#000"/>
                         </Button>
@@ -119,24 +118,33 @@ class FavoriteScreen extends Component
         );
     }
 
+    update_item = () =>
+    {
+        console.log('FAVORITE SCREEN UPDATE ITEM');
+        this.setState({
+            dataSource: this.props.reduxState.favourite_books,
+        })
+    }
+
     renderItem = ({item, index}) =>
     {
         let widthImage = 100;
         let heightImage = widthImage * 3 / 2;
-        let tempUri = Globals.BASE_URL+item.HinhAnh;
+        let tempUri = Globals.BASE_URL + item.HinhAnh;
         let tenSach = item.TenSach;
-        let giaBan = formatCurency(item.GiaBan*(1 - item.KhuyenMai/100));
-
-
+        let giaBan = formatCurency(item.GiaBan * (1 - item.KhuyenMai / 100));
 
         return (
-            <View style={{
-                width: this.itemWidth,
-                padding: 30,
-                paddingBottom: 0,
-                paddingRight: 10,
-                height: heightImage + 40,
-            }}>
+            <TouchableOpacity
+                style={{
+                    width: this.itemWidth,
+                    padding: 30,
+                    paddingBottom: 0,
+                    paddingRight: 10,
+                    height: heightImage + 40,
+                }}
+                onPress={() => this.props.navigation.navigate('Detail', {...item, update: this.update_item})}>
+
                 <Card style={{flex: 1, flexDirection: 'row', justifyContent: 'center', margin: 30}}>
                     <View style={{flex: 1, marginLeft: widthImage, marginTop: 10, marginRight: 40}}>
                         <Text
@@ -188,7 +196,7 @@ class FavoriteScreen extends Component
                         }}
                         onPress={() =>
                         {
-                            addToCart(item,this.props.reduxState.cart);
+                            addToCart(item, this.props.reduxState.cart);
                             this.refs.toast.show('Đã thêm ' + item.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
                         }}
                     >
@@ -205,10 +213,9 @@ class FavoriteScreen extends Component
                     uri={tempUri}
                     borderRadius={5}
                 />
-            </View>
+            </TouchableOpacity>
         );
     };
-
 
 
     renderBody = () =>
@@ -253,7 +260,7 @@ class FavoriteScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {

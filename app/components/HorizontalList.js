@@ -128,7 +128,8 @@ class HorizontalList extends Component
                                   }
                                   this.props.navigation.navigate('VerList', {
                                       data: data,
-                                      colNumber: this.props.theloai ? 2 : 3,
+                                      colNumber: 3,
+                                      title: item.TenTheLoai,
                                   });
                               }}>
                 <HImage

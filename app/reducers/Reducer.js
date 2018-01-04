@@ -233,11 +233,13 @@ export const reducer = (state = initialState, action) =>
                 ...state,
                 token: action.payload,
             });
+
         case UPDATE_ORDER:
             return Object.assign(state, {
                 ...state,
                 order: action.payload,
             });
+
         case UPDATE_FAVOURITE_BOOKS:
             return Object.assign(state, {
                 ...state,

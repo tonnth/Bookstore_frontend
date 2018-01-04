@@ -4,37 +4,36 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 
-import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input} from 'native-base';
+import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input, Badge} from 'native-base';
 import HorizontalList from '../components/HorizontalList'
 import Carousel from 'react-native-snap-carousel';
 import Globals, {FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN} from "../Globals";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing";
 import IconFeather from 'react-native-vector-icons/Feather';
 import store from '../Store';
+import {DeviceEventEmitter} from 'react-native'
 
 const cards = [
     {
         name: 'Không bao giờ là đủ',
-        image: Globals.BASE_URL+'a1.jpg',
-        sach: {
-
-        }
+        image: Globals.BASE_URL + 'a1.jpg',
+        sach: {}
     },
     {
         name: 'Cứ mơ và cứ đi',
-        image: Globals.BASE_URL+'a2.jpg'
+        image: Globals.BASE_URL + 'a2.jpg'
     },
     {
         name: 'Bitcoin và tiền kĩ thuật số',
-        image: Globals.BASE_URL+'a3.jpg'
+        image: Globals.BASE_URL + 'a3.jpg'
     },
     {
         name: 'Con sẻ vàng',
-        image: Globals.BASE_URL+'a4.jpg'
+        image: Globals.BASE_URL + 'a4.jpg'
     },
     {
         name: 'Pikalong và những người bạn',
-        image: Globals.BASE_URL+'a5.jpg',
+        image: Globals.BASE_URL + 'a5.jpg',
     },
 ];
 
@@ -55,14 +54,21 @@ class HomeScreen extends Component
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
             show: false,
+            sanpham: 0,
         };
         that = this;
     }
 
+    update_CartNumber = () => {
+        this.setState({
+            sanpham: 0,
+        })
+    }
+
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
-        let sanpham = 0;
+        console.log(this.props.navigation.state.routeName + ' Render');
+        let sanpham = this.state.sanpham;
         return (
             <Container style={styles.container}>
                 <StatusBar
@@ -88,14 +94,22 @@ class HomeScreen extends Component
                     </Body>
                     <Right style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
                         <Button transparent
-                                style={{marginRight: sanpham > 0 ? -25 : 0,}}
-                                onPress={() => this.props.navigation.navigate("Cart", {screenhhh: 'Cart'})}>
+                                onPress={() => this.props.navigation.navigate("Cart", {screenhhh: 'Cart', updateSp: this.update_CartNumber()})}>
                             <IconFeather name="shopping-cart" size={25} color="#000"/>
+                            {sanpham > 0 &&
+                            <Badge style={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: 22,
+                                height: 22,
+                                backgroundColor: 'red',
+                                position:'absolute',
+                                top:0,
+                                right:0,
+                            }}>
+                                <Text style={{color: '#fff'}}>{sanpham}</Text>
+                            </Badge>}
                         </Button>
-                        {sanpham > 0 &&
-                        <Badge warning style={{justifyContent: 'center', alignItems: 'center'}}>
-                            <Text>{sanpham}</Text>
-                        </Badge>}
                     </Right>
                 </Header>
                 <ScrollView>
@@ -161,7 +175,7 @@ class HomeScreen extends Component
                         navigation={this.props.navigation}/>
 
                     <HorizontalList
-                        title={"Sách mới chập nhật"}
+                        title={"Sách mới cập nhật"}
                         data={this.state.listNewBooks}
                         navigation={this.props.navigation}/>
 
@@ -204,7 +218,7 @@ class HomeScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log('Home Render' , nextProps);
+        console.log('Home Render', nextProps);
         return true;
     }
 

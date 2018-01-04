@@ -2,7 +2,7 @@ import {NavigationActions} from "react-navigation";
 import store from "./Store";
 
 export default Globals = {
-    BASE_URL: 'https://tohiti-bookstore-backend.herokuapp.com/',
+    BASE_URL: 'https://tohiti-test.herokuapp.com/',
     //BASE_URL: '192.168.1.48/',
     COLOR: {
         MAINCOLOR: '#fc4a1a',
@@ -27,35 +27,38 @@ export const formatCurency = a =>
 
 export const datetoString = date =>
 {
-   var mm = date.getMonth() +1;
-   var dd= date.getDate();
-   var strD = (dd>9 ? '' : '0') + dd;
-   var strM = (mm>9 ? '' : '0') + mm;
-   return strD+"/"+strM+"/"+date.getFullYear();
+    var mm = date.getMonth() + 1;
+    var dd = date.getDate();
+    var strD = (dd > 9 ? '' : '0') + dd;
+    var strM = (mm > 9 ? '' : '0') + mm;
+    return strD + "/" + strM + "/" + date.getFullYear();
 }
+
 export const formatDate = str =>
 {
     var year, month, day;
-    year = str.slice(0,4);
-    month =str.slice(5,7);
-    day = str.slice(8,10);
+    year = str.slice(0, 4);
+    month = str.slice(5, 7);
+    day = str.slice(8, 10);
     return day + "/" + month + "/" + year;
 }
+
 export const formatOrderId = str =>
 {
-    var a ='#';
-    for( i =0; i < (8 - str.length);i++)
+    var a = '#';
+    for (i = 0; i < (8 - str.length); i++)
     {
-        a= a+'0';
+        a = a + '0';
     }
-    return a+ str;
+    return a + str;
 }
 
 export const resetAction = NavigationActions.reset({
     index: 0,
     actions: [
-        NavigationActions.navigate({ routeName: 'Home'})
-    ] });
+        NavigationActions.navigate({routeName: 'Home'})
+    ]
+});
 
 export const validateEmail = email =>
 {
@@ -67,17 +70,19 @@ export const addToCart = (book, cart) =>
 {
     var push = true;
     var tempCart = cart;
-    for(i = 0; i < tempCart.length; i++)
+
+    for (let i = 0; i < tempCart.length; i++)
     {
-        if(book.MaSach === tempCart[i].MaSach)
+        if (book.MaSach === tempCart[i].MaSach)
         {
-            tempCart[i].SoLuongBan +=1;
+            tempCart[i].SoLuongBan += 1;
             store.dispatch({type: UPDATE_CART, payload: tempCart});
-            push=false;
+            push = false;
             break;
         }
     }
-    if(push)
+
+    if (push)
     {
         var tempBook = book;
         tempBook.SoLuongBan = 1;
@@ -90,11 +95,11 @@ export const addToCart = (book, cart) =>
 export const removeFromCart = (book, cart) =>
 {
     var tempCart = cart;
-    for(i = 0; i < tempCart.length; i++)
+    for (i = 0; i < tempCart.length; i++)
     {
-        if(book.MaSach === tempCart[i].MaSach)
+        if (book.MaSach === tempCart[i].MaSach)
         {
-            tempCart.splice(i,1);
+            tempCart.splice(i, 1);
             store.dispatch({type: UPDATE_CART, payload: tempCart});
             break;
 
@@ -106,11 +111,11 @@ export const removeFromCart = (book, cart) =>
 export const updateCartItem = (book, cart) =>
 {
     var tempCart = cart;
-    for(i = 0; i < tempCart.length; i++)
+    for (i = 0; i < tempCart.length; i++)
     {
-        if(book.MaSach === tempCart[i].MaSach)
+        if (book.MaSach === tempCart[i].MaSach)
         {
-            tempCart[i]=book;
+            tempCart[i] = book;
             store.dispatch({type: UPDATE_CART, payload: tempCart});
             break;
 
@@ -118,6 +123,7 @@ export const updateCartItem = (book, cart) =>
     }
 
 }
+
 export const accountingTotal = (dsSanPham) =>
 {
     var total = 0;
@@ -128,73 +134,90 @@ export const accountingTotal = (dsSanPham) =>
     return total;
 }
 
+export const change_alias = (alias) =>
+{
+    let str = alias;
+    str = str.toLowerCase();
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+    str = str.replace(/ + /g, " ");
+    str = str.trim();
+    return str;
+}
+
 export const TheLoai = [
     {
         MaTheLoai: 1,
         TenTheLoai: "Tiểu sử - hồi ký",
         Hinh: "TieuSu.jpg",
-        Color: ['#1A2980','#26D0CE'],
+        Color: ['#1A2980', '#26D0CE'],
     },
     {
         MaTheLoai: 2,
         TenTheLoai: "Kỹ năng sống",
         Hinh: "selfhelp.jpg",
-        Color: ['#C6426E','#642B73'],
+        Color: ['#C6426E', '#642B73'],
     },
     {
         MaTheLoai: 3,
         TenTheLoai: "Khoa học - kỹ thuật",
         Hinh: "khoahoc-kithuat.jpg",
-        Color: ['#8E0E00','#1F1C18'],
+        Color: ['#8E0E00', '#1F1C18'],
     },
     {
         MaTheLoai: 4,
         TenTheLoai: "Tiểu thuyết",
         Hinh: "TieuThuyet.jpg",
-        Color: ['#4da0b0','#d39d38'],
+        Color: ['#4da0b0', '#d39d38'],
     },
     {
         MaTheLoai: 5,
         TenTheLoai: "Sách học ngoại ngữ",
         Hinh: "NgoaiNgu.jpg",
-        Color: ['#237A57','#093028'],
+        Color: ['#237A57', '#093028'],
     },
     {
         MaTheLoai: 6,
         TenTheLoai: "Tâm lý",
         Hinh: "TamLy.jpg",
-        Color: ['#C6426E','#C6426E'],
+        Color: ['#C6426E', '#C6426E'],
     },
     {
         MaTheLoai: 7,
         TenTheLoai: "Sách giáo khoa",
         Hinh: "SachGiaoKhoa.jpg",
-        Color: ['#43cea2','#185a9d'],
+        Color: ['#43cea2', '#185a9d'],
     },
     {
         MaTheLoai: 8,
         TenTheLoai: "Lịch sử - Địa lý",
         Hinh: "LichSu.jpg",
-        Color: ['#B79891','#94716B'],
+        Color: ['#B79891', '#94716B'],
 
     },
     {
         MaTheLoai: 9,
         TenTheLoai: "Truyện ngắn",
         Hinh: "TruyenNgan.jpg",
-        Color: ['#D38312','#A83279'],
+        Color: ['#D38312', '#A83279'],
     },
     {
         MaTheLoai: 10,
         TenTheLoai: "Ngôn tình",
         Hinh: "NgonTinh.jpg",
-        Color: ['#cc2b5e','#753a88'],
+        Color: ['#cc2b5e', '#753a88'],
     },
     {
         MaTheLoai: 11,
         TenTheLoai: "Truyen tranh",
         Hinh: "TruyenTranh.jpg",
-        Color: ['#F9D423','#FF4E50'],
+        Color: ['#F9D423', '#FF4E50'],
     }
 ]
 export const FETCHING_BOOKS = "FETCHING_BOOKS";

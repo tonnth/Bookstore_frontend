@@ -37,7 +37,6 @@ class VerListScreen extends Component
     }
 
 
-
     componentDidMount()
     {
 
@@ -71,7 +70,7 @@ class VerListScreen extends Component
 
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
+        console.log(this.props.navigation.state.routeName + ' Render');
         return (
             <Container style={styles.container}>
                 <StatusBar
@@ -125,7 +124,23 @@ class VerListScreen extends Component
         let tempUri = Globals.BASE_URL + item.Hinh;
         return (
             <TouchableOpacity style={{margin: 5, width: this.itemWidth, alignItems: 'center'}}
-                              onPress={() => this.props.nav.navigate('Detail', item)}>
+                              onPress={() =>
+                              {
+                                  let listBooks = this.props.reduxState.listBooks;
+                                  let data = []
+                                  for (let i = 0; i < listBooks.length; i++)
+                                  {
+                                      if (listBooks[i].MaTheLoai === item.MaTheLoai)
+                                      {
+                                          data.push(listBooks[i]);
+                                      }
+                                  }
+                                  this.props.navigation.navigate('VerList', {
+                                      data: data,
+                                      colNumber: 3,
+                                      title: item.TenTheLoai,
+                                  })
+                              }}>
                 <HImage
                     style={{width: widthImage, height: heightImage, zIndex: 5, elevation: 1}}
                     uri={tempUri}
@@ -191,7 +206,7 @@ class VerListScreen extends Component
                     <Text
                         numberOfLines={1}
                         style={[styles.giaban, {fontWeight: '700'}]}>
-                        {item.KhuyenMai > 0 ? '-'+item.KhuyenMai+'%' : ''}
+                        {item.KhuyenMai > 0 ? '-' + item.KhuyenMai + '%' : ''}
                     </Text>
                 </View>
 
@@ -201,7 +216,7 @@ class VerListScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {

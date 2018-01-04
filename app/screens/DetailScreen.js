@@ -75,6 +75,7 @@ class DetailScreen extends Component
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = Globals.BASE_URL + this.params.HinhAnh;
         let giaKhuyenMai = this.params.GiaBan * (100 - this.params.KhuyenMai) / 100;
+        let that = this;
         return (
             <View style={{flex: 1}}>
                 <StatusBar
@@ -173,6 +174,11 @@ class DetailScreen extends Component
                                             }
                                             //Thêm vào danh sách yêu thích
                                             favourite_books.push(tempBooks);
+                                            console.log('Params: ',that.params);
+                                            if (that.params.update) {
+                                                console.log('run update')
+                                                that.params.update();
+                                            }
                                         }
                                         else
                                         {
@@ -191,6 +197,12 @@ class DetailScreen extends Component
                                                     favourite_books.splice(i, 1);
                                                     break;
                                                 }
+                                            }
+
+                                            console.log('Params: ',that.params);
+                                            if (that.params.update) {
+                                                console.log('run update')
+                                                that.params.update();
                                             }
                                         }
                                         store.dispatch({type: UPDATE_FAVOURITE_BOOKS, payload: favourite_books});
