@@ -21,7 +21,7 @@ class HorizontalList extends Component
     constructor(props)
     {
         super(props);
-       // console.log("HORIZONTALLIST", this.props.data);
+        // console.log("HORIZONTALLIST", this.props.data);
         this.state = {
             page: 1,
             refreshing: false,
@@ -69,6 +69,7 @@ class HorizontalList extends Component
 
     render()
     {
+        if (this.state.dataSource.length === 0) return null;
         return (
             <View
                 style={styles.container}>
@@ -77,12 +78,20 @@ class HorizontalList extends Component
                     <Text style={styles.title}>{this.props.title}</Text>
                     <TouchableOpacity
                         style={styles.buttonMore}
-                        onPress={() => this.props.navigation.navigate('VerList', {
-                            data: this.state.dataSource,
-                            title: this.props.title,
-                            colNumber: this.props.theloai ? 2 : 3,
-                            theloai: this.props.theloai,
-                        })}
+                        onPress={() =>
+                        {
+                            if (this.props.favorite)
+                            {
+                                this.props.navigation.navigate('Favorite');
+                            }
+                            else
+                                this.props.navigation.navigate('VerList', {
+                                    data: this.state.dataSource,
+                                    title: this.props.title,
+                                    colNumber: this.props.theloai ? 2 : 3,
+                                    theloai: this.props.theloai,
+                                })
+                        }}
                     >
                         <Image
                             source={require("../img/next.png")}
@@ -114,14 +123,14 @@ class HorizontalList extends Component
         let tempUri = Globals.BASE_URL + item.Hinh;
         return (
             <TouchableOpacity style={{marginRight: 10, width: 160, alignItems: 'center', marginLeft: marginLeft}}
-                              onPress={ async () =>
+                              onPress={async () =>
                               {
                                   //Lấy các sách thuộc thể loại này
-                                  var listBooks= this.props.reduxState.listBooks;
+                                  var listBooks = this.props.reduxState.listBooks;
                                   var data = []
-                                  for(i=0;i < listBooks.length;i++)
+                                  for (i = 0; i < listBooks.length; i++)
                                   {
-                                      if(listBooks[i].MaTheLoai === item.MaTheLoai)
+                                      if (listBooks[i].MaTheLoai === item.MaTheLoai)
                                       {
                                           data.push(listBooks[i]);
                                       }

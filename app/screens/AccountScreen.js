@@ -70,11 +70,12 @@ class AccountScreen extends Component
             {
                 this.setState({finger: false,})
             });
+        console.log(this.state.user);
     }
 
     shouldComponentUpdate(nextProps)
     {
-      //  console.log(this.props.navigation.state.routeName + ' Render', nextProps);
+        //  console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {
@@ -90,7 +91,7 @@ class AccountScreen extends Component
     render()
     {
         if (this.state.errorMessage) alert(this.state.errorMessage);
-      //  console.log(this.props.navigation.state.routeName + ' Render');
+        //  console.log(this.props.navigation.state.routeName + ' Render');
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFANoiGzwMeVa4PdAnNJ3GBAZbA-TDlCnubGAc7oR6nbmaYo5k';
         // hinh anh co the dung letter image trong doopage cung dc
@@ -99,6 +100,8 @@ class AccountScreen extends Component
         let title = 'Bảo mật thanh toán';
         let text = 'Bạn có thể dùng vân tay để bảo mật thanh toán';
         if (isIphoneX()) text = 'Bạn có thể dùng Face ID để bảo mật thanh toán';
+
+        let soxu = 10;
         return (
             <View style={{flex: 1}}>
                 {this.renderDialog()}
@@ -130,7 +133,7 @@ class AccountScreen extends Component
                                     width: window.width,
                                     transform: [{rotateX: '180deg'}]
                                 }}/>
-                            <LinearGradient colors={['#F4D03F','#16A085']}
+                            <LinearGradient colors={['#F4D03F', '#16A085']}
                                             style={{
                                                 height: PARALLAX_HEADER_HEIGHT,
                                                 width: window.width,
@@ -142,11 +145,11 @@ class AccountScreen extends Component
 
                     renderForeground={() => (
                         <View key="parallax-header" style={styles.parallaxHeader}>
-                            <HImage
-                                style={{width: 130, height: 130}}
-                                uri={tempUri}
-                                borderRadius={65}
-                            />
+                            <Text
+                                numberOfLines={2}
+                                style={styles.bookxinchao}>
+                                Xin chào
+                            </Text>
                             <Text
                                 numberOfLines={2}
                                 style={styles.bookName}>
@@ -172,11 +175,22 @@ class AccountScreen extends Component
                     )}>
                     <View key="background" style={{alignItems: 'center', flex: 1}}>
 
+                        <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10, padding: 10}}>
+                            <Text style={{
+                                ...Globals.FONT,
+                                fontSize: 18,
+                                fontWeight: '600',
+                                marginLeft: 10,
+                                borderRadius: 10,
+                            }}>{'Bạn có: ' + soxu + ' xu'} </Text>
+                        </Card>
+
                         <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10}}>
                             <HorizontalList
                                 title={"Sách bạn yêu thích"}
                                 data={this.state.favourite_books}
-                                navigation={this.props.navigation}/>
+                                navigation={this.props.navigation}
+                                favorite/>
                         </Card>
 
                         <Card style={{
@@ -353,16 +367,23 @@ const styles = StyleSheet.create({
     parallaxHeader: {
         alignItems: 'center',
         flex: 1,
-        paddingTop: PARALLAX_HEADER_HEIGHT / 2 - 80,
+        paddingTop: PARALLAX_HEADER_HEIGHT / 2 - 40,
     },
     avatar: {
         marginBottom: 10,
         borderRadius: AVATAR_SIZE / 2
     },
-    bookName: {
+    bookxinchao: {
         ...Globals.FONT,
         color: '#fff',
-        fontSize: 22,
+        fontSize: 20,
+        fontWeight: '600',
+        marginTop: 10,
+    },
+    bookName: {
+        ...Globals.FONT,
+        color: '#000',
+        fontSize: 50,
         fontWeight: '600',
         marginTop: 10,
     },

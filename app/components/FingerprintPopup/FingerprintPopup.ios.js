@@ -7,16 +7,16 @@ export default class FingerprintPopup extends Component
     componentDidMount()
     {
         FingerprintScanner
-            .authenticate({description: 'Scan your fingerprint on the device scanner to continue'})
+            .authenticate({description: 'Vui lòng dùng sinh trắc học để xác thực'})
             .then(() =>
             {
                 this.props.handlePopupDismissed(true);
-                AlertIOS.alert('Authenticated successfully');
+                AlertIOS.alert('Xác nhận thành công');
             })
             .catch((error) =>
             {
                 this.props.handlePopupDismissed(false);
-                AlertIOS.alert(error.message);
+                AlertIOS.alert('Lỗi: ', error.message);
             });
     }
 
