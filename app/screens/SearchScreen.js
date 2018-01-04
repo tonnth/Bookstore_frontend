@@ -30,13 +30,14 @@ class SearchScreen extends Component
             page: 1,
             refreshing: false,
             total_page: 1,
-            dataSource: [],
-            initData: [],
+            dataSource: this.props.reduxState.listBooks,
+            initData: this.props.reduxState.listBooks,
             noData: false,
+            keyWord: '',
         };
         this.itemWidth = width / 3 - 10;
     }
-    Search = (e) =>
+    search = (e) =>
     {
         console.log(e.toLowerCase());
         let text = e.toLowerCase();
@@ -119,7 +120,13 @@ class SearchScreen extends Component
                     </Button>
 
                     <View style={{width: 300, flexDirection: 'row', alignItems: 'center',}}>
-                        <Input placeholder="Nhập vào từ khóa" style={{width: 300}}/>
+                        <Input placeholder="Nhập vào từ khóa" style={{width: 300}}
+                               onChangeText ={(text)=>{
+                                   this.setState({
+                                       keyWord: text,
+                                   });
+                                   this.search(text);
+                               }}/>
                         <Icon name="ios-search"/>
                     </View>
                 </Header>
@@ -127,7 +134,7 @@ class SearchScreen extends Component
                 <FlatList
                     keyExtractor={(item, index) => index}
                     data={this.state.dataSource}
-                    renderItem={this.renderItem}
+                    renderItem={this.renderItem2}
                     refreshing={this.state.refreshing}
                     onRefresh={this.handleRefresh}
                     onEndReached={this.handleLoadMore}
@@ -186,6 +193,35 @@ class SearchScreen extends Component
                 <Text
                     style={{color: '#000', fontSize: 20,}}
                     numberOfLines={1}>{item}</Text>
+                <Button transparent
+                        onPress={() => {}}>
+                    <Icon name="ios-close-outline" size={25} color="#000" style={{color: '#000'}}/>
+                </Button>
+            </TouchableOpacity>
+        );
+    };
+
+    renderItem2 = (item,index) =>
+    {
+        return (
+            <TouchableOpacity
+                style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    backgroundColor: '#fff',
+                    padding: 5,
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                    flexDirection: 'row',
+                }}
+                onPress={() =>
+                {
+                }}>
+                <Text
+                    style={{color: '#000', fontSize: 20,}}
+                    numberOfLines={1}>{item.TenSach}</Text>
                 <Button transparent
                         onPress={() => {}}>
                     <Icon name="ios-close-outline" size={25} color="#000" style={{color: '#000'}}/>
