@@ -31,22 +31,40 @@ class SearchScreen extends Component
             refreshing: false,
             total_page: 1,
             dataSource: [],
+            initData: [],
+            noData: false,
         };
         this.itemWidth = width / 3 - 10;
     }
-
-    async getData()
+    Search = (e) =>
     {
-        await api.getPromotionBooks();
-        console.log(this.props.reduxState.books.data);
-        this.setState({
-            dataSource: [
-                ...this.state.dataSource,
-                ...this.props.reduxState.books.data
-            ],
-            refreshing: false
-        });
-    }
+        console.log(e.toLowerCase());
+        let text = e.toLowerCase();
+        let trucks = this.state.initData;
+        let filteredName = trucks.filter((item) =>
+        {
+            return item.TenSach.toString().toLowerCase().match(text)
+        })
+        if (!text || text === '')
+        {
+            this.setState({
+                dataSource: this.state.initData,
+            })
+        } else if (!Array.isArray(filteredName) && !filteredName.length)
+        {
+            // set no data flag to true so as to render flatlist conditionally
+            this.setState({
+                noData: true
+            });
+        } else if (Array.isArray(filteredName))
+        {
+            this.setState({
+                noData: false,
+                dataSource: filteredName
+            })
+        }
+    };
+
 
     componentDidMount()
     {

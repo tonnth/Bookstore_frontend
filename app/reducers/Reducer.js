@@ -1,17 +1,26 @@
 import Globals, {
+    FETCHING_BOOKS,
+    FETCHING_BOOKS_SUCCESS,
+    FETCHING_BOOKS_FAIL,
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
-    FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_ACCESS_TOKEN, FETCHING_ACCESS_TOKEN_SUCCESS, FETCHING_ACCESS_TOKEN_FAIL,
-    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART, UPDATE_ORDER,
+    FETCHING_PROMOTION_BOOKS_FAIL,
+    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART,
+    UPDATE_ORDER,
     UPDATE_TOKEN, FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS,
     FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS, FETCHING_FAVOURITE_FAIL,
-    FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS,
+    FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS, UPDATE_PROMOTION_BOOKS, UPDATE_NEW_BOOKS,UPDATE_FAVOURITE_BOOKS
 } from '../Globals';
 
 
 const initialState = {
     isFetching: false,
     currentBook: 0,
+
+    //all books
+    listBooks: null,
+    hasError_Books: false,
+    errorMessage_Books: null,
 
     //Promotion Books
     listPromotionBooks: null,
@@ -56,54 +65,78 @@ export const reducer = (state = initialState, action) =>
 {
     switch (action.type)
     {
-        case FETCHING_PROMOTION_BOOKS:
+        case FETCHING_BOOKS:
             return Object.assign(state, {
                 ...state,
                 isFetching: true,
             });
 
 
-        case FETCHING_PROMOTION_BOOKS_SUCCESS:
+        case FETCHING_BOOKS_SUCCESS:
             return Object.assign(state, {
                 ...state,
                 isFetching: false,
-                listPromotionBooks: action.payload.data,
-                hasError_Promotion_Books: false,
+                listBooks: action.payload.data,
+                hasError_Books: false,
                 currentBook: 0,
             });
 
-        case FETCHING_PROMOTION_BOOKS_FAIL:
+        case FETCHING_BOOKS_FAIL:
             return Object.assign(state, {
                 ...state,
                 isFetching: false,
-                hasError_Promotion_Books: true,
-                errorMessage_Promotion_Books: action.payload.response.data,
+                hasError_Books: true,
+                errorMessage_Books: action.payload.response.data,
                 currentBook: null,
             });
+        // case FETCHING_PROMOTION_BOOKS:
+        //     return Object.assign(state, {
+        //         ...state,
+        //         isFetching: true,
+        //     });
+        //
+        //
+        // case FETCHING_PROMOTION_BOOKS_SUCCESS:
+        //     return Object.assign(state, {
+        //         ...state,
+        //         isFetching: false,
+        //         listPromotionBooks: action.payload.data,
+        //         hasError_Promotion_Books: false,
+        //         currentBook: 0,
+        //     });
+        //
+        // case FETCHING_PROMOTION_BOOKS_FAIL:
+        //     return Object.assign(state, {
+        //         ...state,
+        //         isFetching: false,
+        //         hasError_Promotion_Books: true,
+        //         errorMessage_Promotion_Books: action.payload.response.data,
+        //         currentBook: null,
+        //     });
 
-        case FETCHING_NEW_BOOKS:
-            return Object.assign(state, {
-                ...state,
-                isFetching: true,
-            });
-
-        case FETCHING_NEW_BOOKS_SUCCESS:
-            return Object.assign(state, {
-                ...state,
-                isFetching: false,
-                listNewBooks: action.payload.data,
-                hasError_New_Books: false,
-                currentBook: 0,
-            });
-
-        case FETCHING_NEW_BOOKS_FAIL:
-            return Object.assign(state, {
-                ...state,
-                isFetching: false,
-                hasError_New_Books: true,
-                errorMessage_New_Books: action.payload.response.data,
-                currentBook: null,
-            });
+        // case FETCHING_NEW_BOOKS:
+        //     return Object.assign(state, {
+        //         ...state,
+        //         isFetching: true,
+        //     });
+        //
+        // case FETCHING_NEW_BOOKS_SUCCESS:
+        //     return Object.assign(state, {
+        //         ...state,
+        //         isFetching: false,
+        //         listNewBooks: action.payload.data,
+        //         hasError_New_Books: false,
+        //         currentBook: 0,
+        //     });
+        //
+        // case FETCHING_NEW_BOOKS_FAIL:
+        //     return Object.assign(state, {
+        //         ...state,
+        //         isFetching: false,
+        //         hasError_New_Books: true,
+        //         errorMessage_New_Books: action.payload.response.data,
+        //         currentBook: null,
+        //     });
 
         case FETCHING_USER:
             return Object.assign(state, {
@@ -171,7 +204,17 @@ export const reducer = (state = initialState, action) =>
                 errorMessage_Order_History: action.payload.response.data,
             });
 
+        case UPDATE_PROMOTION_BOOKS:
+            return Object.assign(state, {
+                ...state,
+                listPromotionBooks: action.payload,
+            });
 
+        case UPDATE_NEW_BOOKS:
+            return Object.assign(state, {
+                ...state,
+                listNewBooks: action.payload,
+            });
 
         case UPDATE_CURRENT_SCREEN:
         return Object.assign(state, {
@@ -194,6 +237,11 @@ export const reducer = (state = initialState, action) =>
             return Object.assign(state, {
                 ...state,
                 order: action.payload,
+            });
+        case UPDATE_FAVOURITE_BOOKS:
+            return Object.assign(state, {
+                ...state,
+                favourite_books: action.payload,
             });
 
         default:

@@ -5,7 +5,10 @@ import {
 import {connect} from "react-redux";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 
-import Globals, {UPDATE_CURRENT_SCREEN, UPDATE_TOKEN, resetAction} from "../Globals";
+import Globals, {
+    UPDATE_CURRENT_SCREEN, UPDATE_TOKEN, resetAction, UPDATE_CART, UPDATE_NEW_BOOKS,
+    UPDATE_PROMOTION_BOOKS
+} from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
 import FastImage from "react-native-fast-image";
@@ -20,6 +23,7 @@ class LoadingScreen extends Component
     {
         console.log("LOADING SCREEN");
         super(props);
+        console.log('LOADING SCREEN',props);
     }
 
     render()
@@ -59,9 +63,26 @@ class LoadingScreen extends Component
 
     async getData()
     {
-        await api.getPromotionBooks();
-        await api.getNewBooks();
+        await api.getAllBooks();
+        // await api.getPromotionBooks();
+        // await api.getNewBooks();
+        var listNewBooks = [];
+        var listPromotionBooks = [];
+        var listBooks =this.props.reduxState.listBooks;
+        for(i=0; i < listBooks.length; i++)
+        {
+            if(listBooks[i].TrangThai === 1)
+            {
+                listNewBooks.push(listBooks[i]);
+            }
+            if(listBooks[i].TrangThai != -1 && listBooks[i].KhuyenMai != 0)
+            {
+                listPromotionBooks.push(listBooks[i]);
+            }
+        }
 
+        store.dispatch({type: UPDATE_NEW_BOOKS, payload: listNewBooks});
+        store.dispatch({type: UPDATE_PROMOTION_BOOKS, payload: listPromotionBooks});
 
         var token = await getFromLocal('token');
 

@@ -117,7 +117,15 @@ class HorizontalList extends Component
                               onPress={ async () =>
                               {
                                   //Lấy các sách thuộc thể loại này
-                                  var data  = await api.getBookByGenre(item.MaTheLoai);
+                                  var listBooks= this.props.reduxState.listBooks;
+                                  var data = []
+                                  for(i=0;i < listBooks.length;i++)
+                                  {
+                                      if(listBooks[i].MaTheLoai === item.MaTheLoai)
+                                      {
+                                          data.push(listBooks[i]);
+                                      }
+                                  }
                                   this.props.navigation.navigate('VerList', {
                                       data: data,
                                       colNumber: this.props.theloai ? 2 : 3,

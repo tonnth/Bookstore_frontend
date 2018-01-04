@@ -18,7 +18,10 @@ import {
     Icon,
     CardItem,
 } from 'native-base';
-import Globals, {addToCart, formatCurency} from "../Globals";
+import Globals, {
+    addToCart, formatCurency, UPDATE_CART, UPDATE_CURRENT_SCREEN,
+    UPDATE_FAVOURITE_BOOKS
+} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import {HButtonBack} from "../components/HButtonBack";
 import HImage from "../components/HImage";
@@ -30,6 +33,8 @@ import {connect} from "react-redux";
 
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
+import * as api from "../config/api";
+import store from "../Store";
 
 class DetailScreen extends Component
 {
@@ -41,15 +46,32 @@ class DetailScreen extends Component
         console.log(this.params);
 
         this.state = {
-            heart: false,
+            heart: this.checkLiked(this.params, this.props.reduxState.favourite_books),
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
         };
     }
 
+    checkLiked = (book, list) =>
+    {
+        for (i = 0; i < list.length; i++)
+        {
+            if (book.MaSach === list[i].MaSach)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    componentDidmount()
+    {
+
+    }
+
     render()
     {
-        console.log(this.props.navigation.state.routeName +  ' Render');
+        console.log(this.props.navigation.state.routeName + ' Render');
         let heart = this.state.heart ? "md-heart" : "md-heart-outline";
         let tempUri = Globals.BASE_URL + this.params.HinhAnh;
         let giaKhuyenMai = this.params.GiaBan * (100 - this.params.KhuyenMai) / 100;
@@ -134,10 +156,48 @@ class DetailScreen extends Component
                             </View>
                             <Button rounded light large
                                     style={{position: 'absolute', right: 20, bottom: 20,}}
-                                    onPress={() =>
+                                    onPress={async () =>
                                     {
+                                        var res;
+                                        var tempBooks = this.params;
+                                        var favourite_books = this.props.reduxState.favourite_books;
+                                        if (!this.state.heart)
+                                        {
+                                            //Like
+                                            try
+                                            {
+                                                res = await api.putLike(this.props.reduxState.token, this.params.MaSach, 1);
+                                            } catch (err)
+                                            {
+                                                console.log('Lỗi đăng nhập: ', err);
+                                            }
+                                            //Thêm vào danh sách yêu thích
+                                            favourite_books.push(tempBooks);
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                res = await api.putLike(this.props.reduxState.token, this.params.MaSach, 0);
+                                            } catch (err)
+                                            {
+                                                console.log('Lỗi đăng nhập: ', err);
+                                            }
+                                            //Xóa khỏi danh sách yêu thích
+                                            for (i = 0; i < favourite_books.length; i++)
+                                            {
+                                                if (favourite_books[i].MaSach === this.params.MaSach)
+                                                {
+                                                    favourite_books.splice(i, 1);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        store.dispatch({type: UPDATE_FAVOURITE_BOOKS, payload: favourite_books});
                                         this.refs.toast.show(!this.state.heart ? 'Đã thêm vào danh sách yêu thích' : 'Đã xóa khỏi danh sách yêu thích', DURATION.LENGTH_SHORT);
                                         this.setState({heart: !this.state.heart});
+
+
                                     }}>
                                 <Icon name={heart}
                                       style={{color: 'red', fontSize: 33}}/>
@@ -197,9 +257,10 @@ class DetailScreen extends Component
                          navigation={this.props.navigation}
                          shadow
                          border={5}
-                         action={ () => {
+                         action={() =>
+                         {
                              console.log(this.params);
-                              addToCart(this.params,this.props.reduxState.cart);
+                             addToCart(this.params, this.props.reduxState.cart);
                              this.refs.toast.show('Đã thêm ' + this.params.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
                          }}
                 />
@@ -210,7 +271,7 @@ class DetailScreen extends Component
 
     shouldComponentUpdate(nextProps)
     {
-        console.log(this.props.navigation.state.routeName +  ' Render' , nextProps);
+        console.log(this.props.navigation.state.routeName + ' Render', nextProps);
         return true;
         // if (nextProps.navigation.stackNav.index === 0)
         // {
