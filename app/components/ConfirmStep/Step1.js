@@ -179,6 +179,7 @@ class Step1 extends Component<>
 
                                  var diachi = this.state.diaChi+', '+this.state.phuongXa+', '+this.state.quanHuyen+', '+this.state.tinhThanhPho;
                                  var tempOrder ={
+                                     ThietBiDatHang: 'Mobile',
                                      token:this.props.reduxState.token,
                                      MaKhuVucGiaoHang: 3,
                                      DiaChiGiaoHang: diachi,

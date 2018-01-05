@@ -3,7 +3,7 @@ import {
     View, Text, Image, ImageBackground, StyleSheet, StatusBar, Platform, TouchableOpacity
 } from 'react-native';
 import {Button, Header, Icon, Input, Item, Label} from "native-base";
-import Globals, {UPDATE_TOKEN, validateEmail} from "../Globals";
+import Globals, {UPDATE_CART, UPDATE_TOKEN, validateEmail} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import * as api from "../config/api";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -16,8 +16,9 @@ import Toast, {DURATION} from 'react-native-easy-toast'
 import FastImage from "react-native-fast-image";
 import {getFromLocal, setToLocal} from "../config/storage";
 import store from "../Store";
+import {connect} from "react-redux";
 
-export default class LoginScreen extends Component
+class LoginScreen extends Component
 {
     constructor(props)
     {
@@ -132,12 +133,40 @@ export default class LoginScreen extends Component
 
                                      if(res.data.code  === 200)
                                      {
-                                         setToLocal('token', res.data.token);
+                                         //setToLocal('token', res.data.token);
                                          store.dispatch({type: UPDATE_TOKEN, payload: res.data.token});
-                                         api.getUserInfo(res.data.token);
-                                         api.getOrderHistory(res.data.token);
-                                         api.getFavouriteBooks(res.data.token);
-                                         this.props.navigation.navigate('Home');
+                                         await api.getUserInfo(res.data.token)
+                                         await api.getOrderHistory(res.data.token);
+                                         await api.getFavouriteBooks(res.data.token);
+                                         api.getCart(res.data.token).then(() =>
+                                         {
+                                             console.log('ngu:',this.props.reduxState.cart);
+                                             var tempCart=this.props.reduxState.cart;
+                                             var listBooks= this.props.reduxState.listBooks;
+                                             for(i = 0; i< tempCart.length; i++)
+                                             {
+                                                 for(j=0; j < listBooks.length; j++)
+                                                 {
+                                                     if(tempCart[i].MaSach === listBooks[j].MaSach)
+                                                     {
+                                                         tempCart[i].GiaBan = listBooks[j].GiaBan;
+                                                         tempCart[i].HinhAnh = listBooks[j].HinhAnh;
+                                                         tempCart[i].KhuyenMai = listBooks[j].KhuyenMai;
+                                                         tempCart[i].MaTheLoai = listBooks[j].MaTheLoai;
+                                                         tempCart[i].MoTa = listBooks[j].MoTa;
+                                                         tempCart[i].SoLuongTon = listBooks[j].SoLuongTon;
+                                                         tempCart[i].TenSach = listBooks[j].TenSach;
+                                                         tempCart[i].TacGia= listBooks[j].TacGia;
+                                                         tempCart[i].TrangThai= listBooks[j].TrangThai;
+                                                         break;
+                                                     }
+                                                 }
+
+                                             }
+                                             store.dispatch({type: UPDATE_CART, payload: tempCart});
+
+                                         })
+                                          this.props.navigation.navigate('Home');
                                      }
                                      else
                                      {
@@ -182,6 +211,12 @@ export default class LoginScreen extends Component
         // return false;
     }
 }
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
+
+export default connect(mapStateToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
     container: {flex: 1},

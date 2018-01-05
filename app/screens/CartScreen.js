@@ -221,7 +221,7 @@ class CartScreen extends Component
                                         total: this.total,
                                     })
                                     item.SoLuongBan = value;
-                                    await updateCartItem(item, this.props.reduxState.cart);
+                                    await updateCartItem(item, this.props.reduxState.cart,this.props.reduxState.token);
                                 }}
                             />
                         </View>
@@ -238,7 +238,7 @@ class CartScreen extends Component
 
 
                                 this.state.dataSource.splice(index, 1);
-                                removeFromCart(item, this.props.reduxState.cart);
+                                removeFromCart(item, this.props.reduxState.cart,this.props.reduxState.token);
                                 this.setState({
                                     dataSource: this.state.dataSource,
                                 });

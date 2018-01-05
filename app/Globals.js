@@ -1,9 +1,10 @@
 import {NavigationActions} from "react-navigation";
 import store from "./Store";
+import * as api from "./config/api";
 
 export default Globals = {
-    BASE_URL: 'https://tohiti-test.herokuapp.com/',
-    //BASE_URL: '192.168.1.48/',
+    //BASE_URL: 'https://tohiti-test.herokuapp.com/',
+    BASE_URL: 'http://192.168.1.48:3000/',
     COLOR: {
         MAINCOLOR: '#fc4a1a',
         MAINCOLOR2: '#F3F4F6',
@@ -60,13 +61,27 @@ export const resetAction = NavigationActions.reset({
     ]
 });
 
+export const getBookById = (MaSach,listBook) =>
+{
+    for(i=0; i < listBook.length; i++)
+    {
+        if(listBook[i].MaSach === MaSach)
+        {
+            return listBook[i]
+        }
+    }
+    return null;
+}
+
+
+
 export const validateEmail = email =>
 {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email.toLowerCase());
 }
 
-export const addToCart = (book, cart) =>
+export const addToCart = (book, cart,token) =>
 {
     var push = true;
     var tempCart = cart;
@@ -77,6 +92,7 @@ export const addToCart = (book, cart) =>
         {
             tempCart[i].SoLuongBan += 1;
             store.dispatch({type: UPDATE_CART, payload: tempCart});
+            api.putUpdateCart(token,tempCart);
             push = false;
             break;
         }
@@ -88,15 +104,20 @@ export const addToCart = (book, cart) =>
         tempBook.SoLuongBan = 1;
         tempCart.push(tempBook);
         store.dispatch({type: UPDATE_CART, payload: tempCart});
+        api.putUpdateCart(token,tempCart);
     }
 
 }
 
-export const removeFromCart = (book, cart) =>
+export const removeFromCart = (book, cart,token) =>
 {
+    console.log('Remove from cart');
+    console.log('Book.MaSach', book.MaSach);
+    console.log('Book.MaSach', cart);
     var tempCart = cart;
     for (i = 0; i < tempCart.length; i++)
     {
+        console.log('Cart[i].MaSach', tempCart[i].MaSach)
         if (book.MaSach === tempCart[i].MaSach)
         {
             tempCart.splice(i, 1);
@@ -105,10 +126,11 @@ export const removeFromCart = (book, cart) =>
 
         }
     }
-
+    console.log('goi api');
+    api.putUpdateCart(token,tempCart);
 }
 
-export const updateCartItem = (book, cart) =>
+export const updateCartItem = (book, cart, token) =>
 {
     var tempCart = cart;
     for (i = 0; i < tempCart.length; i++)
@@ -117,6 +139,7 @@ export const updateCartItem = (book, cart) =>
         {
             tempCart[i] = book;
             store.dispatch({type: UPDATE_CART, payload: tempCart});
+            api.putUpdateCart(token,tempCart);
             break;
 
         }
@@ -247,9 +270,13 @@ export const FETCHING_ORDER_HISTORY = 'FETCHING_ORDER_HISTORY';
 export const FETCHING_ORDER_HISTORY_SUCCESS = 'FETCHING_ORDER_HISTORY_SUCCESS';
 export const FETCHING_ORDER_HISTORY_FAIL = 'FETCHING_ORDER_HISTORY_FAIL';
 
+export const FETCHING_CART = 'FETCHING_CART';
+export const FETCHING_CART_SUCCESS = 'FETCHING_CART_SUCCESS';
+export const FETCHING_CART_FAIL = 'FETCHING_CART_FAIL';
+export const UPDATE_CART = 'UPDATE_CART';
+
 export const UPDATE_CURRENT_SCREEN = 'UPDATE_CURRENT_SCREEN';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
-export const UPDATE_CART = 'UPDATE_CART';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 
 

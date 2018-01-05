@@ -5,13 +5,13 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL,
-    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART,
+    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART, FETCHING_CART,FETCHING_CART_FAIL,FETCHING_CART_SUCCESS,
     UPDATE_ORDER,
     UPDATE_TOKEN, FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS,
     FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS, FETCHING_FAVOURITE_FAIL,
     FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS, UPDATE_PROMOTION_BOOKS, UPDATE_NEW_BOOKS,UPDATE_FAVOURITE_BOOKS
 } from '../Globals';
-
+import * as api from "../config/api";
 
 const initialState = {
     isFetching: false,
@@ -52,6 +52,8 @@ const initialState = {
 
     //Cart
     cart: [],
+    hasError_Cart: false,
+    errorMessage_cart: null,
 
     //Order
     order: null,
@@ -222,6 +224,27 @@ export const reducer = (state = initialState, action) =>
             screen: action.payload,
         });
 
+        case FETCHING_CART:
+            return Object.assign(state, {
+                ...state,
+                isFetching: true,
+            });
+
+        case FETCHING_CART_SUCCESS:
+            return Object.assign(state, {
+                ...state,
+                isFetching: false,
+                cart: action.payload.data,
+                hasError_Cart: false,
+            });
+
+        case FETCHING_CART_FAIL:
+            return Object.assign(state, {
+                ...state,
+                isFetching: false,
+                hasError_Cart: true,
+                errorMessage_Cart: action.payload.response.data,
+            });
         case UPDATE_CART:
             return Object.assign(state, {
                 ...state,

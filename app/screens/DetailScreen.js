@@ -272,7 +272,7 @@ class DetailScreen extends Component
                          action={() =>
                          {
                              console.log(this.params);
-                             addToCart(this.params, this.props.reduxState.cart);
+                             addToCart(this.params, this.props.reduxState.cart,this.props.reduxState.token);
                              this.refs.toast.show('Đã thêm ' + this.params.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
                          }}
                 />

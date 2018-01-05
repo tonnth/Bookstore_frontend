@@ -196,7 +196,7 @@ class FavoriteScreen extends Component
                         }}
                         onPress={() =>
                         {
-                            addToCart(item, this.props.reduxState.cart);
+                            addToCart(item, this.props.reduxState.cart,this.props.reduxState.token);
                             this.refs.toast.show('Đã thêm ' + item.TenSach + ' vào giỏ hàng', DURATION.LENGTH_SHORT);
                         }}
                     >

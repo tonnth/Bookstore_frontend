@@ -4,7 +4,7 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL,
     FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS, FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS,
     FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_SUCCESS, FETCHING_BOOKS, FETCHING_BOOKS_SUCCESS, FETCHING_BOOKS_FAIL,
-    UPDATE_FAVOURITE_BOOKS,
+    UPDATE_FAVOURITE_BOOKS, FETCHING_CART, FETCHING_CART_SUCCESS, FETCHING_CART_FAIL,
 } from '../Globals';
 import axios from 'axios';
 import store from '../Store';
@@ -219,3 +219,43 @@ exports.getOrderHistory = function (token)
     })
 }
 
+exports.getCart = function (token)
+{
+    console.log('API GETCART');
+    let url = Globals.BASE_URL + 'giohang/';
+    return store.dispatch(dispatch =>
+    {
+        dispatch({type: FETCHING_CART});
+        return axios.get(url,
+            {
+                headers:
+                    {
+                        'Authorization': '' + token,
+                    }
+            }
+        )
+            .then(res =>
+            {
+                console.log(res.data);
+                dispatch({type: FETCHING_CART_SUCCESS, payload: res});
+            })
+            .catch(err =>
+            {
+                console.log(err.response.data);
+                dispatch({type: FETCHING_CART_FAIL, payload: err})
+            });
+
+    })
+}
+exports.putUpdateCart = function (token,cart)
+{
+    console.log('API UPDATE CART:',cart);
+    console.log(token);
+    let url = Globals.BASE_URL + 'giohang/capnhat';
+    return axios.put(url, cart, {
+        headers:
+            {
+                'Authorization': '' + token,
+            }
+    });
+}
