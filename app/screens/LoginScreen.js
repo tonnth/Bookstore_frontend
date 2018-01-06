@@ -133,7 +133,7 @@ class LoginScreen extends Component
 
                                      if(res.data.code  === 200)
                                      {
-                                         //setToLocal('token', res.data.token);
+                                         setToLocal('token', res.data.token);
                                          store.dispatch({type: UPDATE_TOKEN, payload: res.data.token});
                                          await api.getUserInfo(res.data.token)
                                          await api.getOrderHistory(res.data.token);

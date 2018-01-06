@@ -5,11 +5,14 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL,
-    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART, FETCHING_CART,FETCHING_CART_FAIL,FETCHING_CART_SUCCESS,
+    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART, UPDATE_USER,
+    FETCHING_CART, FETCHING_CART_FAIL, FETCHING_CART_SUCCESS,
     UPDATE_ORDER,
     UPDATE_TOKEN, FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS,
     FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS, FETCHING_FAVOURITE_FAIL,
-    FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS, UPDATE_PROMOTION_BOOKS, UPDATE_NEW_BOOKS,UPDATE_FAVOURITE_BOOKS
+    FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS, UPDATE_PROMOTION_BOOKS,
+    UPDATE_NEW_BOOKS, UPDATE_FAVOURITE_BOOKS, FETCHING_BANNER, FETCHING_BANNER_FAIL, FETCHING_BANNER_SUCCESS,
+    UPDATE_ORDER_HISTORY
 } from '../Globals';
 import * as api from "../config/api";
 
@@ -59,6 +62,11 @@ const initialState = {
     order: null,
 
 
+    //Banner
+    banner:[],
+    hasError_Banner: false,
+    errorMessage_Banner:null,
+
     screen: '',
 };
 
@@ -90,6 +98,28 @@ export const reducer = (state = initialState, action) =>
                 hasError_Books: true,
                 errorMessage_Books: action.payload.response.data,
                 currentBook: null,
+            });
+        case FETCHING_BANNER:
+            return Object.assign(state, {
+                ...state,
+                isFetching: true,
+            });
+
+
+        case FETCHING_BANNER_SUCCESS:
+            return Object.assign(state, {
+                ...state,
+                isFetching: false,
+                banner: action.payload.data,
+                hasError_Banner: false,
+            });
+
+        case FETCHING_BANNER_FAIL:
+            return Object.assign(state, {
+                ...state,
+                isFetching: false,
+                hasError_Banner: true,
+                errorMessage_Banner: action.payload.response.data,
             });
         // case FETCHING_PROMOTION_BOOKS:
         //     return Object.assign(state, {
@@ -268,7 +298,16 @@ export const reducer = (state = initialState, action) =>
                 ...state,
                 favourite_books: action.payload,
             });
-
+        case UPDATE_ORDER_HISTORY:
+            return Object.assign(state, {
+                ...state,
+                order_history: action.payload,
+            });
+        case UPDATE_USER:
+            return Object.assign(state, {
+                ...state,
+                user: action.payload,
+            });
         default:
             return state;
     }

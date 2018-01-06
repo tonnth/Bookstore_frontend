@@ -48,13 +48,14 @@ class HomeScreen extends Component
         console.log("HOME SCREEN");
         this.state = {
             index: 0,
-            name: cards[0].name,
+            name: this.props.reduxState.banner[0].TenSach,
             decrip: cards[0].phone,
             searching: false,
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
             show: false,
             sanpham: 0,
+            banner: this.props.reduxState.banner,
         };
         that = this;
     }
@@ -107,7 +108,7 @@ class HomeScreen extends Component
                                 top:0,
                                 right:0,
                             }}>
-                                <Text style={{color: '#fff'}}>{sanpham}</Text>
+                                <Text style={{color: '#fff'}}>1</Text>
                             </Badge>}
                         </Button>
                     </Right>
@@ -130,7 +131,7 @@ class HomeScreen extends Component
                             {
                                 this._carousel = c;
                             }}
-                            data={cards}
+                            data={this.state.banner}
                             renderItem={this.renderItem
                             }
                             sliderWidth={sliderWidth}
@@ -189,8 +190,7 @@ class HomeScreen extends Component
         //console.log(index);
         this.setState({
             index: index,
-            name: cards[index].name,
-            decrip: cards[index].phone,
+            name: this.state.banner[index].TenSach,
         })
     };
 
@@ -200,7 +200,7 @@ class HomeScreen extends Component
             <View style={styles.slide}>
                 <View style={styles.slideInnerContainer}>
                     <Image
-                        source={{uri: item.image}}
+                        source={{uri: Globals.BASE_URL+item.HinhMobile}}
                         style={{
                             flex: 1,
                             overflow: 'hidden',

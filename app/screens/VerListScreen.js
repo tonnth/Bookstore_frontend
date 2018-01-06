@@ -94,7 +94,7 @@ class VerListScreen extends Component
                     </Body>
                     <Right>
                         <Button transparent
-                                onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+                                onPress={() => this.props.navigation.navigate("Search")}>
                             <Icon name="ios-search"
                                   style={{color: "#000", fontSize: Globals.ICONSIZE}}/>
                         </Button>

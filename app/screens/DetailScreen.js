@@ -46,7 +46,7 @@ class DetailScreen extends Component
         console.log(this.params);
 
         this.state = {
-            heart: this.checkLiked(this.params, this.props.reduxState.favourite_books),
+            heart: this.props.reduxState.token ? this.checkLiked(this.params, this.props.reduxState.favourite_books) :false,
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
         };
@@ -159,56 +159,63 @@ class DetailScreen extends Component
                                     style={{position: 'absolute', right: 20, bottom: 20,}}
                                     onPress={async () =>
                                     {
-                                        var res;
-                                        var tempBooks = this.params;
-                                        var favourite_books = this.props.reduxState.favourite_books;
-                                        if (!this.state.heart)
-                                        {
-                                            //Like
-                                            try
-                                            {
-                                                res = await api.putLike(this.props.reduxState.token, this.params.MaSach, 1);
-                                            } catch (err)
-                                            {
-                                                console.log('Lỗi đăng nhập: ', err);
-                                            }
-                                            //Thêm vào danh sách yêu thích
-                                            favourite_books.push(tempBooks);
-                                            console.log('Params: ',that.params);
-                                            if (that.params.update) {
-                                                console.log('run update')
-                                                that.params.update();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            try
-                                            {
-                                                res = await api.putLike(this.props.reduxState.token, this.params.MaSach, 0);
-                                            } catch (err)
-                                            {
-                                                console.log('Lỗi đăng nhập: ', err);
-                                            }
-                                            //Xóa khỏi danh sách yêu thích
-                                            for (i = 0; i < favourite_books.length; i++)
-                                            {
-                                                if (favourite_books[i].MaSach === this.params.MaSach)
-                                                {
-                                                    favourite_books.splice(i, 1);
-                                                    break;
-                                                }
-                                            }
+                                       if(this.props.reduxState.token)
+                                       {
+                                           var res;
+                                           var tempBooks = this.params;
+                                           var favourite_books = this.props.reduxState.favourite_books;
+                                           if (!this.state.heart)
+                                           {
+                                               //Like
+                                               try
+                                               {
+                                                   res = await api.putLike(this.props.reduxState.token, this.params.MaSach, 1);
+                                               } catch (err)
+                                               {
+                                                   console.log('Lỗi đăng nhập: ', err);
+                                               }
+                                               //Thêm vào danh sách yêu thích
+                                               favourite_books.push(tempBooks);
+                                               console.log('Params: ',that.params);
+                                               if (that.params.update) {
+                                                   console.log('run update')
+                                                   that.params.update();
+                                               }
+                                           }
+                                           else
+                                           {
+                                               try
+                                               {
+                                                   res = await api.putLike(this.props.reduxState.token, this.params.MaSach, 0);
+                                               } catch (err)
+                                               {
+                                                   console.log('Lỗi đăng nhập: ', err);
+                                               }
+                                               //Xóa khỏi danh sách yêu thích
+                                               for (i = 0; i < favourite_books.length; i++)
+                                               {
+                                                   if (favourite_books[i].MaSach === this.params.MaSach)
+                                                   {
+                                                       favourite_books.splice(i, 1);
+                                                       break;
+                                                   }
+                                               }
 
-                                            console.log('Params: ',that.params);
-                                            if (that.params.update) {
-                                                console.log('run update')
-                                                that.params.update();
-                                            }
-                                        }
-                                        store.dispatch({type: UPDATE_FAVOURITE_BOOKS, payload: favourite_books});
-                                        this.refs.toast.show(!this.state.heart ? 'Đã thêm vào danh sách yêu thích' : 'Đã xóa khỏi danh sách yêu thích', DURATION.LENGTH_SHORT);
-                                        this.setState({heart: !this.state.heart});
+                                               console.log('Params: ',that.params);
+                                               if (that.params.update) {
+                                                   console.log('run update')
+                                                   that.params.update();
+                                               }
+                                           }
+                                           store.dispatch({type: UPDATE_FAVOURITE_BOOKS, payload: favourite_books});
+                                           this.refs.toast.show(!this.state.heart ? 'Đã thêm vào danh sách yêu thích' : 'Đã xóa khỏi danh sách yêu thích', DURATION.LENGTH_SHORT);
+                                           this.setState({heart: !this.state.heart});
 
+                                       }
+                                       else
+                                       {
+                                           this.refs.toast.show('Vui lòng đăng nhập', DURATION.LENGTH_SHORT);
+                                       }
 
                                     }}>
                                 <Icon name={heart}
@@ -232,7 +239,7 @@ class DetailScreen extends Component
                                 color={'#000'}/>
                             <View style={{position: 'absolute', top: 20, right: 20}}>
                                 <Button transparent
-                                        onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+                                        onPress={() => this.props.navigation.navigate("Cart", {screenhhh: 'Cart'})}>
                                     {/*<Icon name="ios-search"*/}
                                     {/*style={{color: "#000", fontSize: Globals.ICONSIZE}}/>*/}
                                     <IconFeather name="shopping-cart" size={28} color="#000"/>

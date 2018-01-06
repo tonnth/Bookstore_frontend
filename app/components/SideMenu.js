@@ -1,10 +1,12 @@
 import React from "react";
 import {Image, Text, View, TouchableOpacity, StyleSheet} from "react-native";
-import Globals from "../Globals";
+import Globals, {UPDATE_CART, UPDATE_FAVOURITE_BOOKS, UPDATE_ORDER, UPDATE_ORDER_HISTORY,UPDATE_TOKEN, UPDATE_USER} from "../Globals";
 import {Container} from "native-base";
 import LinearGradient from "react-native-linear-gradient";
 import {connect} from "react-redux";
 import IconFeather from 'react-native-vector-icons/Feather';
+import store from "../Store";
+import {setToLocal} from "../config/storage";
 
 class SideMenu extends React.Component
 {
@@ -172,7 +174,14 @@ class SideMenu extends React.Component
                         style={styles.item}
                         onPress={() =>
                         {
-                            this.props.navigation.navigate('Login');
+                            setToLocal('token', null);
+                            store.dispatch({type: UPDATE_USER, payload: null});
+                            store.dispatch({type: UPDATE_TOKEN, payload: null});
+                            store.dispatch({type: UPDATE_CART, payload: []});
+                            store.dispatch({type: UPDATE_ORDER, payload: null});
+                            store.dispatch({type: UPDATE_FAVOURITE_BOOKS, payload: []});
+                            store.dispatch({type: UPDATE_ORDER_HISTORY, payload: []});
+                            this.props.navigation.navigate('Home');
                         }}>
 
                         <IconFeather name="log-out" size={25} color="#fff"

@@ -4,7 +4,7 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS_FAIL, FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL,
     FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS, FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS,
     FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_SUCCESS, FETCHING_BOOKS, FETCHING_BOOKS_SUCCESS, FETCHING_BOOKS_FAIL,
-    UPDATE_FAVOURITE_BOOKS, FETCHING_CART, FETCHING_CART_SUCCESS, FETCHING_CART_FAIL,
+    UPDATE_FAVOURITE_BOOKS, FETCHING_CART, FETCHING_CART_SUCCESS, FETCHING_CART_FAIL, FETCHING_BANNER,FETCHING_BANNER_FAIL,FETCHING_BANNER_SUCCESS
 } from '../Globals';
 import axios from 'axios';
 import store from '../Store';
@@ -258,4 +258,25 @@ exports.putUpdateCart = function (token,cart)
                 'Authorization': '' + token,
             }
     });
+}
+
+exports.getBanner = function ()
+{
+    let url = Globals.BASE_URL + 'sach/banner';
+    return store.dispatch(dispatch =>
+    {
+        dispatch({type: FETCHING_BANNER});
+        return axios.get(url)
+            .then(res =>
+            {
+                console.log(res.data);
+                dispatch({type: FETCHING_BANNER_SUCCESS, payload: res});
+            })
+            .catch(err =>
+            {
+                console.log(err.response.data);
+                dispatch({type: FETCHING_BANNER_FAIL, payload: err})
+            });
+
+    })
 }

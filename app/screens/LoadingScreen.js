@@ -67,11 +67,13 @@ class LoadingScreen extends Component
     async getData()
     {
         await api.getAllBooks();
+        await api.getBanner();
+        var listBooks =this.props.reduxState.listBooks;
         // await api.getPromotionBooks();
         // await api.getNewBooks();
         var listNewBooks = [];
         var listPromotionBooks = [];
-        var listBooks =this.props.reduxState.listBooks;
+
         for(i=0; i < listBooks.length; i++)
         {
             if(listBooks[i].TrangThai === 1)
