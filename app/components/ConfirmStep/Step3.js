@@ -29,7 +29,7 @@ import HImage from "../HImage";
 import {connect} from "react-redux";
 import store from "../../Store";
 import * as api from "../../config/api";
-
+import Spinner from 'react-native-loading-spinner-overlay';
 class Step3 extends Component<>
 {
     constructor(props)
@@ -39,6 +39,7 @@ class Step3 extends Component<>
         this.state = {
             text: '',
             dataSource: this.props.reduxState.cart,
+            visible:false,
         };
         console.log(this.props.reduxState.order);
     }
@@ -160,6 +161,9 @@ class Step3 extends Component<>
                     border={20}
                     action={ async ()=>
                     {
+                        // this.setState({
+                        //     visible: !this.state.visible
+                        // });
                         console.log('POST ORDER:', this.props.reduxState.order);
 
                         try
@@ -177,9 +181,12 @@ class Step3 extends Component<>
                             await api.getOrderHistory(this.props.reduxState.token);
                             this.props.action();
                         }
-
+                        // this.setState({
+                        //     visible: !this.state.visible
+                        // });
                     }}
                 />
+                {/*<Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />*/}
             </View>
         );
     }

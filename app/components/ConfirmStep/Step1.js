@@ -158,10 +158,12 @@ class Step1 extends Component<>
                              shadow
                              border={20}
                              action={()=>{
+                                 var message = '';
                                  console.log('STATE', this.state.tinhThanhPho);
                                  if(this.state.tinhThanhPho === '' || this.state.hoTen === ''|| this.state.quanHuyen === '' || this.state.phuongXa==='' || this.state.SoDienThoai==='' || this.state.diaChi==='')
                                  {
-                                     this.refs.toast.show('Thông tin không hợp lệ.',1200);
+                                     message='Vui lòng nhập đầy đủ thông tin';
+                                     this.props.action(message);
                                      return;
                                  }
                                  var GioHang = [];
@@ -179,7 +181,6 @@ class Step1 extends Component<>
 
                                  var diachi = this.state.diaChi+', '+this.state.phuongXa+', '+this.state.quanHuyen+', '+this.state.tinhThanhPho;
                                  var tempOrder ={
-                                     ThietBiDatHang: 'Mobile',
                                      token:this.props.reduxState.token,
                                      MaKhuVucGiaoHang: 3,
                                      DiaChiGiaoHang: diachi,
@@ -189,11 +190,9 @@ class Step1 extends Component<>
                                      GioHang: GioHang,
                                  }
                                  store.dispatch({type: UPDATE_ORDER, payload: tempOrder});
-                                 this.props.action(tempOrder);
+                                 this.props.action(message);
                              }}
                     />
-                    <Toast ref="toast"
-                           textStyle={{fontSize: 17, color: '#fff'}}/>
                 </View>
             </ScrollView>
         );

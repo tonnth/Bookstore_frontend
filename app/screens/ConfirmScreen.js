@@ -16,7 +16,7 @@ import Step2 from "../components/ConfirmStep/Step2";
 import Step3 from "../components/ConfirmStep/Step3";
 import {ifIphoneX, isIphoneX} from 'react-native-iphone-x-helper'
 import {connect} from "react-redux";
-
+import Toast, {DURATION} from 'react-native-easy-toast';
 const labels1 = ["Địa chỉ", "Thanh toán", "Xác nhận"];
 const labels2 = ["Tài khoản", "Địa chỉ", "Thanh toán", "Xác nhận"];
 const customStyles = {
@@ -96,6 +96,8 @@ class ConfirmScreen extends Component
 
                     </Right>
                 </Header>
+                <Toast ref="toast"
+                       textStyle={{fontSize: 17, color: '#fff'}}/>
                 <View style={{flex: 1}}>
                     <View style={styles.step}>
                         <StepIndicator
@@ -136,10 +138,17 @@ class ConfirmScreen extends Component
                                 {this.state.index === index &&
                                 <Step1
                                     width={itemWidth}
-                                    action={(state) =>
-                                    {
-                                        that.setState({index: 1});
-                                        that.carousel.snapToNext();
+                                    action={(message) =>
+                                    {   if(message === '')
+                                        {
+                                            that.setState({index: 1});
+                                            that.carousel.snapToNext();
+                                        }
+                                        else
+                                            {
+                                                this.refs.toast.show(message, DURATION.LENGTH_SHORT);
+                                    }
+
                                     }}
                                     />}
                             </View>
@@ -154,10 +163,17 @@ class ConfirmScreen extends Component
                                 {this.state.index === index &&
                                 <Step2
                                     width={itemWidth}
-                                    action={(state) =>
+                                    action={(message) =>
                                     {
-                                        that.setState({index: 2});
-                                        that.carousel.snapToNext();
+                                        if(message === '')
+                                        {
+                                            that.setState({index: 2});
+                                            that.carousel.snapToNext();
+                                        }
+                                        else
+                                        {
+                                            this.refs.toast.show(message, DURATION.LENGTH_SHORT);
+                                        }
                                     }}/>}
                             </View>
                         </View>

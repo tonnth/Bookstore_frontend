@@ -226,23 +226,32 @@ class Step2 extends Component<>
                     border={20}
                     action={() =>
                     {
+                        var message = '';
                         if(this.state.SoXuSuDung > this.soxu)
                         {
-                            this.refs.toast.show('Số xu sử dụng phải nhỏ hơn số xu hiện có.');
+
+                            message ='Số xu sử dụng phải nhỏ hơn số xu hiện có.';
+                            this.props.action(message);
                             return;
                         }
                         if(this.state.SoXuSuDung*1000 > this.props.reduxState.order.TongTienHoaDon)
                         {
-                            this.refs.toast.show('Số xu sử dụng không được vượt quá giá trị đơn hàng');
+                            message ='Số xu sử dụng không được vượt quá giá trị đơn hàng';
+                            this.props.action(message);
                             return;
                         }
 
 
                         var tempOrder = this.props.reduxState.order;
-                        tempOrder.SoXuSuDung = this.state.SoXuSuDung;
-                        tempOrder.TongTienHoaDon=this.state.TongTienHoaDon;
+                        if(this.state.SoXuSuDung != '')
+                        {
+                            tempOrder.SoXuSuDung = this.state.SoXuSuDung;
+                            tempOrder.TongTienHoaDon=this.state.TongTienHoaDon;
+                        }
+
+
                         store.dispatch({type: UPDATE_ORDER, payload: tempOrder});
-                        this.props.action();
+                        this.props.action(message);
 
                     }}
                 />
