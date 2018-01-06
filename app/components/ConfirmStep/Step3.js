@@ -56,6 +56,7 @@ class Step3 extends Component<>
                     contentContainerStyle={{
                         alignItems: 'center',
                     }}>
+                    <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
                     <Text
                         style={{
                             alignSelf: 'flex-start',
@@ -161,14 +162,18 @@ class Step3 extends Component<>
                     border={20}
                     action={ async ()=>
                     {
-                        // this.setState({
-                        //     visible: !this.state.visible
-                        // });
+
                         console.log('POST ORDER:', this.props.reduxState.order);
 
                         try
                         {
+                            this.setState({
+                                visible: !this.state.visible
+                            });
                             var res = await api.Order(this.props.reduxState.token,this.props.reduxState.order);
+                            this.setState({
+                                visible: !this.state.visible
+                            });
                         } catch(err)
                         {
                             console.log('Lỗi đăng nhập: ',err);
@@ -181,12 +186,10 @@ class Step3 extends Component<>
                             await api.getOrderHistory(this.props.reduxState.token);
                             this.props.action();
                         }
-                        // this.setState({
-                        //     visible: !this.state.visible
-                        // });
+
                     }}
                 />
-                {/*<Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />*/}
+
             </View>
         );
     }

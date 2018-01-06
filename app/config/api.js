@@ -121,6 +121,13 @@ exports.SignUp = function (Email, MatKhau, HoTen)
             HoTenKhachHang: HoTen,
         })
 }
+exports.ForgotPassword = function (Email)
+{
+    let url = Globals.BASE_URL + 'khachhang/quenmatkhau';
+    return axios.post(url, {
+      Email: Email,
+    });
+}
 exports.Order = function (token, order)
 {
     console.log('API Order')

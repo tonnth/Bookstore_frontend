@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import {Button, Header, Icon, Input, Item, Label, Left} from "native-base";
 import LoadingButton from 'react-native-loading-button';
-import Globals from "../Globals";
+import Globals, {validateEmail} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import {TextField} from 'react-native-material-textfield';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -13,16 +13,19 @@ import {HButtonBack} from "../components/HButtonBack";
 import HButton from "../components/HButton";
 import {HInput} from "../components/HInput";
 import FastImage from "react-native-fast-image";
-
-export default class ForgotScreen extends Component
+import * as api from "../config/api";
+import {connect} from "react-redux";
+import Toast, {DURATION} from 'react-native-easy-toast'
+import Spinner from 'react-native-loading-spinner-overlay';
+class ForgotScreen extends Component
 {
     constructor(props)
     {
         super(props);
         this.state = {
 
-            email: '',
-            password: '',
+           Email:'',
+            visible:false,
         };
         this.isLoading = false
     }
@@ -78,15 +81,48 @@ export default class ForgotScreen extends Component
                         </Text>
 
                         <HInput label="Email"
-                                width={300}/>
-
+                                width={300}
+                                onChangeText ={(text)=>{
+                                    this.setState({
+                                        Email: text,
+                                    })
+                                }}
+                        />
+                        <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
                         <HButton text={'Gửi lại mật khẩu'}
                                  width={220}
                                  style={{marginBottom: 40, marginTop: 40}}
                                  navigation={this.props.navigation}
-                                 border={20}/>
+                                 border={20}
+                                 action={async ()=>
+                                 {
+
+                                     this.refs.toast.show('Chúng tôi đã gửi mật khẩu mới đến Email của bạn', DURATION.LENGTH_SHORT);
+                                     if(!validateEmail(this.state.Email))
+                                     {
+                                         this.refs.toast.show('Email không hợp lệ', DURATION.LENGTH_SHORT);
+                                         return;
+                                     }
+                                     try
+                                     {
+                                         this.setState({
+                                             visible: !this.state.visible,
+                                         });
+                                         var res = await api.ForgotPassword(this.state.Email);
+                                     } catch(err)
+                                     {
+                                         console.log('Lỗi đăng nhập: ',err);
+
+                                     }
+                                     this.setState({
+                                         visible: !this.state.visible,
+                                     });
+                                 }}
+                        />
                     </View>
                 </View>
+                <Toast ref="toast"
+                       textStyle={{fontSize: 17, color: '#fff'}}/>
             </KeyboardAwareScrollView>
         );
     }
@@ -106,7 +142,12 @@ export default class ForgotScreen extends Component
         // return false;
     }
 }
+const mapStateToProps = reduxState =>
+{
+    return {reduxState};
+};
 
+export default connect(mapStateToProps)(ForgotScreen);
 const buttonHeight = 40;
 
 const styles = StyleSheet.create({
