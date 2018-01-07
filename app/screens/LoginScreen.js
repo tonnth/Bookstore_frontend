@@ -120,7 +120,6 @@ class LoginScreen extends Component
                                          this.refs.toast.show('Email không hợp lệ',1000);
                                          return;
                                      }
-
                                      try
                                      {
 
@@ -172,7 +171,6 @@ class LoginScreen extends Component
                                      {
                                          this.refs.toast.show(res.data.message,1000);
                                      }
-
                                  }}
                         />
                     </View>

@@ -10,7 +10,7 @@ export default Globals = {
         MAINCOLOR2: '#F3F4F6',
     },
     GRADIENT_COLOR: ['#1e3c72', '#2a5298'],
-    GRADIENT_OPACITY: 0.8,
+    GRADIENT_OPACITY: 0.9,
     ICONSIZE: 30,
     TITLESIZE_BIG: 40,
     TITLESIZE_MEDIUM: 35,

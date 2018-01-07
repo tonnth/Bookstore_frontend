@@ -181,7 +181,7 @@ class HorizontalList extends Component
         let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
         return (
             <TouchableOpacity
-                style={{marginRight: 10, width: 130, height: 260, justifyContent: 'center', marginLeft: marginLeft}}
+                style={{marginRight: 10, width: 130, height: 260, marginLeft: marginLeft}}
                 onPress={() => this.props.navigation.navigate('Detail', item)}>
                 <HImage
                     style={{width: 120, height: 160}}
