@@ -184,7 +184,7 @@ class VerListScreen extends Component
         console.log(heightImage);
 
         return (
-            <TouchableOpacity style={{width: this.itemWidth, justifyContent: 'center', margin: 5}}
+            <TouchableOpacity style={{width: this.itemWidth, margin: 5}}
                               onPress={() => this.props.navigation.navigate('Detail', item)}>
                 <HImage
                     style={{width: widthImage, height: heightImage}}

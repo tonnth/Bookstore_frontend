@@ -99,7 +99,7 @@ class LoadingScreen extends Component
             await api.getCart(token);
             var tempCart=this.props.reduxState.cart;
             var listBooks= this.props.reduxState.listBooks;
-            for(i = 0; i< tempCart.length; i++)
+            for(let i = 0; i< tempCart.length; i++)
             {
                 for(j=0; j < listBooks.length; j++)
                 {
@@ -123,8 +123,6 @@ class LoadingScreen extends Component
 
         }
         else this.props.navigation.navigate('Home', {screen: 'Home'});
-
-
 
         //this.props.navigation.dispatch(resetAction);
 

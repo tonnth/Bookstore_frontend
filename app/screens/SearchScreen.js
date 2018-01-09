@@ -115,7 +115,7 @@ class SearchScreen extends Component
                     <Button transparent
                             style={{width: 40}}
                             onPress={() => this.props.navigation.goBack(null)}>
-                        <Icon name="ios-arrow-back"
+                        <Icon name="arrow-back"
                               style={{color: '#000', fontSize: Globals.ICONSIZE}}/>
                     </Button>
 
@@ -126,10 +126,10 @@ class SearchScreen extends Component
                                        paddingLeft: 10,
                                        borderBottomWidth: 1,
                                        borderBottomColor: '#c2c2c2',
-                                       height: 35,
                                        fontSize: 15,
                                        ...Globals.FONT
                                    }}
+                                   underlineColorAndroid='rgba(0,0,0,0)'
                                    onChangeText={(text) =>
                                    {
                                        this.setState({
@@ -181,37 +181,6 @@ class SearchScreen extends Component
         );
     }
 
-    renderItem = (item) =>
-    {
-        return (
-            <TouchableOpacity
-                style={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    backgroundColor: '#fff',
-                    padding: 5,
-                    paddingLeft: 20,
-                    paddingRight: 10,
-                    borderRadius: 10,
-                    marginBottom: 10,
-                    flexDirection: 'row',
-                }}
-                onPress={() =>
-                {
-                }}>
-                <Text
-                    style={{color: '#000', fontSize: 20,}}
-                    numberOfLines={1}>{item}</Text>
-                <Button transparent
-                        onPress={() =>
-                        {
-                        }}>
-                    <Icon name="ios-close-outline" size={25} color="#000" style={{color: '#000'}}/>
-                </Button>
-            </TouchableOpacity>
-        );
-    };
-
     renderItem2 = ({item, index}) =>
     {
         let tempUri = Globals.BASE_URL + item.HinhAnh;
@@ -221,7 +190,7 @@ class SearchScreen extends Component
         let heightImage = widthImage * 3 / 2;
 
         return (
-            <TouchableOpacity style={{width: this.itemWidth, justifyContent: 'center', margin: 5}}
+            <TouchableOpacity style={{width: this.itemWidth, margin: 5}}
                               onPress={() => this.props.navigation.navigate('Detail', item)}>
                 <HImage
                     style={{width: widthImage, height: heightImage}}

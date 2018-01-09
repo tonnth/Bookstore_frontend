@@ -188,12 +188,7 @@ class OrderDetailScreen extends Component<>
                                     style={styles.madon}
                                     numberOfLines={1}>{this.item.TenNguoiNhan}</Text>
                             </Text>
-                            <Text style={{marginBottom: 5}}>
-                                Email: {" "}
-                                <Text
-                                    style={styles.madon}
-                                    numberOfLines={1}>{''}</Text>
-                            </Text>
+
                             <Text style={{marginBottom: 5}}>
                                 Số điện thoại: {" "}
                                 <Text
