@@ -125,13 +125,7 @@ class Step3 extends Component<>
                                 fontWeight: '600',
                                 marginBottom: 5,
                             }}>{this.props.reduxState.order.SoDienThoai}</Text>
-                        <Text
-                            style={{
-                                ...Globals.FONT,
-                                fontSize: 16,
-                                fontWeight: '600',
-                                marginBottom: 5,
-                            }}>hoangton1996@gmail.com</Text>
+
                     </View>
 
                     <View
@@ -178,7 +172,7 @@ class Step3 extends Component<>
                         {
                             console.log('Lỗi đăng nhập: ',err);
                         }
-                        if(res.data.code === " đặt hàng thành công")
+                        if(res.data.code === "đặt hàng thành công")
                         {
                             var clear = [];
                             store.dispatch({type: UPDATE_CART, payload: clear});
@@ -186,7 +180,6 @@ class Step3 extends Component<>
                             await api.getOrderHistory(this.props.reduxState.token);
                             this.props.action();
                         }
-
                     }}
                 />
 
@@ -235,6 +228,59 @@ class Step3 extends Component<>
                         style={styles.giaban}>{formatCurency(thanhtien)}</Text>
                 </View>
             </View>
+        );
+    }
+    
+    //bao mat van tay
+    handleFingerprintShowed = () =>
+    {
+        this.setState({popupShowed: true});
+        if (Platform.OS === 'android') this.popupDialog.show();
+    };
+
+    //bao mat van tay
+    handleFingerprintDismissed = (done = false, error = '') =>
+    {
+        this.popupDialog.dismiss();
+        this.setState({popupShowed: false});
+        if (done) this.setState({toggled: !this.state.toggled})
+    };
+
+    //bao mat van tay
+    renderDialog = () =>
+    {
+        return (
+            <PopupDialog
+                ref={(popupDialog) =>
+                {
+                    this.popupDialog = popupDialog;
+                }}
+                dialogAnimation={scaleAnimation}
+                width={0.9}
+                dialogStyle={{elevation: 10}}>
+                <View style={{flex: 1, alignItems: 'center', padding: 20, justifyContent: 'space-around'}}>
+                    <Image
+                        style={{width: 150, height: 150, marginTop: -20, marginBottom: -10}}
+                        source={require("../img/finger.gif")}/>
+
+                    <Text style={{...Globals.FONT, fontSize: 20, fontWeight: '600'}}>Vui lòng xác thực để tiếp
+                                                                                     tục</Text>
+                    <Text style={{
+                        ...Globals.FONT,
+                        fontSize: 16,
+                        textAlign: 'center',
+                    }}>
+                        Vui lòng đặt ngón tay của bạn lên máy quét vân tay của thiết bị để xác thực
+                    </Text>
+
+                    <TouchableOpacity
+                        onPress={() => this.handleFingerprintDismissed(false)}>
+                        <Text style={{...Globals.FONT, fontSize: 20, fontWeight: '600', color: 'red'}}>
+                            Hủy bỏ
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </PopupDialog>
         );
     }
 }

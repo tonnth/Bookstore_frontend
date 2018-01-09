@@ -97,7 +97,7 @@ class HomeScreen extends Component
                     <Right style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
                         <Button transparent
                                 onPress={async () => {
-                                    await api.getCart(token);
+                                    await api.getCart(this.props.reduxState.token);
                                     var tempCart=this.props.reduxState.cart;
                                     var listBooks= this.props.reduxState.listBooks;
                                     for(i = 0; i< tempCart.length; i++)

@@ -241,7 +241,31 @@ class DetailScreen extends Component
                                 color={'#000'}/>
                             <View style={{position: 'absolute', top: 20, right: 20}}>
                                 <Button transparent
-                                        onPress={() => {
+                                        onPress={async () => {
+                                            await api.getCart(this.props.reduxState.token);
+                                            var tempCart=this.props.reduxState.cart;
+                                            var listBooks= this.props.reduxState.listBooks;
+                                            for(i = 0; i< tempCart.length; i++)
+                                            {
+                                                for(j=0; j < listBooks.length; j++)
+                                                {
+                                                    if(tempCart[i].MaSach === listBooks[j].MaSach)
+                                                    {
+                                                        tempCart[i].GiaBan = listBooks[j].GiaBan;
+                                                        tempCart[i].HinhAnh = listBooks[j].HinhAnh;
+                                                        tempCart[i].KhuyenMai = listBooks[j].KhuyenMai;
+                                                        tempCart[i].MaTheLoai = listBooks[j].MaTheLoai;
+                                                        tempCart[i].MoTa = listBooks[j].MoTa;
+                                                        tempCart[i].SoLuongTon = listBooks[j].SoLuongTon;
+                                                        tempCart[i].TenSach = listBooks[j].TenSach;
+                                                        tempCart[i].TacGia= listBooks[j].TacGia;
+                                                        tempCart[i].TrangThai= listBooks[j].TrangThai;
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            store.dispatch({type: UPDATE_CART, payload: tempCart});
                                             this.props.navigation.navigate("Cart", {screenhhh: 'Cart'})
                                         }}>
                                     {/*<Icon name="ios-search"*/}

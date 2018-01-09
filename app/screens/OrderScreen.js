@@ -126,7 +126,7 @@ class OrderScreen extends Component
         let madon = '#00001233';
         let ngaydat = '08/08/2017';
         let trangthai = ['Xử lý', 'Giao hàng', 'Đã nhận', 'Hủy'];
-        let stateColor = ['#E0E0E0', '#FFEB3B', '#76FF03', '#FF5252'];
+        let stateColor = ['#E0E0E0', '#FFEB3B', '#0F7F13', '#FF5252'];
         let state = index % 4;
         return (
             <View style={{
