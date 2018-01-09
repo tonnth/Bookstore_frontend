@@ -3,8 +3,8 @@ import store from "./Store";
 import * as api from "./config/api";
 
 export default Globals = {
-    BASE_URL: 'https://tohiti-test.herokuapp.com/',
-    //BASE_URL: 'http://192.168.1.48:3000/',
+    //BASE_URL: 'https://tohiti-test.herokuapp.com/',
+    BASE_URL: 'http://192.168.1.17:3000/',
     COLOR: {
         MAINCOLOR: '#fc4a1a',
         MAINCOLOR2: '#F3F4F6',

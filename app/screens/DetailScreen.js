@@ -44,11 +44,13 @@ class DetailScreen extends Component
         super(props);
         this.params = this.props.navigation.state.params;
         console.log(this.params);
+        var cungTheLoai = this.props.reduxState.listBooks.filter(book => book.MaTheLoai === this.params.MaTheLoai)
 
         this.state = {
             heart: this.props.reduxState.token ? this.checkLiked(this.params, this.props.reduxState.favourite_books) :false,
             listPromotionBooks: this.props.reduxState.listPromotionBooks,
             listNewBooks: this.props.reduxState.listNewBooks,
+            cungTheLoai: cungTheLoai,
         };
     }
 
@@ -239,7 +241,9 @@ class DetailScreen extends Component
                                 color={'#000'}/>
                             <View style={{position: 'absolute', top: 20, right: 20}}>
                                 <Button transparent
-                                        onPress={() => this.props.navigation.navigate("Cart", {screenhhh: 'Cart'})}>
+                                        onPress={() => {
+                                            this.props.navigation.navigate("Cart", {screenhhh: 'Cart'})
+                                        }}>
                                     {/*<Icon name="ios-search"*/}
                                     {/*style={{color: "#000", fontSize: Globals.ICONSIZE}}/>*/}
                                     <IconFeather name="shopping-cart" size={28} color="#000"/>
@@ -259,7 +263,7 @@ class DetailScreen extends Component
                         <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10}}>
                             <HorizontalList
                                 title={"Sách cùng thể loại"}
-                                data={this.state.listNewBooks}
+                                data={this.state.cungTheLoai}
                                 navigation={this.props.navigation}/>
                         </Card>
                         <Card style={{width: window.width - 30, marginTop: 15, borderRadius: 10, paddingBottom: 10}}>

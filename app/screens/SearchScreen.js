@@ -154,8 +154,13 @@ class SearchScreen extends Component
 
                 {this.state.dataSource.length === 0 &&
                 <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', marginTop: 50,}}>
-                    <Text
-                        style={{
+                    <View style={{
+                        width: width - 80,
+                        backgroundColor: 'transparent',
+                        minHeight: 100,
+                        marginTop: 5,
+                    }}>
+                        <Text style={{
                             ...Globals.FONT,
                             fontSize: 17,
                             fontWeight: '600',
@@ -163,17 +168,7 @@ class SearchScreen extends Component
                             alignSelf: 'flex-start',
                             marginLeft: 50,
                             opacity: 0.7
-                        }}>Lịch sử tìm kiếm</Text>
-                    <View style={{
-                        width: width - 80,
-                        backgroundColor: 'transparent',
-                        minHeight: 100,
-                        marginTop: 5,
-                    }}>
-                        {this.renderItem(goiy[0])}
-                        {this.renderItem(goiy[1])}
-                        {this.renderItem(goiy[2])}
-                        {this.renderItem(goiy[3])}
+                        }}>Không tìm thấy đầu sách nào</Text>
                     </View>
                 </View>}
 

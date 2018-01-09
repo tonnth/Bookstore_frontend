@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {Container, Header, Left, Body, Right, Button, Icon, Title, Item, Input, Badge} from 'native-base';
 import HorizontalList from '../components/HorizontalList'
 import Carousel from 'react-native-snap-carousel';
-import Globals, {FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN} from "../Globals";
+import Globals, {FETCHING_NEW_BOOKS_FAIL, UPDATE_CART, UPDATE_CURRENT_SCREEN} from "../Globals";
 import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing";
 import IconFeather from 'react-native-vector-icons/Feather';
 import store from '../Store';
@@ -39,6 +39,7 @@ const cards = [
 
 import {NavigationActions} from 'react-navigation';
 import PopupDialog from "react-native-popup-dialog";
+import * as api from "../config/api";
 
 class HomeScreen extends Component
 {
@@ -95,7 +96,33 @@ class HomeScreen extends Component
                     </Body>
                     <Right style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
                         <Button transparent
-                                onPress={() => this.props.navigation.navigate("Cart", {screenhhh: 'Cart', updateSp: this.update_CartNumber()})}>
+                                onPress={async () => {
+                                    await api.getCart(token);
+                                    var tempCart=this.props.reduxState.cart;
+                                    var listBooks= this.props.reduxState.listBooks;
+                                    for(i = 0; i< tempCart.length; i++)
+                                    {
+                                        for(j=0; j < listBooks.length; j++)
+                                        {
+                                            if(tempCart[i].MaSach === listBooks[j].MaSach)
+                                            {
+                                                tempCart[i].GiaBan = listBooks[j].GiaBan;
+                                                tempCart[i].HinhAnh = listBooks[j].HinhAnh;
+                                                tempCart[i].KhuyenMai = listBooks[j].KhuyenMai;
+                                                tempCart[i].MaTheLoai = listBooks[j].MaTheLoai;
+                                                tempCart[i].MoTa = listBooks[j].MoTa;
+                                                tempCart[i].SoLuongTon = listBooks[j].SoLuongTon;
+                                                tempCart[i].TenSach = listBooks[j].TenSach;
+                                                tempCart[i].TacGia= listBooks[j].TacGia;
+                                                tempCart[i].TrangThai= listBooks[j].TrangThai;
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    store.dispatch({type: UPDATE_CART, payload: tempCart});
+                                    this.props.navigation.navigate("Cart", {screenhhh: 'Cart'})
+                                }}>
                             <IconFeather name="shopping-cart" size={25} color="#000"/>
                             {sanpham > 0 &&
                             <Badge style={{

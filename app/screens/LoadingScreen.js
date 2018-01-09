@@ -96,30 +96,31 @@ class LoadingScreen extends Component
             await api.getUserInfo(token).then(() => this.props.navigation.navigate('Home', {screen: 'Home'}));
             await api.getOrderHistory(token);
             await api.getFavouriteBooks(token);
-            await api.getCart(token);
-            var tempCart=this.props.reduxState.cart;
-            var listBooks= this.props.reduxState.listBooks;
-            for(let i = 0; i< tempCart.length; i++)
-            {
-                for(j=0; j < listBooks.length; j++)
-                {
-                    if(tempCart[i].MaSach === listBooks[j].MaSach)
-                    {
-                        tempCart[i].GiaBan = listBooks[j].GiaBan;
-                        tempCart[i].HinhAnh = listBooks[j].HinhAnh;
-                        tempCart[i].KhuyenMai = listBooks[j].KhuyenMai;
-                        tempCart[i].MaTheLoai = listBooks[j].MaTheLoai;
-                        tempCart[i].MoTa = listBooks[j].MoTa;
-                        tempCart[i].SoLuongTon = listBooks[j].SoLuongTon;
-                        tempCart[i].TenSach = listBooks[j].TenSach;
-                        tempCart[i].TacGia= listBooks[j].TacGia;
-                        tempCart[i].TrangThai= listBooks[j].TrangThai;
-                        break;
-                    }
-                }
 
-            }
-             store.dispatch({type: UPDATE_CART, payload: tempCart});
+                await api.getCart(token);
+                var tempCart=this.props.reduxState.cart;
+                var listBooks= this.props.reduxState.listBooks;
+                for(i = 0; i< tempCart.length; i++)
+                {
+                    for(j=0; j < listBooks.length; j++)
+                    {
+                        if(tempCart[i].MaSach === listBooks[j].MaSach)
+                        {
+                            tempCart[i].GiaBan = listBooks[j].GiaBan;
+                            tempCart[i].HinhAnh = listBooks[j].HinhAnh;
+                            tempCart[i].KhuyenMai = listBooks[j].KhuyenMai;
+                            tempCart[i].MaTheLoai = listBooks[j].MaTheLoai;
+                            tempCart[i].MoTa = listBooks[j].MoTa;
+                            tempCart[i].SoLuongTon = listBooks[j].SoLuongTon;
+                            tempCart[i].TenSach = listBooks[j].TenSach;
+                            tempCart[i].TacGia= listBooks[j].TacGia;
+                            tempCart[i].TrangThai= listBooks[j].TrangThai;
+                            break;
+                        }
+                    }
+
+                }
+                 store.dispatch({type: UPDATE_CART, payload: tempCart});
 
         }
         else this.props.navigation.navigate('Home', {screen: 'Home'});

@@ -130,6 +130,7 @@ exports.ForgotPassword = function (Email)
 }
 exports.Order = function (token, order)
 {
+
     console.log('API Order')
     let url = Globals.BASE_URL + 'khachhang/dathang';
     return axios.post(url, order, {

@@ -79,7 +79,7 @@ class Step2 extends Component<>
                             fontSize: 13,
                             ...Globals.FONT
                         }}>
-                        {'Bạn có ' + this.soxu + ' xu, tương đương với ' + formatCurency(this.soxu*1000)}
+                        {'Bạn có ' + this.soxu + ' xu, tương đương với ' + formatCurency(this.soxu*5)}
                     </Text>
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 10,}}>
                         <Text
@@ -97,7 +97,7 @@ class Step2 extends Component<>
                                 onChangeText ={(text)=>{
                                     this.setState({
                                         SoXuSuDung: text,
-                                        TongTienHoaDon: (this.props.reduxState.order.TongTienHoaDon - parseInt(text)*1000),
+                                        TongTienHoaDon: (this.props.reduxState.order.TongTienHoaDon - parseInt(text)*5),
                                     })
                                 }}
                             />
@@ -121,7 +121,7 @@ class Step2 extends Component<>
                             fontSize: 13,
                             ...Globals.FONT
                         }}>
-                        {'Bạn được giảm ' + formatCurency(this.state.SoXuSuDung*1000)}
+                        {'Bạn được giảm ' + formatCurency(this.state.SoXuSuDung*5)}
                     </Text>
                 </View>}
                 <View

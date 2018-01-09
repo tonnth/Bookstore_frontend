@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import IconFeather from 'react-native-vector-icons/Feather';
 import store from "../Store";
 import {setToLocal} from "../config/storage";
+import * as api from "../config/api";
 
 class SideMenu extends React.Component
 {
@@ -141,8 +142,9 @@ class SideMenu extends React.Component
 
                     {this.props.reduxState.user &&
                     <TouchableOpacity style={styles.item}
-                                      onPress={() =>
+                                      onPress={ async () =>
                                       {
+                                          await api.getFavouriteBooks(token);
                                           this.props.navigation.navigate('Favorite')
                                       }}>
 
