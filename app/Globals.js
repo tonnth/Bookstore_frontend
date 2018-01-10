@@ -282,6 +282,7 @@ export const UPDATE_CART = 'UPDATE_CART';
 
 export const UPDATE_CURRENT_SCREEN = 'UPDATE_CURRENT_SCREEN';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const UPDATE_FINGER = 'UPDATE_FINGER';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 
 

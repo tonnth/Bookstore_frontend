@@ -5,14 +5,15 @@ import Globals, {
     FETCHING_PROMOTION_BOOKS,
     FETCHING_PROMOTION_BOOKS_SUCCESS,
     FETCHING_PROMOTION_BOOKS_FAIL,
-    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART, UPDATE_USER,
+    FETCHING_NEW_BOOKS, FETCHING_NEW_BOOKS_SUCCESS, FETCHING_NEW_BOOKS_FAIL, UPDATE_CURRENT_SCREEN, UPDATE_CART,
+    UPDATE_USER,
     FETCHING_CART, FETCHING_CART_FAIL, FETCHING_CART_SUCCESS,
     UPDATE_ORDER,
     UPDATE_TOKEN, FETCHING_USER, FETCHING_USER_FAIL, FETCHING_USER_SUCCESS,
     FETCHING_FAVOURITE, FETCHING_FAVOURITE_SUCCESS, FETCHING_FAVOURITE_FAIL,
     FETCHING_ORDER_HISTORY, FETCHING_ORDER_HISTORY_FAIL, FETCHING_ORDER_HISTORY_SUCCESS, UPDATE_PROMOTION_BOOKS,
     UPDATE_NEW_BOOKS, UPDATE_FAVOURITE_BOOKS, FETCHING_BANNER, FETCHING_BANNER_FAIL, FETCHING_BANNER_SUCCESS,
-    UPDATE_ORDER_HISTORY
+    UPDATE_ORDER_HISTORY, UPDATE_FINGER
 } from '../Globals';
 import * as api from "../config/api";
 
@@ -68,6 +69,9 @@ const initialState = {
     errorMessage_Banner:null,
 
     screen: '',
+
+    //finger
+    finger: false,
 };
 
 
@@ -285,6 +289,12 @@ export const reducer = (state = initialState, action) =>
             return Object.assign(state, {
                 ...state,
                 token: action.payload,
+            });
+
+        case UPDATE_FINGER:
+            return Object.assign(state, {
+                ...state,
+                finger: action.payload,
             });
 
         case UPDATE_ORDER:

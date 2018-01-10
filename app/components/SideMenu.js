@@ -28,6 +28,7 @@ class SideMenu extends React.Component
     {
         console.log('Render slidemenu');
         let that = this;
+        let token = this.props.reduxState.token;
         // https://oblador.github.io/react-native-vector-icons/
         return (
             <Container style={styles.container}
@@ -127,8 +128,9 @@ class SideMenu extends React.Component
                     </TouchableOpacity>
                     {this.props.reduxState.user &&
                     <TouchableOpacity style={styles.item}
-                                      onPress={() =>
+                                      onPress={ async () =>
                                       {
+                                          await api.getOrderHistory(token);
                                           this.props.navigation.navigate('Order')
                                       }}>
 

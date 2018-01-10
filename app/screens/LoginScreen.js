@@ -3,7 +3,7 @@ import {
     View, Text, Image, ImageBackground, StyleSheet, StatusBar, Platform, TouchableOpacity
 } from 'react-native';
 import {Button, Header, Icon, Input, Item, Label} from "native-base";
-import Globals, {UPDATE_CART, UPDATE_TOKEN, validateEmail} from "../Globals";
+import Globals, {UPDATE_CART, UPDATE_FINGER, UPDATE_TOKEN, validateEmail} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import * as api from "../config/api";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -17,6 +17,7 @@ import FastImage from "react-native-fast-image";
 import {getFromLocal, setToLocal} from "../config/storage";
 import store from "../Store";
 import {connect} from "react-redux";
+import FingerprintScanner from "react-native-fingerprint-scanner";
 
 class LoginScreen extends Component
 {
@@ -26,7 +27,7 @@ class LoginScreen extends Component
         this.state = {
             Email: '',
             Password: '',
-
+            finger: true,
         };
 
     }
@@ -133,8 +134,11 @@ class LoginScreen extends Component
                                      if(res.data.code  === 200)
                                      {
                                          setToLocal('token', res.data.token);
+                                         setToLocal('finger', this.state.finger);
+                                         store.dispatch({type: UPDATE_FINGER, payload: this.state.finger});
                                          store.dispatch({type: UPDATE_TOKEN, payload: res.data.token});
-                                         await api.getUserInfo(res.data.token)
+
+                                         await api.getUserInfo(res.data.token);
                                          await api.getOrderHistory(res.data.token);
                                          await api.getFavouriteBooks(res.data.token);
                                          api.getCart(res.data.token).then(() =>
@@ -194,21 +198,19 @@ class LoginScreen extends Component
         );
     }
 
-    shouldComponentUpdate(nextProps)
+    componentDidMount()
     {
-        // console.log(this.props.navigation.state.routeName + ' Render', nextProps);
-        return true;
-        // if (nextProps.navigation.stackNav.index === 0)
-        // {
-        //     // NOTE WELL: THIS IS A ROUGH CUT CONDITION
-        //     // MAKE SURE TO IMPLEMENT IT PROPERLY
-        //     // IN YOUR COMPONENT
-        //
-        //     return true;
-        // }
-        // return false;
+        //bao mat van tay
+        FingerprintScanner
+            .isSensorAvailable()
+            .catch(error =>
+            {
+                this.setState({finger: false,})
+            });
+        console.log('Vân tay không khả dụng');
     }
 }
+
 const mapStateToProps = reduxState =>
 {
     return {reduxState};

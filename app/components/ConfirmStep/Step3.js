@@ -30,6 +30,11 @@ import {connect} from "react-redux";
 import store from "../../Store";
 import * as api from "../../config/api";
 import Spinner from 'react-native-loading-spinner-overlay';
+
+import FingerprintScanner from 'react-native-fingerprint-scanner';
+import FingerprintPopup from "../FingerprintPopup/FingerprintPopup";
+import {PopupDialog} from "react-native-popup-dialog";
+
 class Step3 extends Component<>
 {
     constructor(props)
@@ -39,7 +44,8 @@ class Step3 extends Component<>
         this.state = {
             text: '',
             dataSource: this.props.reduxState.cart,
-            visible:false,
+            visible: false,
+            errorMessage: undefined, //bao mat van tay
         };
         console.log(this.props.reduxState.order);
     }
@@ -50,13 +56,14 @@ class Step3 extends Component<>
 
     render()
     {
+        let that = this;
         return (
             <View>
                 <ScrollView
                     contentContainerStyle={{
                         alignItems: 'center',
                     }}>
-                    <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
+                    <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}}/>
                     <Text
                         style={{
                             alignSelf: 'flex-start',
@@ -148,41 +155,34 @@ class Step3 extends Component<>
                         width={(this.props.width - 40)}/>
                 </ScrollView>
                 <HButton
-                    style={{position:'absolute', bottom: 15, alignSelf: 'center'}}
+                    style={{position: 'absolute', bottom: 15, alignSelf: 'center'}}
                     text={'Xác nhận'}
                     width={this.props.width - 40}
                     navigation={this.props.navigation}
                     shadow
                     border={20}
-                    action={ async ()=>
-                    {
-
-                        console.log('POST ORDER:', this.props.reduxState.order);
-
-                        try
+                    action={
+                        () =>
                         {
-                            this.setState({
-                                visible: !this.state.visible
-                            });
-                            var res = await api.Order(this.props.reduxState.token,this.props.reduxState.order);
-                            this.setState({
-                                visible: !this.state.visible
-                            });
-                        } catch(err)
-                        {
-                            console.log('Lỗi đăng nhập: ',err);
-                        }
-                        if(res.data.code === "đặt hàng thành công")
-                        {
-                            var clear = [];
-                            store.dispatch({type: UPDATE_CART, payload: clear});
-                            store.dispatch({type: UPDATE_ORDER, payload: clear});
-                            await api.getOrderHistory(this.props.reduxState.token);
-                            this.props.action();
-                        }
-                    }}
+                            if (that.props.reduxState.finger)
+                            {
+                                console.log('Kiểm tra vân tay');
+                                this.handleFingerprintShowed();
+                            }
+                            else
+                            {
+                                console.log('Bỏ qua kiểm tra');
+                                this.checkOut();
+                            }
+                        }}
                 />
 
+                {/*bao mat van tay*/}
+                {this.state.popupShowed && (
+                    <FingerprintPopup
+                        handlePopupDismissed={this.handleFingerprintDismissed}
+                    />
+                )}
             </View>
         );
     }
@@ -190,11 +190,11 @@ class Step3 extends Component<>
     renderItem = (item, key) =>
     {
         //let tempUri = Globals.BASE_URL + item.HinhAnh;
-        let tempUri = Globals.BASE_URL+item.HinhAnh;
+        let tempUri = Globals.BASE_URL + item.HinhAnh;
         let ten = item.TenSach;
         let soluong = item.SoLuongBan;
-        let dongia = item.GiaBan*(1-item.KhuyenMai/100);
-        let thanhtien = soluong*dongia;
+        let dongia = item.GiaBan * (1 - item.KhuyenMai / 100);
+        let thanhtien = soluong * dongia;
         let widthImage = 100;
         let heightImage = widthImage * 3 / 2;
         return (
@@ -218,7 +218,6 @@ class Step3 extends Component<>
                         style={styles.tensach}
                         numberOfLines={2}>{ten}</Text>
 
-
                     <Text
                         numberOfLines={1}
                         style={[styles.soluong, {marginTop: 3}]}>{formatCurency(dongia) + ' X ' + soluong}</Text>
@@ -229,8 +228,8 @@ class Step3 extends Component<>
                 </View>
             </View>
         );
-    }
-    
+    };
+
     //bao mat van tay
     handleFingerprintShowed = () =>
     {
@@ -241,10 +240,44 @@ class Step3 extends Component<>
     //bao mat van tay
     handleFingerprintDismissed = (done = false, error = '') =>
     {
-        this.popupDialog.dismiss();
+        if (Platform.OS === 'android') this.popupDialog.dismiss();
         this.setState({popupShowed: false});
-        if (done) this.setState({toggled: !this.state.toggled})
+        if (done)
+        {
+            console.log('co vao day hhhh');
+            this.checkOut();
+        }
+        else
+        {
+            alert('Xác nhận thất bại')
+        }
     };
+
+    checkOut = async () =>
+    {
+        console.log('POST ORDER:', this.props.reduxState.order);
+        try
+        {
+            this.setState({
+                visible: !this.state.visible
+            });
+            var res = await api.Order(this.props.reduxState.token, this.props.reduxState.order);
+            this.setState({
+                visible: !this.state.visible
+            });
+        } catch (err)
+        {
+            console.log('Lỗi đăng nhập: ', err);
+        }
+        if (res.data.code === " đặt hàng thành công")
+        {
+            var clear = [];
+            store.dispatch({type: UPDATE_CART, payload: clear});
+            store.dispatch({type: UPDATE_ORDER, payload: clear});
+            await api.getOrderHistory(this.props.reduxState.token);
+            this.props.action();
+        }
+    }
 
     //bao mat van tay
     renderDialog = () =>
@@ -261,7 +294,7 @@ class Step3 extends Component<>
                 <View style={{flex: 1, alignItems: 'center', padding: 20, justifyContent: 'space-around'}}>
                     <Image
                         style={{width: 150, height: 150, marginTop: -20, marginBottom: -10}}
-                        source={require("../img/finger.gif")}/>
+                        source={require("../../img/finger.gif")}/>
 
                     <Text style={{...Globals.FONT, fontSize: 20, fontWeight: '600'}}>Vui lòng xác thực để tiếp
                                                                                      tục</Text>
@@ -284,6 +317,7 @@ class Step3 extends Component<>
         );
     }
 }
+
 const mapStateToProps = reduxState =>
 {
     return {reduxState};

@@ -18,7 +18,7 @@ import {
     Icon,
     CardItem, H2, H3, ListItem,
 } from 'native-base';
-import Globals, {formatCurency} from "../Globals";
+import Globals, {formatCurency, UPDATE_FINGER} from "../Globals";
 import LinearGradient from "react-native-linear-gradient";
 import {HButtonBack} from "../components/HButtonBack";
 import HImage from "../components/HImage";
@@ -36,6 +36,8 @@ import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 import PopupDialog, {ScaleAnimation} from 'react-native-popup-dialog';
 import {ifIphoneX, isIphoneX} from 'react-native-iphone-x-helper'
+import store from "../Store";
+import {setToLocal} from "../config/storage";
 
 const scaleAnimation = new ScaleAnimation();
 
@@ -52,11 +54,10 @@ class AccountScreen extends Component
             user: this.props.reduxState.user,
             heart: false,
             favourite_books: this.props.reduxState.favourite_books,
-            toggled: false,
+            toggled: this.props.reduxState.finger,
             errorMessage: undefined, //bao mat van tay
 
             popupShowed: false,
-
             finger: true,
         };
     }
@@ -101,7 +102,7 @@ class AccountScreen extends Component
         let text = 'Bạn có thể dùng vân tay để bảo mật thanh toán';
         if (isIphoneX()) text = 'Bạn có thể dùng Face ID để bảo mật thanh toán';
 
-        let soxu = 10;
+        let soxu = this.state.user.SoXuTichLuy;
         return (
             <View style={{flex: 1}}>
                 {this.renderDialog()}
@@ -266,9 +267,14 @@ class AccountScreen extends Component
     //bao mat van tay
     handleFingerprintDismissed = (done = false, error = '') =>
     {
-        this.popupDialog.dismiss();
+        if (Platform.OS === 'android') this.popupDialog.dismiss();
         this.setState({popupShowed: false});
-        if (done) this.setState({toggled: !this.state.toggled})
+        if (done)
+        {
+            this.setState({toggled: !this.state.toggled});
+            store.dispatch({type: UPDATE_FINGER, payload: this.state.toggled});
+            setToLocal('finger', this.state.toggled);
+        }
     };
 
     //bao mat van tay

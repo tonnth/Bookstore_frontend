@@ -7,26 +7,27 @@ import TextWithSpacing from "../components/LetterSpacing/TextWithSpacing"
 
 import Globals, {
     UPDATE_CURRENT_SCREEN, UPDATE_TOKEN, resetAction, UPDATE_CART, UPDATE_NEW_BOOKS,
-    UPDATE_PROMOTION_BOOKS, getBookById
+    UPDATE_PROMOTION_BOOKS, getBookById, UPDATE_FINGER
 } from "../Globals";
 import TimerMixin from 'react-timer-mixin';
 import * as api from "../config/api";
 import FastImage from "react-native-fast-image";
-import {getFromLocal} from "../config/storage";
+import {getFromLocal, setToLocal} from "../config/storage";
 import store from "../Store";
 import {NavigationActions} from "react-navigation";
 
-export const getUserData = (token,cart) =>
+export const getUserData = (token, cart) =>
 {
 
 }
+
 class LoadingScreen extends Component
 {
     constructor(props)
     {
         console.log("LOADING SCREEN");
         super(props);
-        console.log('LOADING SCREEN',props);
+        console.log('LOADING SCREEN', props);
     }
 
     render()
@@ -68,19 +69,19 @@ class LoadingScreen extends Component
     {
         await api.getAllBooks();
         await api.getBanner();
-        var listBooks =this.props.reduxState.listBooks;
+        var listBooks = this.props.reduxState.listBooks;
         // await api.getPromotionBooks();
         // await api.getNewBooks();
         var listNewBooks = [];
         var listPromotionBooks = [];
 
-        for(i=0; i < listBooks.length; i++)
+        for (i = 0; i < listBooks.length; i++)
         {
-            if(listBooks[i].TrangThai === 1)
+            if (listBooks[i].TrangThai === 1)
             {
                 listNewBooks.push(listBooks[i]);
             }
-            if(listBooks[i].TrangThai != -1 && listBooks[i].KhuyenMai != 0)
+            if (listBooks[i].TrangThai != -1 && listBooks[i].KhuyenMai != 0)
             {
                 listPromotionBooks.push(listBooks[i]);
             }
@@ -90,37 +91,47 @@ class LoadingScreen extends Component
         store.dispatch({type: UPDATE_PROMOTION_BOOKS, payload: listPromotionBooks});
 
         var token = await getFromLocal('token');
+
         if (token != null && token != undefined)
         {
+            let finger = await getFromLocal('finger');
+            console.log('FINGER LOCAL ', finger);
+            if (finger) store.dispatch({type: UPDATE_FINGER, payload: finger});
+            else
+            {
+                setToLocal('finger', false);
+                store.dispatch({type: UPDATE_FINGER, payload: false});
+            }
+
             store.dispatch({type: UPDATE_TOKEN, payload: token});
             await api.getUserInfo(token).then(() => this.props.navigation.navigate('Home', {screen: 'Home'}));
             await api.getOrderHistory(token);
             await api.getFavouriteBooks(token);
 
-                await api.getCart(token);
-                var tempCart=this.props.reduxState.cart;
-                var listBooks= this.props.reduxState.listBooks;
-                for(i = 0; i< tempCart.length; i++)
+            await api.getCart(token);
+            var tempCart = this.props.reduxState.cart;
+            var listBooks = this.props.reduxState.listBooks;
+            for (i = 0; i < tempCart.length; i++)
+            {
+                for (j = 0; j < listBooks.length; j++)
                 {
-                    for(j=0; j < listBooks.length; j++)
+                    if (tempCart[i].MaSach === listBooks[j].MaSach)
                     {
-                        if(tempCart[i].MaSach === listBooks[j].MaSach)
-                        {
-                            tempCart[i].GiaBan = listBooks[j].GiaBan;
-                            tempCart[i].HinhAnh = listBooks[j].HinhAnh;
-                            tempCart[i].KhuyenMai = listBooks[j].KhuyenMai;
-                            tempCart[i].MaTheLoai = listBooks[j].MaTheLoai;
-                            tempCart[i].MoTa = listBooks[j].MoTa;
-                            tempCart[i].SoLuongTon = listBooks[j].SoLuongTon;
-                            tempCart[i].TenSach = listBooks[j].TenSach;
-                            tempCart[i].TacGia= listBooks[j].TacGia;
-                            tempCart[i].TrangThai= listBooks[j].TrangThai;
-                            break;
-                        }
+                        tempCart[i].GiaBan = listBooks[j].GiaBan;
+                        tempCart[i].HinhAnh = listBooks[j].HinhAnh;
+                        tempCart[i].KhuyenMai = listBooks[j].KhuyenMai;
+                        tempCart[i].MaTheLoai = listBooks[j].MaTheLoai;
+                        tempCart[i].MoTa = listBooks[j].MoTa;
+                        tempCart[i].SoLuongTon = listBooks[j].SoLuongTon;
+                        tempCart[i].TenSach = listBooks[j].TenSach;
+                        tempCart[i].TacGia = listBooks[j].TacGia;
+                        tempCart[i].TrangThai = listBooks[j].TrangThai;
+                        break;
                     }
-
                 }
-                 store.dispatch({type: UPDATE_CART, payload: tempCart});
+
+            }
+            store.dispatch({type: UPDATE_CART, payload: tempCart});
 
         }
         else this.props.navigation.navigate('Home', {screen: 'Home'});

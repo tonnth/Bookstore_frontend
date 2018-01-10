@@ -160,12 +160,8 @@ export default class SignUpScreen extends Component
 
                                          this.props.navigation.navigate('Login');
                                      }
-
-
                                  }}
                         />
-
-
                     </View>
                 </View>
             </KeyboardAwareScrollView>

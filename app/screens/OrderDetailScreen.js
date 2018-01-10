@@ -76,7 +76,6 @@ class OrderDetailScreen extends Component<>
 
     getThoiGianGiaoHang = (NgayLapHoaDon) =>
     {
-
         var year, month, day;
         year = NgayLapHoaDon.slice(0, 4);
         month = NgayLapHoaDon.slice(5, 7);
