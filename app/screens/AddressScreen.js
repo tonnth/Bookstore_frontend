@@ -11,22 +11,22 @@ import FastImage from "react-native-fast-image";
 
 const infoAddress = [
     {
-        name: 'Toà nhà Saigon Centre',
-        phone: '(84.28) 62.706.333',
+        name: 'Tầng 25 - Toà nhà Saigon Centre',
+        phone: 'Văn phòng đại diện',
         latitude: 10.7737523,
         longitude: 106.6987203,
         image: 'http://alqabdah.com/wp-content/uploads/2017/01/500.jpg'
     },
     {
         name: 'Takashimaya Vietnam',
-        phone: '(84.28) 38.277.239',
+        phone: 'Chi nhánh',
         latitude: 10.7729934,
         longitude: 106.6998147,
         image: 'https://hips.hearstapps.com/pop.h-cdn.co/assets/cm/15/05/54cb5d94587ec_-_tallest-buildings-05-1214-lgn.jpg'
     },
     {
         name: 'Phố đi bộ Nguyễn Huệ',
-        phone: '(84.28) 37.442.313',
+        phone: 'Kho hàng',
         latitude: 10.7712438,
         longitude: 106.6999863,
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMY8o5OoSftqg_yNLsA1hBvXLOZ4GbXZUM16aIp2cZafwWK3nb'
