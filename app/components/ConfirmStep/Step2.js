@@ -19,7 +19,7 @@ import {
 } from 'native-base';
 import HButton from "../HButton";
 import {HInput} from "../HInput";
-import Globals, {formatCurency, UPDATE_ORDER} from "../../Globals";
+import Globals, {formatCurency, UPDATE_ORDER,rateXu} from "../../Globals";
 import {Dropdown} from 'react-native-material-dropdown';
 import {tinhthanhpho} from "../../tinhthanhpho";
 import {quanhuyen} from "../../quan_huyen";
@@ -79,7 +79,7 @@ class Step2 extends Component<>
                             fontSize: 13,
                             ...Globals.FONT
                         }}>
-                        {'Bạn có ' + this.soxu + ' xu, tương đương với ' + formatCurency(this.soxu*5)}
+                        {'Bạn có ' + this.soxu + ' xu, tương đương với ' + formatCurency(this.soxu*Globals.rateXu)}
                     </Text>
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 10,}}>
                         <Text
@@ -97,7 +97,7 @@ class Step2 extends Component<>
                                 onChangeText ={(text)=>{
                                     this.setState({
                                         SoXuSuDung: text,
-                                        TongTienHoaDon: (this.props.reduxState.order.TongTienHoaDon - parseInt(text)*5),
+                                        TongTienHoaDon: (text === '') ? this.props.reduxState.order.TongTienHoaDon : (this.props.reduxState.order.TongTienHoaDon - parseInt(text)*Globals.rateXu),
                                     })
                                 }}
                             />
@@ -121,7 +121,7 @@ class Step2 extends Component<>
                             fontSize: 13,
                             ...Globals.FONT
                         }}>
-                        {'Bạn được giảm ' + formatCurency(this.state.SoXuSuDung*5)}
+                        {'Bạn được giảm ' + formatCurency(this.state.SoXuSuDung*Globals.rateXu)}
                     </Text>
                 </View>}
                 <View
@@ -227,19 +227,20 @@ class Step2 extends Component<>
                     action={() =>
                     {
                         var message = '';
-                        if(this.state.SoXuSuDung > this.soxu)
+                        if(this.state.SoXuSuDung > this.soxu || this.state.SoXuSuDung > this.props.reduxState.order.TongTienHoaDon || this.state.SoXuSuDung < 0)
                         {
 
-                            message ='Số xu sử dụng phải nhỏ hơn số xu hiện có.';
+                            message ='Số xu sử dụng không hợp lệ.';
                             this.props.action(message);
                             return;
                         }
-                        if(this.state.SoXuSuDung*5 > this.props.reduxState.order.TongTienHoaDon)
-                        {
-                            message ='Số xu sử dụng không được vượt quá giá trị đơn hàng';
-                            this.props.action(message);
-                            return;
-                        }
+
+                        // if(this.state.SoXuSuDung > this.props.reduxState.order.TongTienHoaDon)
+                        // {
+                        //     message ='Số xu sử dụng không được vượt quá giá trị đơn hàng';
+                        //     this.props.action(message);
+                        //     return;
+                        // }
 
 
                         var tempOrder = this.props.reduxState.order;

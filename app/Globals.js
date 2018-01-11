@@ -4,7 +4,8 @@ import * as api from "./config/api";
 
 export default Globals = {
     //BASE_URL: 'https://tohiti-test.herokuapp.com/',
-    BASE_URL: 'http://192.168.43.36:3000/',
+    BASE_URL: 'http://192.168.0.112:3000/',
+    rateXu: 1, //  1 xu = n vnd
     COLOR: {
         MAINCOLOR: '#fc4a1a',
         MAINCOLOR2: '#F3F4F6',

@@ -301,7 +301,7 @@ class OrderDetailScreen extends Component<>
                                         alignSelf: 'flex-end'
                                     }}>{formatCurency(this.item.PhiGiaoHang)}</Text>
                             </View>
-                            {soxu > 0 &&
+                            {this.item.SoXuSuDung > 0 &&
                             <View style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
@@ -320,7 +320,8 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{this.item.SoXuSuDung} ({' ' + formatCurency(-this.item.SoXuSuDung * 5)})</Text>
+
+                                    }}>{this.item.SoXuSuDung} ({' ' + formatCurency(-this.item.SoXuSuDung * Globals.rateXu)})</Text>
                             </View>}
                             <Line width={(window.width - 20 - 30)}
                                   style={{alignSelf: 'center', marginBottom: 20}}/>
