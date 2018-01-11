@@ -225,7 +225,7 @@ class HomeScreen extends Component
     {
         return (
             <View style={styles.slide}>
-                <View style={styles.slideInnerContainer}>
+                <TouchableOpacity style={styles.slideInnerContainer} onPress={() => this.props.navigation.navigate('Detail', item) }>
                     <Image
                         source={{uri: Globals.BASE_URL+item.HinhMobile}}
                         style={{
@@ -233,7 +233,11 @@ class HomeScreen extends Component
                             overflow: 'hidden',
                             borderRadius: 10,
                         }}/>
-                </View>
+                    <TouchableOpacity >
+
+                    </TouchableOpacity>
+
+                </TouchableOpacity>
             </View>
         );
     }
