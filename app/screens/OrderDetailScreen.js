@@ -320,7 +320,7 @@ class OrderDetailScreen extends Component<>
                                         fontSize: 15,
                                         fontWeight: '600',
                                         alignSelf: 'flex-end'
-                                    }}>{this.item.SoXuSuDung} ({' ' + formatCurency(-this.item.SoXuSuDung * 1000)})</Text>
+                                    }}>{this.item.SoXuSuDung} ({' ' + formatCurency(-this.item.SoXuSuDung * 5)})</Text>
                             </View>}
                             <Line width={(window.width - 20 - 30)}
                                   style={{alignSelf: 'center', marginBottom: 20}}/>

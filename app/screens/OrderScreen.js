@@ -111,8 +111,11 @@ class OrderScreen extends Component
         );
     }
 
+
     renderItem = ({item, index}) =>
     {
+        if (index > 0 && item.MaHoaDon === this.state.dataSource[index-1].MaHoaDon) return null;
+        if (this.checkItem(item.MaHoaDon, index)) return null;
         //let tempUri = Globals.BASE_URL + item.HinhAnh;
         //let tenSach = 'dac nhan tam';
         //let giaKhuyenMai = item.GiaBan * (100 - item.KhuyenMai) / 100;
@@ -205,6 +208,17 @@ class OrderScreen extends Component
                         color: '#000'
                     }]}>Đang giao</Text>
             );
+        else {
+            return (
+                <Text
+                    numberOfLines={1}
+                    style={[styles.trangthai, {
+                        borderColor: '#76FF03',
+                        borderWidth: 2,
+                        color: '#000'
+                    }]}>Đã nhận</Text>
+            );
+        }
     }
     renderBody = () =>
     {
@@ -259,6 +273,15 @@ class OrderScreen extends Component
         //     return true;
         // }
         // return false;
+    }
+
+    checkItem = (MaHoaDon, index) =>
+    {
+        for (let i=0;i< index; i++)
+        {
+            if (this.state.dataSource[i].MaHoaDon === MaHoaDon) return true;
+        }
+        return false;
     }
 }
 

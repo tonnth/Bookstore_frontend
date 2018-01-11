@@ -4,7 +4,7 @@ import * as api from "./config/api";
 
 export default Globals = {
     //BASE_URL: 'https://tohiti-test.herokuapp.com/',
-    BASE_URL: 'http://192.168.1.93:3000/',
+    BASE_URL: 'http://192.168.43.36:3000/',
     COLOR: {
         MAINCOLOR: '#fc4a1a',
         MAINCOLOR2: '#F3F4F6',
@@ -40,7 +40,7 @@ export const formatDate = str =>
     var year, month, day;
     year = str.slice(0, 4);
     month = str.slice(5, 7);
-    day = str.slice(8, 10);
+    day = parseInt(str.slice(8, 10)) + 1;
     return day + "/" + month + "/" + year;
 }
 

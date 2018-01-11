@@ -234,7 +234,7 @@ class Step2 extends Component<>
                             this.props.action(message);
                             return;
                         }
-                        if(this.state.SoXuSuDung*1000 > this.props.reduxState.order.TongTienHoaDon)
+                        if(this.state.SoXuSuDung*5 > this.props.reduxState.order.TongTienHoaDon)
                         {
                             message ='Số xu sử dụng không được vượt quá giá trị đơn hàng';
                             this.props.action(message);
